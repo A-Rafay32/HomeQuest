@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:real_estate_app/app/themes/app_colors.dart';
 import 'package:real_estate_app/app/themes/text_theme.dart';
 
@@ -7,9 +8,13 @@ class Button extends StatelessWidget {
     super.key,
     required this.press,
     required this.text,
+    this.horizontal = 55,
+    this.vertical = 15,
   });
   final VoidCallback press;
   final String text;
+  final double horizontal;
+  final double vertical;
 
   @override
   Widget build(BuildContext context) {
@@ -17,11 +22,13 @@ class Button extends StatelessWidget {
         style: ElevatedButton.styleFrom(
           shape:
               RoundedRectangleBorder(borderRadius: BorderRadius.circular(30)),
-          padding: const EdgeInsets.symmetric(horizontal: 55, vertical: 15),
+          padding: EdgeInsets.symmetric(
+              horizontal: horizontal.w, vertical: vertical.h),
           elevation: 2.0,
         ),
         onPressed: press,
         child: Text(text,
+            textAlign: TextAlign.center,
             style: Theme.of(context)
                 .textTheme
                 .bodyLarge

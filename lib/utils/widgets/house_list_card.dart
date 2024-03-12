@@ -10,7 +10,7 @@ import 'package:provider/provider.dart';
 
 import '../../../model/house.dart';
 import '../../../view_model/auth_provider.dart';
-import '../../features/houses_screens/house_detail_screen.dart';
+import '../../features/home/screens/house_detail_screen.dart';
 
 class HouseListCard extends StatefulWidget {
   const HouseListCard({

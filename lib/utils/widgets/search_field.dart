@@ -1,8 +1,6 @@
 import 'package:flutter/material.dart';
-import 'package:searchfield/searchfield.dart';
 
 import '../../app/constants/contants.dart';
-import '../../../utils/dialogboxes.dart';
 
 class CustomSearchField extends StatefulWidget {
   const CustomSearchField(

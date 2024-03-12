@@ -1,7 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
+import 'package:real_estate_app/features/home/models/house.dart';
 
-import '../../../model/house.dart';
 import 'custom_button.dart';
 
 class ContactButtons extends StatelessWidget {
@@ -34,7 +34,9 @@ class ContactButtons extends StatelessWidget {
                   ScaffoldMessenger.of(context).showSnackBar(SnackBar(
                     content: Text(
                       house.email,
-                      style: const TextStyle(fontFamily: "Raleway",),
+                      style: const TextStyle(
+                        fontFamily: "Raleway",
+                      ),
                     ),
                     duration: const Duration(seconds: 2),
                     elevation: 2,

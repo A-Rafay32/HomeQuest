@@ -1,16 +1,16 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_advanced_drawer/flutter_advanced_drawer.dart';
-import 'package:real_estate_app/features/home_screen/home_screen_body.dart';
-import 'package:real_estate_app/features/home_screen/scaffold_drawer.dart';
+import 'package:real_estate_app/features/home/screens/home_screen_body.dart';
+import 'package:real_estate_app/features/temp/scaffold_drawer.dart';
 
-class HomeScreen extends StatefulWidget {
-  const HomeScreen({super.key});
+class HomeScreenHolded extends StatefulWidget {
+  const HomeScreenHolded({super.key});
 
   @override
-  State<HomeScreen> createState() => _HomeScreenState();
+  State<HomeScreenHolded> createState() => _HomeScreenHoldedState();
 }
 
-class _HomeScreenState extends State<HomeScreen> {
+class _HomeScreenHoldedState extends State<HomeScreenHolded> {
   final _advancedDrawerController = AdvancedDrawerController();
 
   @override
@@ -78,7 +78,7 @@ class _HomeScreenState extends State<HomeScreen> {
           ),
           actions: const [],
         ),
-        body: const HomeScreenBody(),
+        body: const HomeScreenHolded(),
       ),
     );
   }

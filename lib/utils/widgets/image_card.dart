@@ -1,12 +1,7 @@
-import 'package:ez_homes/model/user.dart';
-import 'package:ez_homes/utils/image_picker.dart';
-import 'package:ez_homes/data/database_service/house_database.dart';
-import 'package:ez_homes/data/database_service/user_database.dart';
-import 'package:ez_homes/view_model/notification_controller.dart';
 import 'package:flutter/material.dart';
-
-import '../../../model/house.dart';
-import '../../../utils/dialogboxes.dart';
+import 'package:real_estate_app/app/themes/app_colors.dart';
+import 'package:real_estate_app/core/exceptions/routes_extenstion.dart';
+import 'package:real_estate_app/features/home/models/house.dart';
 
 class ImageCard extends StatefulWidget {
   const ImageCard(
@@ -41,99 +36,44 @@ class _ImageCardState extends State<ImageCard> {
               width: widget.w,
               child: ClipRRect(
                   borderRadius: const BorderRadius.only(
-                    bottomLeft: Radius.circular(20),
-                    bottomRight: Radius.circular(20),
+                    bottomLeft: Radius.circular(30),
+                    bottomRight: Radius.circular(30),
                   ),
-                  child: Image.network(
+                  child: Image.asset(
                     widget.house.images[index],
                     fit: BoxFit.cover,
                   )),
             ),
             Positioned(
               left: 10,
-              child: Container(
-                margin: const EdgeInsets.only(top: 10, left: 10, bottom: 10),
-                decoration: BoxDecoration(
-                    color: Colors.grey.shade300, shape: BoxShape.circle),
-                child: IconButton(
-                  onPressed: () {
-                    Navigator.pop(context);
+              top: 20,
+              child: Card(
+                shape: const CircleBorder(),
+                color: Colors.white,
+                child: GestureDetector(
+                  onTap: () {
+                    context.pop();
                   },
-                  icon: const Icon(
-                    Icons.arrow_back_ios_new_rounded,
-                    size: 18,
-                    color: Colors.white,
+                  child: const Padding(
+                    padding: EdgeInsets.all(9),
+                    child: Icon(
+                      Icons.arrow_back_ios_new_rounded,
+                      color: AppColors.primaryColor,
+                    ),
                   ),
                 ),
               ),
             ),
-            if (UserDBHelper.userData?.usertype == UserType.admin)
-              Positioned(
-                // top: 10,
-                // left: 10,
-                right: 10,
-                child: Container(
-                    // height: 40,
-                    // width: 40,
-                    margin:
-                        const EdgeInsets.only(top: 10, left: 10, bottom: 10),
-                    decoration: BoxDecoration(
-                      color: Colors.grey.shade300.withOpacity(0.50),
-                    ),
-                    child: TextButton(
-                      onPressed: () {
-                        Utils.addBillsDialogBox(
-                          context,
-                          widget.house.address,
-                        );
-                        NotificationController().sendNotifications(
-                            "Pay your Bills", "Please pay your Bills");
-                      },
-                      child: const Text("Add Bills"),
-                    )),
-              ),
-            if (UserDBHelper.userData?.usertype == UserType.admin)
-              Positioned(
-                top: 70,
-                // left: 10,
-                right: 10,
-                child: Container(
-                    // height: 40,
-                    // width: 40,
-                    margin:
-                        const EdgeInsets.only(top: 10, left: 10, bottom: 10),
-                    decoration: BoxDecoration(
-                      color: Colors.grey.shade300.withOpacity(0.50),
-                    ),
-                    child: TextButton(
-                      onPressed: () {
-                        PickImage().pickImagesHouse(
-                            widget.house.name, widget.house.address);
-                      },
-                      child: const Text("Add Images"),
-                    )),
-              ),
-            Positioned(
-              bottom: 20,
-              left: 100,
-              child: SizedBox(
-                height: 8,
-                width: widget.w,
-                child: ListView.builder(
-                  itemCount: widget.house.images.length,
-                  scrollDirection: Axis.horizontal,
-                  itemBuilder: (context, index) =>
-                      widget.house.images.length > 1
-                          ? Dot(
-                              color: (currentPage == index)
-                                  ? Colors.black
-                                  : Colors.grey,
-                              currentPage: currentPage,
-                            )
-                          : Container(),
-                ),
-              ),
-            ),
+            // ListView.builder(
+            //     scrollDirection: Axis.horizontal,
+            //     itemCount: widget.house.images.length,
+            //     itemBuilder: (context, index) {
+            //       return Dot(
+            //           color: index == currentPage
+            //               ? AppColors.primaryColor
+            //               : Colors.grey.shade400,
+            //           currentPage: currentPage);
+            //     })
           ],
         ),
       ),
@@ -149,7 +89,7 @@ class Dot extends StatelessWidget {
   });
 
   int currentPage;
-  final color;
+  final Color color;
 
   @override
   Widget build(BuildContext context) {
@@ -158,10 +98,7 @@ class Dot extends StatelessWidget {
       duration: const Duration(milliseconds: 100),
       width: 8,
       height: 8,
-      decoration: BoxDecoration(
-        color: color,
-        borderRadius: BorderRadius.circular(30),
-      ),
+      decoration: BoxDecoration(color: color, shape: BoxShape.circle),
     );
   }
 }

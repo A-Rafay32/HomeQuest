@@ -10,6 +10,7 @@ import 'package:real_estate_app/features/auth/widgets/form_field.dart';
 import 'package:real_estate_app/features/auth/widgets/header.dart';
 import 'package:real_estate_app/features/auth/widgets/signup_bar.dart';
 import 'package:real_estate_app/features/auth/widgets/socialcard.dart';
+import 'package:real_estate_app/features/home/screens/home_screen_body.dart';
 
 class LoginScreen extends StatelessWidget {
   const LoginScreen({

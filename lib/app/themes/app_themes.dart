@@ -12,11 +12,21 @@ class AppThemes {
       cardColor: AppColors.backgroundColor,
       appBarTheme: appBarTheme,
       visualDensity: VisualDensity.adaptivePlatformDensity,
+      searchBarTheme: searchBarThemeData,
       snackBarTheme: snackbarTheme,
+      bottomNavigationBarTheme: bottomNavigationBarTheme,
       progressIndicatorTheme: const ProgressIndicatorThemeData(
         color: AppColors.secondaryColor,
       ),
       scaffoldBackgroundColor: AppColors.backgroundColor,
+      iconTheme: const IconThemeData(
+        color: Colors.white,
+      ),
+      iconButtonTheme: const IconButtonThemeData(
+          style: ButtonStyle(
+        iconColor: MaterialStatePropertyAll(Colors.white),
+        elevation: MaterialStatePropertyAll(2.0),
+      )),
       checkboxTheme: const CheckboxThemeData(
         fillColor: MaterialStatePropertyAll(Colors.white),
         checkColor: MaterialStatePropertyAll(AppColors.primaryColor),
@@ -33,7 +43,24 @@ class AppThemes {
       shape: const RoundedRectangleBorder(
           borderRadius: BorderRadius.all(Radius.circular(20))));
 
-  final appBarTheme = AppBarTheme(
+  final navigationBarTheme = NavigationBarThemeData(
+      backgroundColor: AppColors.primaryColor,
+      surfaceTintColor: AppColors.primaryColor,
+      elevation: 2.0,
+      iconTheme:
+          MaterialStatePropertyAll(IconThemeData(color: AppColors.shadowColor)),
+      indicatorColor: AppColors.secondaryColor);
+  final bottomNavigationBarTheme = BottomNavigationBarThemeData(
+      backgroundColor: AppColors.backgroundColor,
+      
+      elevation: 2.0,
+      type: BottomNavigationBarType.fixed,
+      selectedItemColor: AppColors.secondaryColor,
+      unselectedIconTheme: IconThemeData(color: AppColors.shadowColor),
+      unselectedItemColor: AppColors.shadowColor,
+      selectedIconTheme: const IconThemeData(color: AppColors.secondaryColor));
+
+  final AppBarTheme appBarTheme = AppBarTheme(
     centerTitle: true,
     titleTextStyle: AppTextTheme.titleMedium.copyWith(color: Colors.white),
     backgroundColor: AppColors.primaryColor,
@@ -58,4 +85,16 @@ class AppThemes {
     elevation: const MaterialStatePropertyAll(2.0),
     textStyle: MaterialStatePropertyAll(AppTextTheme.bodyMedium),
   ));
+  final searchBarThemeData = SearchBarThemeData(
+    elevation: const MaterialStatePropertyAll(1.0),
+    hintStyle: MaterialStatePropertyAll(
+      AppTextTheme.bodyMedium,
+    ),
+    shape: MaterialStatePropertyAll(
+        RoundedRectangleBorder(borderRadius: BorderRadius.circular(15))),
+    padding: const MaterialStatePropertyAll(
+      EdgeInsets.all(5),
+    ),
+    backgroundColor: const MaterialStatePropertyAll(AppColors.blackshadowColor),
+  );
 }

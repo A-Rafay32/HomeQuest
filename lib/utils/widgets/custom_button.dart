@@ -1,5 +1,5 @@
-import 'package:ez_homes/contants.dart';
 import 'package:flutter/material.dart';
+import 'package:real_estate_app/app/themes/app_colors.dart';
 
 class CustomButton extends StatelessWidget {
   const CustomButton({
@@ -8,7 +8,7 @@ class CustomButton extends StatelessWidget {
     required this.h,
     required this.onTap,
     required this.title,
-    this.buttonColor = primaryColor,
+    this.buttonColor = AppColors.primaryColor,
   });
 
   final double w;

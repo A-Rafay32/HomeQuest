@@ -10,7 +10,7 @@ import 'package:provider/provider.dart';
 
 import '../../app/constants/contants.dart';
 import '../../../utils/dialogboxes.dart';
-import '../houses_screens/your_house.dart';
+import 'houses_screens/your_house.dart';
 
 class ScaffoldDrawer extends StatelessWidget {
   ScaffoldDrawer({
