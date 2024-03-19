@@ -1,7 +1,10 @@
-import 'package:ez_homes/view/widgets/custom_button.dart';
-import 'package:ez_homes/view/widgets/back_button.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_svg/svg.dart';
+import 'package:real_estate_app/app/themes/app_colors.dart';
+import 'package:real_estate_app/app/themes/app_paddings.dart';
+import 'package:real_estate_app/core/exceptions/routes_extenstion.dart';
+import 'package:real_estate_app/features/auth/widgets/app_bar_white.dart';
+import 'package:real_estate_app/features/auth/widgets/button.dart';
 
 class PaymentScreen extends StatelessWidget {
   const PaymentScreen({required this.onTap, super.key, required this.price});
@@ -14,22 +17,14 @@ class PaymentScreen extends StatelessWidget {
     double h = MediaQuery.sizeOf(context).height;
     double w = MediaQuery.sizeOf(context).width;
     return Scaffold(
-      backgroundColor: Colors.grey.shade100,
-      appBar: AppBar(
-        backgroundColor: Colors.grey.shade100,
-        leading: const BackButton(),
-        title: const Padding(
-          padding: EdgeInsets.only(left: 65.0),
-          child: Text(
-            "Payment",
-            style: TextStyle(
-                fontFamily: "Raleway",
-                fontWeight: FontWeight.bold,
-                color: Colors.black,
-                fontSize: 21),
-          ),
-        ),
-      ),
+      backgroundColor: AppColors.backgroundColor,
+      appBar: PreferredSize(
+          preferredSize: const Size.fromHeight(55),
+          child: CustomAppBar(
+              onPressed: () {
+                context.pop();
+              },
+              text: "Payment")),
       body: Container(
         height: h,
         width: w,
@@ -63,10 +58,9 @@ class PaymentScreen extends StatelessWidget {
               image: "assets/icons/mastercard.svg",
               title: "Credit Card",
             ),
-            Expanded(
-              child: Container(),
-            ),
-            CustomButton(w: w, h: h, onTap: onTap, title: "Pay")
+            const Spacer(),
+            Button(press: () {}, text: "Pay"),
+            AppSizes.normalY,
           ],
         ),
       ),

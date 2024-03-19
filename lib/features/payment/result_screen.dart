@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_svg/svg.dart';
+import 'package:real_estate_app/app/themes/app_colors.dart';
 
 import '../../app/constants/contants.dart';
 
@@ -49,7 +50,7 @@ class _ResultScreenState extends State<ResultScreen> {
               endIndent: 10,
               indent: 10,
               height: 5,
-              color: primaryColor,
+              color: AppColors.primaryColor,
             )),
         titleTextStyle: const TextStyle(
             color: Colors.black, fontSize: 25, fontWeight: FontWeight.bold),
@@ -96,7 +97,8 @@ class SuccessScreen extends StatelessWidget {
           child: FittedBox(
               child: SvgPicture.asset(
             "assets/images/check-circle.svg",
-            colorFilter: const ColorFilter.mode(primaryColor, BlendMode.srcIn),
+            colorFilter:
+                const ColorFilter.mode(AppColors.primaryColor, BlendMode.srcIn),
           )),
         )
       ],

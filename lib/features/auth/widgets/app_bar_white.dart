@@ -1,23 +1,30 @@
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 
-class AppBarWhite extends StatelessWidget {
-  const AppBarWhite({super.key, required this.onPressed, required this.text});
+class CustomAppBar extends StatelessWidget {
+  const CustomAppBar(
+      {super.key,
+      this.backgroundColor = Colors.white,
+      this.textColors = Colors.black,
+      required this.onPressed,
+      required this.text});
 
   final String text;
   final Function() onPressed;
+  final Color backgroundColor;
+  final Color textColors;
 
   @override
   Widget build(BuildContext context) {
     return AppBar(
-      backgroundColor: Colors.white,
+      backgroundColor: backgroundColor,
       title: Text(
         text,
-        style: const TextStyle(color: Colors.black, fontSize: 21),
+        style: TextStyle(color: textColors, fontSize: 21),
       ),
       actions: const [],
       leading: CupertinoNavigationBarBackButton(
-          color: Colors.black, onPressed: onPressed),
+          color: textColors, onPressed: onPressed),
     );
   }
 }

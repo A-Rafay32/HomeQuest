@@ -1,9 +1,11 @@
 import "package:email_validator/email_validator.dart";
 import "package:flutter/material.dart";
 import "package:real_estate_app/app/themes/app_paddings.dart";
+import "package:real_estate_app/app/themes/app_text_field_themes.dart";
 import "package:real_estate_app/core/exceptions/routes_extenstion.dart";
 import "package:real_estate_app/features/auth/widgets/app_bar_white.dart";
 import "package:real_estate_app/features/auth/widgets/button.dart";
+import "package:real_estate_app/features/auth/widgets/custom_text_field.dart";
 import "package:real_estate_app/features/auth/widgets/form_field.dart";
 import "package:real_estate_app/features/auth/widgets/header.dart";
 import "package:real_estate_app/features/auth/widgets/signup_bar.dart";
@@ -21,7 +23,7 @@ class RegisterScreen extends StatelessWidget {
         resizeToAvoidBottomInset: false,
         appBar: PreferredSize(
             preferredSize: const Size.fromHeight(55),
-            child: AppBarWhite(
+            child: CustomAppBar(
               onPressed: () {
                 context.pop();
               },
@@ -38,23 +40,16 @@ class RegisterScreen extends StatelessWidget {
                   text2: "Sign up with your email and password",
                   text3: "or continue with social media"),
               AppSizes.largeY,
-              Padding(
-                padding: const EdgeInsets.symmetric(
-                  horizontal: 20,
-                ),
-                child: TextFormField(
-                    validator: (value) {
-                      return value == null ? "Field can't be empty" : null;
-                    },
-                    controller: TextEditingController(),
-                    cursorColor: Colors.black,
-                    style: const TextStyle(fontSize: 16, color: Colors.black),
-                    autovalidateMode: AutovalidateMode.onUserInteraction,
-                    decoration: EmailInputDecoration("Name")),
-              ),
-              const SizedBox(
-                height: 20,
-              ),
+              CustomTextField(
+                  validator: (value) {
+                    return value == null ? "Field can't be empty" : null;
+                  },
+                  controller: TextEditingController(),
+                  inputDecoration:
+                      AppTextFieldDecorations.genericInputDecoration(
+                          label: "Name")),
+
+              AppSizes.normalY,
               const AuthFormField(),
               AppSizes.largeY,
               Button(
@@ -131,7 +126,7 @@ class _ForgotFormFieldState extends State<ForgotFormField> {
           cursorColor: Colors.black,
           style: const TextStyle(fontSize: 16, color: Colors.black),
           autovalidateMode: AutovalidateMode.onUserInteraction,
-          decoration: EmailInputDecoration("Email")),
+          decoration: AppTextFieldDecorations.emailInputDecoration),
     ));
   }
 }

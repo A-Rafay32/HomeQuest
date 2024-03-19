@@ -23,7 +23,7 @@ class LoginScreen extends StatelessWidget {
     return Scaffold(
         appBar: PreferredSize(
           preferredSize: const Size.fromHeight(54),
-          child: AppBarWhite(
+          child: CustomAppBar(
             onPressed: () {
               context.pop();
             },

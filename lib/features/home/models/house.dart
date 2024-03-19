@@ -147,5 +147,5 @@ House demoHouse = House(
     address: "address",
     email: "",
     phoneNum: 0,
-    housetype: HouseType.forRent,
+    housetype: HouseType.Rent,
     images: AppImages.houseImages);

@@ -1,8 +1,6 @@
 import 'package:flutter/material.dart';
 
 import '../../app/constants/contants.dart';
-import '../../../model/bill.dart';
-import '../../../data/database_service/house_database.dart';
 import '../../utils/widgets/back_button.dart';
 
 class RentBillScreen extends StatelessWidget {

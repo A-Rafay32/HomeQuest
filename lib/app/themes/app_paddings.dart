@@ -23,6 +23,10 @@ extension MediaQuerySizes on BuildContext {
   double get halfX => MediaQuery.sizeOf(this).width * 0.5;
 }
 
+extension TextThemeExt on BuildContext {
+  TextTheme get textTheme => Theme.of(this).textTheme;
+}
+
 class AppSizes {
   static final tinyX = SizedBox(width: 6.w);
   static final tinyY = SizedBox(height: 6.h);

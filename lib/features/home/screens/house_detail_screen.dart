@@ -5,6 +5,7 @@ import 'package:real_estate_app/core/exceptions/routes_extenstion.dart';
 import 'package:real_estate_app/features/auth/widgets/button.dart';
 import 'package:real_estate_app/features/home/models/house.dart';
 import 'package:real_estate_app/features/home/screens/chat_screen.dart';
+import 'package:real_estate_app/features/payment/payment_screen.dart';
 
 import '../../../utils/widgets/address_card.dart';
 import '../../../utils/widgets/description_card.dart';
@@ -66,7 +67,9 @@ class _HouseDetailScreenState extends State<HouseDetailScreen> {
                       const Spacer(),
                       Button(
                         horizontal: 60.w,
-                        press: () {},
+                        press: () {
+                          context.push(PaymentScreen(onTap: () {}, price: 100));
+                        },
                         text: "Book Now",
                       ),
                     ],

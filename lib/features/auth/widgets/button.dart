@@ -10,11 +10,13 @@ class Button extends StatelessWidget {
     required this.text,
     this.horizontal = 55,
     this.vertical = 15,
+    this.textColor = Colors.white,
   });
   final VoidCallback press;
   final String text;
   final double horizontal;
   final double vertical;
+  final Color textColor;
 
   @override
   Widget build(BuildContext context) {
@@ -32,6 +34,6 @@ class Button extends StatelessWidget {
             style: Theme.of(context)
                 .textTheme
                 .bodyLarge
-                ?.copyWith(color: AppColors.backgroundColor)));
+                ?.copyWith(color: textColor, fontWeight: FontWeight.w700)));
   }
 }

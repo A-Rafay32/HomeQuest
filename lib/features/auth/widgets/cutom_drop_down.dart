@@ -1,0 +1,96 @@
+import 'package:flutter/material.dart';
+import 'package:real_estate_app/app/themes/app_colors.dart';
+
+class CustomFieldDropDown extends StatefulWidget {
+  const CustomFieldDropDown(
+      {super.key,
+      required this.hint,
+      required this.focus,
+      required this.onTap});
+
+  final String hint;
+  final FocusNode focus;
+  final Function() onTap;
+
+  @override
+  State<CustomFieldDropDown> createState() => _CustomFieldDropDownState();
+}
+
+class _CustomFieldDropDownState extends State<CustomFieldDropDown> {
+  String? selectedValue;
+
+  final List<String> dropdownItems = [
+    "Male",
+    "Female",
+  ];
+
+  @override
+  Widget build(BuildContext context) {
+    return GestureDetector(
+      onTap: widget.onTap,
+      child: Container(
+        width: double.infinity,
+        decoration: BoxDecoration(
+          border: Border.all(
+            color: widget.focus.hasFocus
+                ? AppColors.primaryColor
+                : Theme.of(context).shadowColor,
+          ),
+          color: widget.focus.hasFocus
+              ? AppColors.primaryColor.withOpacity(0.2)
+              : Theme.of(context).shadowColor,
+          borderRadius: BorderRadius.circular(10),
+        ),
+        padding: const EdgeInsets.only(left: 16, right: 16),
+        child: DropdownButtonHideUnderline(
+          child: DropdownButton2<String>(
+            focusNode: widget.focus,
+            buttonStyleData: ButtonStyleData(
+                overlayColor:
+                    const MaterialStatePropertyAll(Colors.transparent),
+                decoration: BoxDecoration(
+                  color: Colors.transparent,
+                  borderRadius: BorderRadius.circular(10),
+                )),
+            hint: Text(
+              widget.hint,
+              style: GoogleFonts.urbanist(
+                  fontSize: 14,
+                  fontWeight: FontWeight.w500,
+                  height: 1.2125,
+                  color: Theme.of(context).textTheme.labelSmall!.color!),
+            ),
+            dropdownStyleData: DropdownStyleData(
+              maxHeight: 200,
+              width: 100,
+              decoration: BoxDecoration(
+                borderRadius: BorderRadius.circular(14),
+              ),
+              offset: const Offset(170, 0),
+              scrollbarTheme: ScrollbarThemeData(
+                radius: const Radius.circular(40),
+                thickness: MaterialStateProperty.all<double>(6),
+                thumbVisibility: MaterialStateProperty.all<bool>(true),
+              ),
+            ),
+
+            value: selectedValue, // Set the currently selected value
+            // Customize the dropdown menu decoration
+            items: dropdownItems.map((String value) {
+              return DropdownMenuItem<String>(
+                value: value,
+                child:
+                    Text(value), // You can customize the dropdown item's text
+              );
+            }).toList(),
+            onChanged: (String? newValue) {
+              setState(() {
+                selectedValue = newValue; // Update the selected value
+              });
+            },
+          ),
+        ),
+      ),
+    );
+  }
+}

@@ -13,24 +13,19 @@ class NotficationCard extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return Container(
-      // height: h*0.15,
-      // width: w ,
       margin: const EdgeInsets.all(13.0),
       padding: const EdgeInsets.all(13),
-      decoration: BoxDecoration(
-          color: Colors.grey.shade200, borderRadius: BorderRadius.circular(20)),
+      decoration: BoxDecoration(borderRadius: BorderRadius.circular(20)),
       child: Column(
         children: [
-          Container(
-            child: Align(
-              alignment: Alignment.centerLeft,
-              child: Text(
-                title,
-                style: const TextStyle(
-                    fontFamily: "Raleway",
-                    fontSize: 17,
-                    fontWeight: FontWeight.w600),
-              ),
+          Align(
+            alignment: Alignment.centerLeft,
+            child: Text(
+              title,
+              style: const TextStyle(
+                  fontFamily: "Raleway",
+                  fontSize: 17,
+                  fontWeight: FontWeight.w600),
             ),
           ),
           const SizedBox(

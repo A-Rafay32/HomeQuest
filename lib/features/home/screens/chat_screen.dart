@@ -42,7 +42,7 @@ class _ChatScreenState extends State<ChatScreen> {
     return Scaffold(
       appBar: PreferredSize(
           preferredSize: const Size.fromHeight(54),
-          child: AppBarWhite(
+          child: CustomAppBar(
             text: widget.storeName,
             onPressed: () {
               context.pop();

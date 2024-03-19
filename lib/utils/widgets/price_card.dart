@@ -30,7 +30,7 @@ class _PriceCardState extends State<PriceCard> {
         child: Align(
       alignment: Alignment.centerLeft,
       child: Text(
-        (widget.house.housetype == HouseType.forRent ||
+        (widget.house.housetype == HouseType.Rent ||
                 widget.house.housetype == HouseType.Rented)
             ? "${widget.house.pricePerMonth} USD Per Month "
             : "${widget.house.salePrice} USD ",
