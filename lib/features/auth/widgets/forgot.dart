@@ -1,5 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:real_estate_app/app/themes/app_colors.dart';
+import 'package:real_estate_app/core/exceptions/routes_extenstion.dart';
+import 'package:real_estate_app/features/auth/screens/forgot_screen.dart';
 
 class Forgot extends StatefulWidget {
   const Forgot({
@@ -33,7 +35,9 @@ class _ForgotState extends State<Forgot> {
           ),
           const Spacer(),
           GestureDetector(
-            onTap: () {},
+            onTap: () {
+              context.push(const ForgotScreen());
+            },
             child: const Text(
               "Forgot Password?",
               style: TextStyle(

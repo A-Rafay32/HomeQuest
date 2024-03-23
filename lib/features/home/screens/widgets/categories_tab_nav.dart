@@ -76,17 +76,18 @@ class HomeTabNavigationItem extends StatelessWidget {
         margin: const EdgeInsets.symmetric(horizontal: 10, vertical: 8),
         child: Row(
           children: [
-            AppSizes.tinyX,
+            AppSizes.smallX,
             if (imageAsset != null)
-              Image.asset(
-                imageAsset!,
-                height: 20,
-                width: 20,
-                fit: BoxFit.cover,
+              ClipRRect(
+                borderRadius: BorderRadius.circular(10),
+                child: Image.asset(
+                  imageAsset!,
+                  height: 20,
+                  width: 20,
+                  fit: BoxFit.cover,
+                ),
               ),
-            const SizedBox(
-              width: 5,
-            ),
+            AppSizes.tinyX,
             Text(
               text,
               style: Theme.of(context).textTheme.labelSmall?.copyWith(

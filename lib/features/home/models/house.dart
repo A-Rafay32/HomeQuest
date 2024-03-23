@@ -8,8 +8,8 @@ import 'package:real_estate_app/core/enums/house_type.dart';
 class House {
   final String name;
   final String description;
-  final int pricePerMonth;
-  final int salePrice;
+  final double pricePerMonth;
+  final double salePrice;
   final int roomQty;
   final int sizeInFeet;
   final String address;
@@ -36,8 +36,8 @@ class House {
   House copyWith({
     String? name,
     String? description,
-    int? pricePerMonth,
-    int? salePrice,
+    double? pricePerMonth,
+    double? salePrice,
     int? roomQty,
     int? sizeInFeet,
     String? address,
@@ -81,8 +81,8 @@ class House {
     return House(
         name: map['name'] as String,
         description: map['description'] as String,
-        pricePerMonth: map['pricePerMonth'] as int,
-        salePrice: map['salePrice'] as int,
+        pricePerMonth: map['pricePerMonth'] as double,
+        salePrice: map['salePrice'] as double,
         roomQty: map['roomQty'] as int,
         sizeInFeet: map['sizeInFeet'] as int,
         address: map['address'] as String,
@@ -138,10 +138,10 @@ class House {
 }
 
 House demoHouse = House(
-    name: "House 1",
+    name: "56 Green Bank, London",
     description: "Description",
     pricePerMonth: 20,
-    salePrice: 20,
+    salePrice: 28.6,
     roomQty: 2,
     sizeInFeet: 100,
     address: "address",

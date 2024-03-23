@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:flutter_svg/svg.dart';
 import 'package:real_estate_app/app/constants/app_images.dart';
 import 'package:real_estate_app/app/themes/app_colors.dart';
@@ -13,17 +14,17 @@ class AppTextFieldDecorations {
           borderSide: const BorderSide(color: AppColors.blackshadowColor),
           borderRadius: BorderRadius.circular(25),
           gapPadding: 10),
-      prefixIcon: Container(
-        margin: const EdgeInsets.symmetric(horizontal: 4, vertical: 2),
-        padding: AppPaddings.tiny,
-        child: SvgPicture.asset(
-          AppSvgs.search,
-          colorFilter: const ColorFilter.mode(Colors.white, BlendMode.srcIn),
-        ),
-      ),
+
+      // prefixIcon: Padding(
+      //   padding: EdgeInsets.only(top: 10.sp, bottom: 10.sp),
+      //   child: SvgPicture.asset(
+      //     AppSvgs.search,
+      //     colorFilter: const ColorFilter.mode(Colors.white, BlendMode.srcIn),
+      //   ),
+      // ),
       suffixIcon: Container(
-        padding: AppPaddings.tiny,
-        margin: AppPaddings.tiny,
+        padding: EdgeInsets.all(9.sp),
+        margin: EdgeInsets.all(9.sp),
         decoration: BoxDecoration(
             gradient: AppColors.linearGradient, shape: BoxShape.circle),
         child: SvgPicture.asset(

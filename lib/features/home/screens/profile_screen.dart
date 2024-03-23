@@ -66,7 +66,7 @@ class ProfileScreen extends StatelessWidget {
                             crossAxisCount: 2,
                             mainAxisSpacing: 20,
                             crossAxisSpacing: 10,
-                            childAspectRatio: 0.9.h),
+                            childAspectRatio: 0.8.h),
                         itemCount: 6,
                         itemBuilder: (context, index) {
                           return HousesCardWidget(

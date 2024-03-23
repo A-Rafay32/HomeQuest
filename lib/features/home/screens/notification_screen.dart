@@ -1,4 +1,6 @@
 import 'package:flutter/material.dart';
+import 'package:real_estate_app/core/exceptions/routes_extenstion.dart';
+import 'package:real_estate_app/features/auth/widgets/app_bar_white.dart';
 import 'package:real_estate_app/utils/widgets/notification_card.dart';
 
 class NotificationScreen extends StatefulWidget {
@@ -14,19 +16,13 @@ class _NotificationScreenState extends State<NotificationScreen> {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-        appBar: AppBar(
-          leading: const BackButton(),
-          title: const Padding(
-            padding: EdgeInsets.only(left: 65.0),
-            child: Text(
-              "Notifications",
-              style: TextStyle(
-                  fontFamily: "Raleway",
-                  fontWeight: FontWeight.bold,
-                  color: Colors.black,
-                  fontSize: 21),
-            ),
-          ),
+        appBar: PreferredSize(
+          preferredSize: const Size.fromHeight(55),
+          child: CustomAppBar(
+              onPressed: () {
+                context.pop();
+              },
+              text: "Notifications"),
         ),
         body: ListView.builder(
             itemCount: 4,

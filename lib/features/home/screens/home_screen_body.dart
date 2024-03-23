@@ -34,6 +34,8 @@ class HomeScreen extends StatelessWidget {
                 height: 50,
                 padding: const EdgeInsets.symmetric(horizontal: 10),
                 child: TextField(
+                  cursorHeight: 25,
+                  controller: TextEditingController(),
                   decoration: AppTextFieldDecorations.searchFieldDecoration,
                 ),
               ),
@@ -75,9 +77,7 @@ class HomeScreen extends StatelessWidget {
                                   context.push(
                                       HouseDetailScreen(house: demoHouse));
                                 },
-                                name: "56 Green Bank, London",
-                                price: "\$ 28.6K ",
-                                houseImages: AppImages.houseImages[index],
+                                house: demoHouse,
                               )),
                     ),
                     AppSizes.normalY,

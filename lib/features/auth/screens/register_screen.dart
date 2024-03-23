@@ -52,7 +52,7 @@ class RegisterScreen extends StatelessWidget {
               AppSizes.normalY,
               const AuthFormField(),
               AppSizes.largeY,
-              Button(
+                Button(
                 press: () {},
                 text: "Register",
               ),

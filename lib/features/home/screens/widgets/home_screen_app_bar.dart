@@ -1,6 +1,9 @@
 import 'dart:ui';
 
 import 'package:flutter/material.dart';
+import 'package:real_estate_app/app/themes/app_colors.dart';
+import 'package:real_estate_app/core/exceptions/routes_extenstion.dart';
+import 'package:real_estate_app/features/home/screens/notification_screen.dart';
 
 class HomeScreenAppBar extends StatelessWidget {
   const HomeScreenAppBar({
@@ -13,7 +16,7 @@ class HomeScreenAppBar extends StatelessWidget {
       centerTitle: false,
       leading: const Padding(
         padding: EdgeInsets.only(left: 5, top: 5, bottom: 8),
-        child: CircleAvatar(  
+        child: CircleAvatar(
           backgroundColor: Colors.green,
           radius: 3,
         ),
@@ -37,11 +40,13 @@ class HomeScreenAppBar extends StatelessWidget {
       ),
       actions: [
         ElevatedButton(
-          onPressed: () {},
+          onPressed: () {
+            context.push(const NotificationScreen());
+          },
           style: const ButtonStyle(
               padding: MaterialStatePropertyAll(EdgeInsets.all(5)),
               backgroundColor:
-                  MaterialStatePropertyAll(Color.fromARGB(255, 49, 48, 48)),
+                  MaterialStatePropertyAll(AppColors.blackshadowColor),
               elevation: MaterialStatePropertyAll(10.0),
               shape: MaterialStatePropertyAll(CircleBorder())),
           child: const Icon(

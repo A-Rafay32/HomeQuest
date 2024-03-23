@@ -1,19 +1,16 @@
 import 'package:flutter/material.dart';
 import 'package:real_estate_app/app/themes/app_colors.dart';
 import 'package:real_estate_app/app/themes/app_paddings.dart';
+import 'package:real_estate_app/features/home/models/house.dart';
 
 class HouseImages extends StatelessWidget {
   const HouseImages({
     super.key,
-    required this.houseImages,
-    required this.name,
-    required this.price,
+    required this.house,
     required this.onTap,
   });
 
-  final String houseImages;
-  final String name;
-  final String price;
+  final House house;
   final Function() onTap;
   @override
   Widget build(BuildContext context) {
@@ -26,16 +23,16 @@ class HouseImages extends StatelessWidget {
             ClipRRect(
               borderRadius: BorderRadius.circular(20),
               child: Image.asset(
-                houseImages,
+                house.images[0],
                 fit: BoxFit.cover,
-                width: context.w * 0.7,
+                width: context.w * 0.8,
                 height: context.h,
               ),
             ),
             Positioned(
               bottom: 0,
               child: Container(
-                width: context.w * 0.7,
+                width: context.w * 0.8,
                 height: 100,
                 decoration: BoxDecoration(
                   borderRadius: BorderRadius.circular(20),
@@ -46,12 +43,12 @@ class HouseImages extends StatelessWidget {
             const Positioned(top: 20, right: 10, child: FavIcon()),
             Positioned(
               bottom: 10,
-              left: 20,
+              left: 10,
               child: Column(
                 crossAxisAlignment: CrossAxisAlignment.start,
                 children: [
                   Text(
-                    name,
+                    house.name,
                     style: Theme.of(context).textTheme.bodyLarge?.copyWith(
                           fontWeight: FontWeight.bold,
                           color: Colors.white,
@@ -59,7 +56,7 @@ class HouseImages extends StatelessWidget {
                   ),
                   // AppSizes.tinyY,
                   Text(
-                    price,
+                    "\$${house.pricePerMonth}",
                     style: Theme.of(context).textTheme.bodyLarge?.copyWith(
                           fontWeight: FontWeight.bold,
                           color: Colors.white,
@@ -71,19 +68,19 @@ class HouseImages extends StatelessWidget {
                     children: [
                       const IconCard(icon: Icons.bed_outlined),
                       Text(
-                        "123",
+                        "${house.roomQty} Bds",
                         style: context.textTheme.bodyMedium
                             ?.copyWith(color: Colors.white),
                       ),
                       const IconCard(icon: Icons.bathtub_outlined),
                       Text(
-                        "123",
+                        "${house.roomQty} Baths",
                         style: context.textTheme.bodyMedium
                             ?.copyWith(color: Colors.white),
                       ),
                       const IconCard(icon: Icons.star_border_rounded),
                       Text(
-                        "123",
+                        "${house.sizeInFeet} ft2",
                         style: context.textTheme.bodyMedium
                             ?.copyWith(color: Colors.white),
                       ),
