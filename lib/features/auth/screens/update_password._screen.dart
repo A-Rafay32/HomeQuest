@@ -3,11 +3,11 @@ import 'package:flutter/material.dart';
 import 'package:real_estate_app/app/themes/app_paddings.dart';
 import 'package:real_estate_app/app/themes/app_text_field_themes.dart';
 import 'package:real_estate_app/core/exceptions/routes_extenstion.dart';
-import 'package:real_estate_app/features/auth/widgets/app_bar_white.dart';
-import 'package:real_estate_app/features/auth/widgets/button.dart';
-import 'package:real_estate_app/features/auth/widgets/custom_text_field.dart';
-import 'package:real_estate_app/features/auth/widgets/header.dart';
-import 'package:real_estate_app/features/auth/widgets/signup_bar.dart';
+import 'package:real_estate_app/features/auth/screens/widgets/app_bar_white.dart';
+import 'package:real_estate_app/features/auth/screens/widgets/button.dart';
+import 'package:real_estate_app/features/auth/screens/widgets/custom_text_field.dart';
+import 'package:real_estate_app/features/auth/screens/widgets/header.dart';
+import 'package:real_estate_app/features/auth/screens/widgets/signup_bar.dart';
 import 'package:real_estate_app/features/home/screens/home_screen_body.dart';
 
 class SetNewPassword extends StatelessWidget {

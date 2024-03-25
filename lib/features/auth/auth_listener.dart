@@ -1,10 +1,9 @@
-import 'package:ez_homes/contants.dart';
-import 'package:ez_homes/view/splash_screen.dart';
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
+import 'package:real_estate_app/app/themes/app_colors.dart';
 
-class AuthListener extends StatelessWidget {
-  AuthListener({required this.widget, super.key});
+class AuthStateBuilder extends StatelessWidget {
+  AuthStateBuilder({required this.widget, super.key});
   Widget widget;
 
   @override
@@ -15,12 +14,7 @@ class AuthListener extends StatelessWidget {
         builder: (context, snapshot) {
           if (snapshot.connectionState == ConnectionState.waiting) {
             return const CircularProgressIndicator(
-              color: primaryColor,
-            );
-          }
-          if (snapshot.connectionState == ConnectionState.none) {
-            return const CircularProgressIndicator(
-              color: primaryColor,
+              color: AppColors.primaryColor,
             );
           }
           if (snapshot.hasError) {
@@ -30,13 +24,6 @@ class AuthListener extends StatelessWidget {
           }
           if (snapshot.hasData) {
             return widget;
-          }
-          if (!snapshot.hasData) {
-            return const SplashScreen();
-          } else {
-            return const Center(
-              child: CircularProgressIndicator(color: primaryColor),
-            );
           }
         },
       ),

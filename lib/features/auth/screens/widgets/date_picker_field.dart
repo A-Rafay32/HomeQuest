@@ -4,7 +4,7 @@ import 'package:flutter_svg/svg.dart';
 import 'package:google_fonts/google_fonts.dart';
 import 'package:real_estate_app/app/themes/app_colors.dart';
 import 'package:real_estate_app/app/themes/app_text_field_themes.dart';
-import 'package:real_estate_app/features/auth/widgets/custom_text_field.dart';
+import 'package:real_estate_app/features/auth/screens/widgets/custom_text_field.dart';
 
 class DatePickerField extends StatefulWidget {
   DatePickerField({super.key, required this.hint, required this.controller});

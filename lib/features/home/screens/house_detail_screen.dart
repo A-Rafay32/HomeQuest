@@ -2,7 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:real_estate_app/app/themes/app_paddings.dart';
 import 'package:real_estate_app/core/exceptions/routes_extenstion.dart';
-import 'package:real_estate_app/features/auth/widgets/button.dart';
+import 'package:real_estate_app/features/auth/screens/widgets/button.dart';
 import 'package:real_estate_app/features/home/models/house.dart';
 import 'package:real_estate_app/features/home/screens/chat_screen.dart';
 import 'package:real_estate_app/features/payment/payment_screen.dart';
