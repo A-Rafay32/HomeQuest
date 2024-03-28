@@ -23,7 +23,7 @@ class HouseImages extends StatelessWidget {
             ClipRRect(
               borderRadius: BorderRadius.circular(20),
               child: Image.asset(
-                house.images[0],
+                house.images[5],
                 fit: BoxFit.cover,
                 width: context.w * 0.8,
                 height: context.h,

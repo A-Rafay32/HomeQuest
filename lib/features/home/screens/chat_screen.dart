@@ -5,7 +5,7 @@ import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:flutter_svg/svg.dart';
 import 'package:grouped_list/grouped_list.dart';
 import 'package:real_estate_app/app/themes/app_colors.dart';
-import 'package:real_estate_app/core/exceptions/routes_extenstion.dart';
+import 'package:real_estate_app/core/extensions/routes_extenstion.dart';
 import 'package:real_estate_app/features/auth/screens/widgets/app_bar_white.dart';
 import 'package:real_estate_app/features/home/models/message.dart';
 import 'package:real_estate_app/features/home/screens/widgets/chat_text_field.dart';

@@ -47,6 +47,8 @@ dependencies:
   firebase_core: ^2.27.0
   firebase_auth: ^4.17.8
   google_sign_in: ^6.2.1
+  either_dart: ^1.0.0
+  flutter_riverpod: ^2.5.1
   
 
 dev_dependencies:

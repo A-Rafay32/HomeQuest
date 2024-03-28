@@ -3,7 +3,7 @@ import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:flutter_svg/svg.dart';
 import 'package:real_estate_app/app/themes/app_colors.dart';
 import 'package:real_estate_app/app/themes/app_paddings.dart';
-import 'package:real_estate_app/core/exceptions/routes_extenstion.dart';
+import 'package:real_estate_app/core/extensions/routes_extenstion.dart';
 import 'package:real_estate_app/features/home/models/house.dart';
 import 'package:real_estate_app/features/home/screens/house_detail_screen.dart';
 import 'package:real_estate_app/features/home/screens/widgets/house_image_view.dart';

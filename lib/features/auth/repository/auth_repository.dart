@@ -1,8 +1,15 @@
-abstract class AuthRepository {
-  void signIn() {}
-  void signOut() {}
+import 'package:either_dart/either.dart';
+import 'package:firebase_auth/firebase_auth.dart';
+import 'package:real_estate_app/features/auth/exceptions/auth_exceptions.dart';
 
-  void register() {}
+abstract class AuthRepository {
+  Future<Either<FirebaseAuthException, Success>> signIn(
+      {required String email, required String password});
+
+  Future<Either<FirebaseAuthException, Success>> signOut();
+
+  Future<Either<AuthException, Success>> register(
+      {required String name, required String email, required String password});
 
   void updatePassword() {}
   void forgetPassword() {}

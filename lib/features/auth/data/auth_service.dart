@@ -1,38 +1,54 @@
+import 'package:either_dart/either.dart';
 import 'package:firebase_auth/firebase_auth.dart';
-import 'package:flutter/foundation.dart';
 import 'package:google_sign_in/google_sign_in.dart';
+import 'package:real_estate_app/features/auth/exceptions/auth_exceptions.dart';
 import 'package:real_estate_app/features/auth/repository/auth_repository.dart';
 
-class AuthService {
+class AuthService implements AuthRepository {
   static FirebaseAuth get firebaseAuth => FirebaseAuth.instance;
   static User? get currentUser => firebaseAuth.currentUser;
 
-  void signIn({required String email, required String password}) async {
+  Stream<User?> authStateChanges() => firebaseAuth.authStateChanges();
+
+  @override
+  Future<Either<FirebaseAuthException, Success>> signIn(
+      {required String email, required String password}) async {
     try {
       await firebaseAuth.signInWithEmailAndPassword(
           email: email, password: password);
-    } catch (e) {
-      rethrow;
+      return Right(Success(message: "User signed in with $email"));
+    } on FirebaseAuthException catch (e) {
+      return Left(FirebaseAuthException(code: e.code, message: e.message));
     }
   }
 
-  void signOut() async {
+  @override
+  Future<Either<FirebaseAuthException, Success>> signOut() async {
     try {
       await firebaseAuth.signOut();
-    } catch (e) {
-      rethrow;
+      return Right(Success(message: "User signed out successfully"));
+    } on FirebaseAuthException catch (e) {
+      return Left(FirebaseAuthException(code: e.code, message: e.message));
     }
   }
 
-  void register(
+  @override
+  Future<Either<AuthException, Success>> register(
       {required String name,
       required String email,
       required String password}) async {
     try {
-      await firebaseAuth.createUserWithEmailAndPassword(
-          email: email, password: password);
-    } catch (e) {
-      rethrow;
+      UserCredential userCredential = await firebaseAuth
+          .createUserWithEmailAndPassword(email: email, password: password);
+      if (userCredential.credential != null) {
+        await firebaseAuth.signInWithCredential(userCredential.credential!);
+        return Right(
+            Success(message: "User Created and signed with email $email"));
+      } else {
+        return Left(AuthException(message: "User Credential is Empty"));
+      }
+    } on FirebaseAuthException catch (e) {
+      return Left(AuthException(message: e.message!, code: e.code));
     }
   }
 
@@ -55,11 +71,19 @@ class AuthService {
     }
   }
 
+  @override
+  void forgetPassword() {}
+
   void updateUser() async {
     try {} catch (e) {
       rethrow;
     }
   }
+
+  @override
+  void updateEmail() {}
+  @override
+  void updatePassword() {}
 }
 
 class SocialAuthService extends AuthService implements SocialAuthRepository {
