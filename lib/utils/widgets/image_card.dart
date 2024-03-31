@@ -1,5 +1,7 @@
 import 'package:flutter/material.dart';
+import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:real_estate_app/app/themes/app_colors.dart';
+import 'package:real_estate_app/app/themes/app_paddings.dart';
 import 'package:real_estate_app/core/extensions/routes_extenstion.dart';
 import 'package:real_estate_app/features/home/models/house.dart';
 
@@ -20,63 +22,92 @@ class _ImageCardState extends State<ImageCard> {
 
   @override
   Widget build(BuildContext context) {
-    return Container(
-      height: widget.h * 0.35,
-      width: widget.w,
-      padding: const EdgeInsets.all(0),
-      child: PageView.builder(
-        itemCount: widget.house.images.length,
-        onPageChanged: (value) => setState(() {
-          currentPage = value;
-        }),
-        itemBuilder: (context, index) => Stack(
-          children: [
-            SizedBox(
-              height: widget.h * 0.35,
-              width: widget.w,
-              child: ClipRRect(
+    return PageView.builder(
+      itemCount: widget.house.images.length,
+      itemBuilder: (context, index) => Column(
+        children: [
+          Stack(
+            children: [
+              ClipRRect(
                   borderRadius: const BorderRadius.only(
                     bottomLeft: Radius.circular(30),
                     bottomRight: Radius.circular(30),
                   ),
                   child: Image.asset(
                     widget.house.images[index],
+                    width: context.w,
+                    height: context.h * 0.31,
                     fit: BoxFit.cover,
                   )),
-            ),
-            Positioned(
-              left: 10,
-              top: 20,
-              child: Card(
-                shape: const CircleBorder(),
-                color: Colors.white,
-                child: GestureDetector(
-                  onTap: () {
-                    context.pop();
-                  },
-                  child: const Padding(
-                    padding: EdgeInsets.all(9),
-                    child: Icon(
-                      Icons.arrow_back_ios_new_rounded,
-                      color: AppColors.primaryColor,
+              Positioned(
+                left: 10,
+                top: 20,
+                child: Card(
+                  shape: const CircleBorder(),
+                  color: Colors.white,
+                  child: GestureDetector(
+                    onTap: () {
+                      context.pop();
+                    },
+                    child: const Padding(
+                      padding: EdgeInsets.all(9),
+                      child: Icon(
+                        Icons.arrow_back_ios_new_rounded,
+                        color: AppColors.primaryColor,
+                      ),
                     ),
                   ),
                 ),
               ),
-            ),
-            // ListView.builder(
-            //     scrollDirection: Axis.horizontal,
-            //     itemCount: widget.house.images.length,
-            //     itemBuilder: (context, index) {
-            //       return Dot(
-            //           color: index == currentPage
-            //               ? AppColors.primaryColor
-            //               : Colors.grey.shade400,
-            //           currentPage: currentPage);
-            //     })
-          ],
-        ),
+            ],
+          ),
+          AppSizes.tinyY,
+          ImageNumber(
+            currentImage: index,
+            totalImages: widget.house.images.length,
+          )
+        ],
       ),
+    );
+  }
+}
+
+class ImageNumber extends StatelessWidget {
+  const ImageNumber({
+    super.key,
+    required this.currentImage,
+    required this.totalImages,
+  });
+
+  final int currentImage;
+  final int totalImages;
+  @override
+  Widget build(BuildContext context) {
+    return Row(
+      mainAxisAlignment: MainAxisAlignment.center,
+      children: [
+        IconButton(
+            onPressed: () {},
+            icon: const Icon(
+              Icons.arrow_back_ios_new_rounded,
+              color: AppColors.primaryColor,
+              size: 20,
+            )),
+        AppSizes.largeX,
+        Text(
+          "${currentImage + 1}/$totalImages",
+          style: context.textTheme.bodyLarge
+              ?.copyWith(fontWeight: FontWeight.w700),
+        ),
+        AppSizes.largeX,
+        IconButton(
+            onPressed: () {},
+            icon: const Icon(
+              Icons.arrow_forward_ios_rounded,
+              color: AppColors.primaryColor,
+              size: 20,
+            ))
+      ],
     );
   }
 }

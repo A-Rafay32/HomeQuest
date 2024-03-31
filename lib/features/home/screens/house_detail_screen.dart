@@ -35,46 +35,53 @@ class _HouseDetailScreenState extends State<HouseDetailScreen> {
         width: context.w,
         child: Column(
           children: [
-            ImageCard(
-              h: context.h,
-              w: context.w,
-              house: widget.house,
+            Expanded(
+              flex: 2,
+              child: ImageCard(
+                h: context.h,
+                w: context.w,
+                house: widget.house,
+              ),
             ),
-            Container(
-              height: context.h * 0.65,
-              width: context.w,
-              padding: const EdgeInsets.symmetric(horizontal: 20, vertical: 20),
-              child: Column(
-                mainAxisSize: MainAxisSize.min,
-                children: [
-                  PriceCard(house: widget.house),
-                  AppSizes.normalY,
-                  DescriptionCard(house: widget.house),
-                  AppSizes.normalY,
-                  RoomSizeCard(house: widget.house),
-                  AppSizes.largeY,
-                  AddressCard(house: widget.house),
-                  const Spacer(),
-                  Row(
-                    children: [
-                      Button(
-                        press: () {
-                          context.push(const ChatScreen(storeName: "Daniel"));
-                        },
-                        text: "Contact",
-                        horizontal: 60.w,
-                      ),
-                      const Spacer(),
-                      Button(
-                        horizontal: 60.w,
-                        press: () {
-                          context.push(PaymentScreen(onTap: () {}, price: 100));
-                        },
-                        text: "Book Now",
-                      ),
-                    ],
-                  )
-                ],
+            Expanded(
+              flex: 3,
+              child: Padding(
+                padding: const EdgeInsets.symmetric(
+                  horizontal: 20,
+                ),
+                child: Column(
+                  mainAxisSize: MainAxisSize.min,
+                  children: [
+                    PriceCard(house: widget.house),
+                    AppSizes.normalY,
+                    DescriptionCard(house: widget.house),
+                    AppSizes.normalY,
+                    RoomSizeCard(house: widget.house),
+                    AppSizes.largeY,
+                    AddressCard(house: widget.house),
+                    const Spacer(),
+                    Row(
+                      children: [
+                        Button(
+                          press: () {
+                            context.push(const ChatScreen(storeName: "Daniel"));
+                          },
+                          text: "Contact",
+                          horizontal: 60.w,
+                        ),
+                        const Spacer(),
+                        Button(
+                          horizontal: 60.w,
+                          press: () {
+                            context
+                                .push(PaymentScreen(onTap: () {}, price: 100));
+                          },
+                          text: "Book Now",
+                        ),
+                      ],
+                    ),
+                  ],
+                ),
               ),
             ),
           ],

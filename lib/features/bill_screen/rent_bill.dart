@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:real_estate_app/app/themes/app_colors.dart';
 
 import '../../app/constants/contants.dart';
 import '../../utils/widgets/back_button.dart';
@@ -42,7 +43,7 @@ class RentBillScreen extends StatelessWidget {
                     width: 40,
                     child: Center(
                       child: CircularProgressIndicator(
-                        color: primaryColor,
+                        color: AppColors.primaryColor,
                       ),
                     ),
                   ),

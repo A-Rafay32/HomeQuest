@@ -52,7 +52,6 @@ class AppThemes {
       indicatorColor: AppColors.secondaryColor);
   final bottomNavigationBarTheme = BottomNavigationBarThemeData(
       backgroundColor: AppColors.backgroundColor,
-      
       elevation: 2.0,
       type: BottomNavigationBarType.fixed,
       selectedItemColor: AppColors.secondaryColor,

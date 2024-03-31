@@ -28,7 +28,7 @@ class ProfileScreen extends StatelessWidget {
       body: SingleChildScrollView(
         physics: const ClampingScrollPhysics(),
         child: Stack(
-          children: [
+        children: [
             Container(
               color: AppColors.primaryColor,
               height: context.h,

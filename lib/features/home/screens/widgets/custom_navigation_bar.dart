@@ -3,7 +3,8 @@ import 'package:flutter_svg/svg.dart';
 import 'package:real_estate_app/app/constants/app_images.dart';
 import 'package:real_estate_app/app/themes/app_colors.dart';
 import 'package:real_estate_app/core/extensions/routes_extenstion.dart';
-import 'package:real_estate_app/features/home/screens/profile_screen.dart';
+import 'package:real_estate_app/features/home/screens/buyer_profile_screen.dart';
+import 'package:real_estate_app/features/profile_screen.dart';
 
 class CustomNavigationBar extends StatelessWidget {
   const CustomNavigationBar({
@@ -52,7 +53,7 @@ class CustomNavigationBar extends StatelessWidget {
           BottomNavBarItem(
               text: "Profile",
               onTap: () {
-                context.push(const ProfileScreen());
+                context.push(const BuyerProfileScreen());
               },
               isTagSelected: false,
               iconAsset: AppSvgs.profile),
