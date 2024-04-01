@@ -5,6 +5,8 @@ import 'package:real_estate_app/features/auth/exceptions/auth_exceptions.dart';
 import 'package:real_estate_app/features/auth/repository/auth_repository.dart';
 
 class AuthService implements AuthRepository {
+
+  
   static FirebaseAuth get firebaseAuth => FirebaseAuth.instance;
   static User? get currentUser => firebaseAuth.currentUser;
 

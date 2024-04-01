@@ -1,7 +1,11 @@
-import 'package:flutter/cupertino.dart';
+import 'package:either_dart/either.dart';
+import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:real_estate_app/app/themes/app_paddings.dart';
 import 'package:real_estate_app/core/extensions/routes_extenstion.dart';
+import 'package:real_estate_app/features/auth/exceptions/auth_exceptions.dart';
+import 'package:real_estate_app/features/auth/providers/auth_service_provider.dart';
 import 'package:real_estate_app/features/auth/screens/register_screen.dart';
 import 'package:real_estate_app/features/auth/screens/widgets/app_bar_white.dart';
 import 'package:real_estate_app/features/auth/screens/widgets/button.dart';
@@ -12,14 +16,17 @@ import 'package:real_estate_app/features/auth/screens/widgets/signup_bar.dart';
 import 'package:real_estate_app/features/auth/screens/widgets/socialcard.dart';
 import 'package:real_estate_app/features/home/screens/home_screen_body.dart';
 
-class LoginScreen extends StatelessWidget {
-  const LoginScreen({
+class LoginScreen extends ConsumerWidget {
+  LoginScreen({
     super.key,
   });
 
   static const loginScreen = "/LoginScreen";
+  final TextEditingController emailController = TextEditingController();
+  final TextEditingController passwordController = TextEditingController();
+
   @override
-  Widget build(BuildContext context) {
+  Widget build(BuildContext context, WidgetRef ref) {
     return Scaffold(
         appBar: PreferredSize(
           preferredSize: const Size.fromHeight(54),
@@ -43,13 +50,25 @@ class LoginScreen extends StatelessWidget {
                 text3: "or continue with social media",
               ),
               AppSizes.largeY,
-              const AuthFormField(),
+              AuthFormField(
+                emailController: emailController,
+                passwordController: passwordController,
+              ),
               AppSizes.tinyY,
               const Forgot(),
               AppSizes.normalY,
               Button(
                 press: () {
-                  context.pushNamed(HomeScreen.homeScreen);
+                  Future<Either<FirebaseAuthException, Success>> result = ref
+                      .read(authServiceProvider)
+                      .signIn(
+                          email: emailController.text.trim(),
+                          password: passwordController.text.trim());
+                  result.fold((left) {
+                    print("exception :${left.message}");
+                  }, (right) {
+                    print("success${right.message}");
+                  });
                 },
                 text: "Login",
               ),

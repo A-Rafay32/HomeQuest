@@ -7,7 +7,12 @@ import "package:real_estate_app/app/themes/app_text_field_themes.dart";
 class AuthFormField extends StatefulWidget {
   const AuthFormField({
     super.key,
+    required this.emailController,
+    required this.passwordController,
   });
+
+  final TextEditingController emailController;
+  final TextEditingController passwordController;
 
   @override
   State<AuthFormField> createState() => _AuthFormFieldState();
@@ -40,7 +45,7 @@ class _AuthFormFieldState extends State<AuthFormField> {
                       ? "Enter a valid email "
                       : null;
                 },
-                controller: TextEditingController(),
+                controller: widget.emailController,
                 cursorColor: Colors.black,
                 style: const TextStyle(fontSize: 16, color: Colors.black),
                 autovalidateMode: AutovalidateMode.onUserInteraction,
@@ -55,7 +60,7 @@ class _AuthFormFieldState extends State<AuthFormField> {
                     : null;
               },
               obscureText: isObscure,
-              controller: TextEditingController(),
+              controller: widget.passwordController,
               cursorColor: Colors.black,
               style: const TextStyle(fontSize: 16, color: Colors.black),
               decoration: AppTextFieldDecorations.passwordInputDecoration(

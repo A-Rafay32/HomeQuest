@@ -29,7 +29,7 @@ class AuthStateBuilder extends ConsumerWidget {
           if (snapshot.hasData) {
             return widget;
           }
-          return const LoginScreen();
+          return LoginScreen();
         },
       ),
     );

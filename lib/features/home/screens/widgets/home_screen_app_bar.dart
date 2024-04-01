@@ -18,6 +18,7 @@ class HomeScreenAppBar extends StatelessWidget {
         padding: EdgeInsets.only(left: 5, top: 5, bottom: 8),
         child: CircleAvatar(
           backgroundColor: Colors.green,
+          backgroundImage: AssetImage("assets/svgs/profile/user_avatar.png"),
           radius: 3,
         ),
       ),

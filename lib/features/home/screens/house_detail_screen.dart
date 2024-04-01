@@ -80,6 +80,7 @@ class _HouseDetailScreenState extends State<HouseDetailScreen> {
                         ),
                       ],
                     ),
+                    AppSizes.normalY
                   ],
                 ),
               ),

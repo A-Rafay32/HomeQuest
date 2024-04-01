@@ -7,7 +7,7 @@ import 'package:real_estate_app/features/auth/screens/login_screen.dart';
 class AppRoutes {
   static Map<String, Widget Function(BuildContext)> routes = {
     SplashScreen.splashScreen: (context) => const SplashScreen(),
-    LoginScreen.loginScreen: (context) => const LoginScreen(),
+    LoginScreen.loginScreen: (context) => LoginScreen(),
     RegisterScreen.registerScreen: (context) => RegisterScreen(),
     HomeScreen.homeScreen: (context) => const HomeScreen(),
   };
