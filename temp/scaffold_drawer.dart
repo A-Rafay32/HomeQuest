@@ -8,8 +8,8 @@ import 'package:flutter/material.dart';
 import 'package:flutter_svg/svg.dart';
 import 'package:provider/provider.dart';
 
-import '../../app/constants/contants.dart';
-import '../../../utils/dialogboxes.dart';
+import '../lib/app/constants/contants.dart';
+import '../utils/dialogboxes.dart';
 import 'houses_screens/your_house.dart';
 
 class ScaffoldDrawer extends StatelessWidget {

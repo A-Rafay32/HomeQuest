@@ -1,10 +1,17 @@
+import 'package:either_dart/either.dart';
+import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:flutter_svg/svg.dart';
 import 'package:real_estate_app/app/themes/app_colors.dart';
 import 'package:real_estate_app/core/extensions/routes_extenstion.dart';
+import 'package:real_estate_app/features/auth/exceptions/auth_exceptions.dart';
+import 'package:real_estate_app/features/auth/providers/auth_notifier.dart';
+import 'package:real_estate_app/features/auth/providers/auth_notifier_provider.dart';
 import 'package:real_estate_app/features/auth/screens/widgets/app_bar_white.dart';
+import 'package:real_estate_app/features/auth/screens/widgets/button.dart';
 
 class BuyerProfileScreen extends StatelessWidget {
   const BuyerProfileScreen({super.key});
@@ -154,33 +161,45 @@ class BuyerProfileScreen extends StatelessWidget {
                       text: "Rate us",
                       w: w,
                     ),
-                    ProfileOptionsCard(
-                      onTap: () {
-                        showModalBottomSheet(
-                          shape: const RoundedRectangleBorder(
-                              borderRadius: BorderRadius.only(
-                                  topLeft: Radius.circular(240),
-                                  topRight: Radius.circular(240))),
-                          constraints: BoxConstraints(maxHeight: 300.h),
-                          context: context,
-                          builder: (context) {
-                            return LogOutBottomSheet(
-                                message: "",
-                                abortButtonText: "Cancel",
-                                continueButton: () {},
-                                continueButtonText: "Yes, Logout",
-                                subtitle: "Are you sure you want to log out?",
-                                title: "Logout",
-                                abortButton: () {},
-                                context: context,
-                                w: w);
-                          },
-                        );
-                      },
-                      icon: "assets/svgs/profile/logout.svg",
-                      text: "Logout",
-                      w: w,
-                    ),
+                    Consumer(builder: (context, ref, child) {
+                      return ProfileOptionsCard(
+                        onTap: () {
+                          showModalBottomSheet(
+                            shape: const RoundedRectangleBorder(
+                                borderRadius: BorderRadius.only(
+                                    topLeft: Radius.circular(240),
+                                    topRight: Radius.circular(240))),
+                            constraints: BoxConstraints(maxHeight: 300.h),
+                            context: context,
+                            builder: (context) {
+                              return LogOutBottomSheet(
+                                  message: "",
+                                  abortButtonText: "Cancel",
+                                  continueButton: () {
+                                    Future<
+                                            Either<FirebaseAuthException,
+                                                Success>> result =
+                                        ref.read(authNotifier).signOut();
+                                    result.fold((left) {
+                                      print("exception :${left.message}");
+                                    }, (right) {
+                                      print("success${right.message}");
+                                    });
+                                  },
+                                  continueButtonText: "Yes, Logout",
+                                  subtitle: "Are you sure you want to log out?",
+                                  title: "Logout",
+                                  abortButton: () {},
+                                  context: context,
+                                  w: w);
+                            },
+                          );
+                        },
+                        icon: "assets/svgs/profile/logout.svg",
+                        text: "Logout",
+                        w: w,
+                      );
+                    }),
                   ]),
                 ))));
   }
@@ -364,25 +383,17 @@ class LogOutBottomSheet extends StatelessWidget {
           ),
           SizedBox(height: 12.h),
           Expanded(child: Container()),
-          const Row(
+          Row(
             mainAxisAlignment: MainAxisAlignment.spaceBetween,
             children: [
-              // Button(
-              //     width: (w * 0.45).w,
-              //     text: abortButtonText,
-              //     paddingVert: 13,
-              //     textColor: AppColors.orangePrimaryColor,
-              //     backgroundColor:
-              //         AppColors.orangePrimaryColor.withOpacity(0.2),
-              //     onTap: abortButton),
-              // CustomButton(
-              //     width: (w * 0.45).w,
-              //     text: continueButtonText,
-              //     paddingVert: 13,
-              //     textColor: Colors.white,
-              //     borderColor: Colors.transparent,
-              //     backgroundColor: AppColors.orangePrimaryColor,
-              //     onTap: continueButton)
+              Button(
+                press: abortButton,
+                text: "Cancel",
+              ),
+              Button(
+                press: continueButton,
+                text: "Continue",
+              ),
             ],
           ),
           SizedBox(height: 10.h),

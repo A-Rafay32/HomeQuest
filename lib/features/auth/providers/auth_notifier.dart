@@ -13,6 +13,10 @@ class AuthNotifier extends StateNotifier<AuthService> {
 
   final AuthService authService;
 
+  User? currentUser() => AuthService.currentUser;
+
+  Stream<User?> authStateChanges() => authService.authStateChanges();
+
   Future<Either<FirebaseAuthException, Success>> signIn(
       {required String email, required String password}) async {
     return await authService.signIn(email: email, password: password);
@@ -30,4 +34,3 @@ class AuthNotifier extends StateNotifier<AuthService> {
         name: name, email: email, password: password);
   }
 }
-

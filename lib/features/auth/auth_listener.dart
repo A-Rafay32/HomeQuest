@@ -1,9 +1,7 @@
-import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:real_estate_app/app/themes/app_colors.dart';
 import 'package:real_estate_app/features/auth/providers/auth_notifier_provider.dart';
-import 'package:real_estate_app/features/auth/providers/auth_service_provider.dart';
 import 'package:real_estate_app/features/auth/screens/login_screen.dart';
 
 class AuthStateBuilder extends ConsumerWidget {
@@ -14,7 +12,7 @@ class AuthStateBuilder extends ConsumerWidget {
   Widget build(BuildContext context, WidgetRef ref) {
     return Scaffold(
       body: StreamBuilder(
-        stream: ref.watch(authServiceProvider).authStateChanges(),
+        stream: ref.watch(authNotifier.notifier).authStateChanges(),
         builder: (context, snapshot) {
           if (snapshot.connectionState == ConnectionState.waiting) {
             return const CircularProgressIndicator(

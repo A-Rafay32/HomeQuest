@@ -1,7 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_advanced_drawer/flutter_advanced_drawer.dart';
 import 'package:real_estate_app/features/home/screens/home_screen_body.dart';
-import 'package:real_estate_app/features/temp/scaffold_drawer.dart';
+import '../../../temp/scaffold_drawer.dart';
 
 class HomeScreenHolded extends StatefulWidget {
   const HomeScreenHolded({super.key});

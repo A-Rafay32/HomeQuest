@@ -1,30 +1,27 @@
-import 'package:cloud_firestore/cloud_firestore.dart';
-import 'package:ez_homes/utils/image_picker.dart';
+import 'package:ez_homes/model/house.dart';
 import 'package:ez_homes/view/widgets/back_button.dart';
+import 'package:ez_homes/view/widgets/house_list_card.dart';
 import 'package:ez_homes/data/database_service/house_database.dart';
 import 'package:ez_homes/data/database_service/user_database.dart';
 import 'package:ez_homes/view_model/house_provider.dart';
 import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
 
-import '../../../app/constants/contants.dart';
-import '../../../../model/house.dart';
-import '../../../../model/user.dart';
-import '../../../../utils/dialogboxes.dart';
-import '../../../utils/widgets/house_list_card.dart';
+import '../../lib/app/constants/contants.dart';
+import '../../model/user.dart';
+import '../../utils/dialogboxes.dart';
 
-class BuyHomeScreen extends StatefulWidget {
-  const BuyHomeScreen({super.key});
+class RentalHomeScreen extends StatefulWidget {
+  const RentalHomeScreen({super.key});
 
   @override
-  State<BuyHomeScreen> createState() => _BuyHomeScreenState();
+  State<RentalHomeScreen> createState() => _RentalHomeScreenState();
 }
 
-class _BuyHomeScreenState extends State<BuyHomeScreen> {
-  CollectionReference house = FirebaseFirestore.instance.collection("house");
-
+class _RentalHomeScreenState extends State<RentalHomeScreen> {
   @override
   void initState() {
+    // UserDBHelper.getUserInfo();
     super.initState();
   }
 
@@ -35,17 +32,16 @@ class _BuyHomeScreenState extends State<BuyHomeScreen> {
 
     return Scaffold(
       appBar: AppBar(
-        actions: const [],
         leading: const BackButton(),
         title: const Padding(
           padding: EdgeInsets.only(left: 55.0),
           child: Text(
-            "Buy House",
+            "Rental Homes",
             style: TextStyle(
                 fontFamily: "Raleway",
                 fontWeight: FontWeight.w600,
                 color: Colors.black,
-                fontSize: 21),  
+                fontSize: 21),
           ),
         ),
       ),
@@ -72,47 +68,59 @@ class _BuyHomeScreenState extends State<BuyHomeScreen> {
                 );
               }
               if (snapshot.connectionState == ConnectionState.done) {
-                return Column(children: [
-                  Container(
-                    height: h * 0.12,
-                    width: w,
-                    margin: const EdgeInsets.all(10),
-                    padding: const EdgeInsets.all(10),
-                    child: const Text(
-                      textAlign: TextAlign.center,
-                      "Buy our beautiful houses at reasonable prices",
-                      style: TextStyle(
-                        fontSize: 18,
-                        fontWeight: FontWeight.w500,
-                        color: Colors.black,
-                        fontFamily: "Raleway",
+                return Column(
+                  children: [
+                    Container(
+                      height: h * 0.12,
+                      width: w,
+                      margin: const EdgeInsets.all(10),
+                      padding: const EdgeInsets.all(10),
+                      child: const Text(
+                        textAlign: TextAlign.center,
+                        "Rent our beautiful houses at reasonable prices",
+                        style: TextStyle(
+                          fontSize: 18,
+                          fontWeight: FontWeight.w500,
+                          color: Colors.black,
+                          fontFamily: "Raleway",
+                        ),
                       ),
                     ),
-                  ),
-                  Expanded(
+                    Expanded(
                       child: ListView.builder(
                           itemCount: snapshot.data?.length ?? 0,
+                          // RentHouseList.length,
                           itemBuilder: (context, index) =>
                               (snapshot.data?[index].housetype ==
-                                      houseType.forSale)
-                                  ? HouseListCard(house: snapshot.data![index])
-                                  : Container()))
-                ]);
+                                      houseType.forRent)
+                                  ? HouseListCard(
+                                      house: snapshot.data?[index] ??
+                                          House(
+                                              name: "",
+                                              description: "",
+                                              images: [],
+                                              pricePerMonth: 1,
+                                              roomQty: 1,
+                                              sizeInFeet: 1,
+                                              salePrice: 1,
+                                              address: "",
+                                              email: "",
+                                              phoneNum: 0,
+                                              housetype: houseType.forRent))
+                                  : Container()),
+                    )
+                  ],
+                );
+              } else {
+                return const CircularProgressIndicator();
               }
-              return const Center(
-                child: SizedBox(
-                    height: 40,
-                    width: 40,
-                    child: CircularProgressIndicator(
-                      color: primaryColor,
-                    )),
-              );
             });
       }),
+      // }),
       floatingActionButton: (UserDBHelper.userData?.usertype == UserType.admin)
           ? FloatingActionButton(
               onPressed: () {
-                House tempBuyHouse = House(
+                House tempRentalHouse = House(
                     name: "",
                     description: "",
                     images: [""],
@@ -120,11 +128,11 @@ class _BuyHomeScreenState extends State<BuyHomeScreen> {
                     roomQty: 0,
                     sizeInFeet: 0,
                     salePrice: 0,
-                    address: "",
                     email: "",
                     phoneNum: 0,
-                    housetype: houseType.forSale);
-                Utils.AddHouseDialogBox(context, tempBuyHouse);
+                    address: "",
+                    housetype: houseType.forRent);
+                Utils.AddHouseDialogBox(context, tempRentalHouse);
               },
               child: const Icon(Icons.add),
             )

@@ -13,10 +13,10 @@ import 'package:ez_homes/view_model/house_provider.dart';
 import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
 
-import '../../../app/constants/contants.dart';
-import '../../../../utils/dialogboxes.dart';
-import '../../../../view_model/auth_provider.dart';
-import '../../../utils/widgets/renew_house_card.dart';
+import '../../lib/app/constants/contants.dart';
+import '../../utils/dialogboxes.dart';
+import '../../view_model/auth_provider.dart';
+import '../../lib/utils/widgets/renew_house_card.dart';
 
 class RenewHouseScreen extends StatefulWidget {
   const RenewHouseScreen({super.key});

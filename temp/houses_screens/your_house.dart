@@ -5,9 +5,9 @@ import 'package:ez_homes/view_model/house_provider.dart';
 import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
 
-import '../../../app/constants/contants.dart';
-import '../../../../data/database_service/house_database.dart';
-import '../../../utils/widgets/back_button.dart';
+import '../../lib/app/constants/contants.dart';
+import '../../data/database_service/house_database.dart';
+import '../../lib/utils/widgets/back_button.dart';
 
 class YourHouseScreen extends StatelessWidget {
   const YourHouseScreen({

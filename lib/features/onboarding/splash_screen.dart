@@ -4,7 +4,9 @@ import 'package:real_estate_app/app/themes/app_colors.dart';
 import 'package:real_estate_app/app/themes/app_paddings.dart';
 import 'package:real_estate_app/app/themes/text_theme.dart';
 import 'package:real_estate_app/core/extensions/routes_extenstion.dart';
+import 'package:real_estate_app/features/auth/auth_listener.dart';
 import 'package:real_estate_app/features/auth/screens/login_screen.dart';
+import 'package:real_estate_app/features/home/screens/home_screen_body.dart';
 
 class SplashScreen extends StatelessWidget {
   const SplashScreen({super.key});
@@ -70,7 +72,7 @@ class GetStartedButton extends StatelessWidget {
       right: 70,
       child: GestureDetector(
         onTap: () {
-          context.pushNamed(LoginScreen.loginScreen);
+          context.push(AuthStateBuilder(widget: const HomeScreen()));
         },
         child: Container(
           decoration: BoxDecoration(

@@ -6,8 +6,8 @@ import 'package:ez_homes/view/widgets/custom_app_bar.dart';
 
 import 'package:flutter/material.dart';
 
-import '../../../../utils/dialogboxes.dart';
-import '../../../../data/database_service/house_database.dart';
+import '../../utils/dialogboxes.dart';
+import '../../data/database_service/house_database.dart';
 
 class RepairDetailScreen extends StatelessWidget {
   const RepairDetailScreen({

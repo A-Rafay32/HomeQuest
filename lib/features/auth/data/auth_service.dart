@@ -5,8 +5,6 @@ import 'package:real_estate_app/features/auth/exceptions/auth_exceptions.dart';
 import 'package:real_estate_app/features/auth/repository/auth_repository.dart';
 
 class AuthService implements AuthRepository {
-
-  
   static FirebaseAuth get firebaseAuth => FirebaseAuth.instance;
   static User? get currentUser => firebaseAuth.currentUser;
 
@@ -40,8 +38,8 @@ class AuthService implements AuthRepository {
       required String email,
       required String password}) async {
     try {
-      UserCredential userCredential = await firebaseAuth
-          .createUserWithEmailAndPassword(email: email, password: password);
+      final userCredential = await firebaseAuth.createUserWithEmailAndPassword(
+          email: email, password: password);
       if (userCredential.credential != null) {
         await firebaseAuth.signInWithCredential(userCredential.credential!);
         return Right(
