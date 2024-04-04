@@ -2,6 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:real_estate_app/app/themes/app_paddings.dart';
 import 'package:real_estate_app/core/extensions/routes_extenstion.dart';
+import 'package:real_estate_app/core/extensions/sizes_extensions.dart';
 import 'package:real_estate_app/features/auth/screens/widgets/button.dart';
 import 'package:real_estate_app/features/home/models/house.dart';
 import 'package:real_estate_app/features/home/screens/chat_screen.dart';
@@ -9,7 +10,7 @@ import 'package:real_estate_app/features/payment/payment_screen.dart';
 
 import '../../../utils/widgets/address_card.dart';
 import '../../../utils/widgets/description_card.dart';
-import '../../../utils/widgets/image_card.dart';
+import 'widgets/image_card.dart';
 import '../../../utils/widgets/price_card.dart';
 import '../../../utils/widgets/room_size_card.dart';
 
@@ -37,7 +38,7 @@ class _HouseDetailScreenState extends State<HouseDetailScreen> {
           children: [
             Expanded(
               flex: 2,
-              child: ImageCard(
+              child: HouseDetailImage(
                 h: context.h,
                 w: context.w,
                 house: widget.house,

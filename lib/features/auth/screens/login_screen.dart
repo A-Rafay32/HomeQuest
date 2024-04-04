@@ -4,6 +4,8 @@ import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:real_estate_app/app/themes/app_paddings.dart';
 import 'package:real_estate_app/core/extensions/routes_extenstion.dart';
+import 'package:real_estate_app/core/extensions/sizes_extensions.dart';
+import 'package:real_estate_app/core/extensions/snackbar_ext.dart';
 import 'package:real_estate_app/features/auth/exceptions/auth_exceptions.dart';
 import 'package:real_estate_app/features/auth/providers/auth_notifier_provider.dart';
 import 'package:real_estate_app/features/auth/providers/auth_service_provider.dart';
@@ -15,7 +17,7 @@ import 'package:real_estate_app/features/auth/screens/widgets/form_field.dart';
 import 'package:real_estate_app/features/auth/screens/widgets/header.dart';
 import 'package:real_estate_app/features/auth/screens/widgets/signup_bar.dart';
 import 'package:real_estate_app/features/auth/screens/widgets/socialcard.dart';
-import 'package:real_estate_app/features/home/screens/home_screen_body.dart';
+import 'package:real_estate_app/features/home/screens/home_screen.dart';
 
 class LoginScreen extends ConsumerWidget {
   LoginScreen({
@@ -59,18 +61,7 @@ class LoginScreen extends ConsumerWidget {
               const Forgot(),
               AppSizes.normalY,
               Button(
-                press: () {
-                  Future<Either<FirebaseAuthException, Success>> result = ref
-                      .read(authNotifier.notifier)
-                      .signIn(
-                          email: emailController.text.trim(),
-                          password: passwordController.text.trim());
-                  result.fold((left) {
-                    print("exception :${left.message}");
-                  }, (right) {
-                    print("success${right.message}");
-                  });
-                },
+                press: () => login(ref, context),
                 text: "Login",
               ),
               AppSizes.largeY,
@@ -85,5 +76,16 @@ class LoginScreen extends ConsumerWidget {
             ],
           ),
         )));
+  }
+
+  void login(WidgetRef ref, BuildContext context) async {
+    Either<FirebaseAuthException, Success> result = await ref
+        .read(authNotifier.notifier)
+        .signIn(
+            email: emailController.text.trim(),
+            password: passwordController.text.trim());
+    result.fold((left) {
+      context.showSnackBar(left.message.toString());
+    }, (right) {});
   }
 }

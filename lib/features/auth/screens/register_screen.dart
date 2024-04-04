@@ -5,16 +5,16 @@ import 'package:flutter_riverpod/flutter_riverpod.dart';
 import "package:real_estate_app/app/themes/app_paddings.dart";
 import "package:real_estate_app/app/themes/app_text_field_themes.dart";
 import 'package:real_estate_app/core/extensions/routes_extenstion.dart';
+import 'package:real_estate_app/core/extensions/sizes_extensions.dart';
+import 'package:real_estate_app/core/extensions/snackbar_ext.dart';
 import 'package:real_estate_app/features/auth/exceptions/auth_exceptions.dart';
 import 'package:real_estate_app/features/auth/providers/auth_notifier_provider.dart';
-import 'package:real_estate_app/features/auth/providers/auth_service_provider.dart';
 import 'package:real_estate_app/features/auth/screens/widgets/app_bar_white.dart';
 import 'package:real_estate_app/features/auth/screens/widgets/button.dart';
 import 'package:real_estate_app/features/auth/screens/widgets/custom_text_field.dart';
 import 'package:real_estate_app/features/auth/screens/widgets/form_field.dart';
 import 'package:real_estate_app/features/auth/screens/widgets/header.dart';
 import 'package:real_estate_app/features/auth/screens/widgets/signup_bar.dart';
-import 'package:real_estate_app/features/auth/screens/widgets/socialcard.dart';
 
 class RegisterScreen extends ConsumerWidget {
   RegisterScreen({super.key});
@@ -57,7 +57,6 @@ class RegisterScreen extends ConsumerWidget {
                   inputDecoration:
                       AppTextFieldDecorations.genericInputDecoration(
                           label: "Name")),
-
               AppSizes.normalY,
               AuthFormField(
                 emailController: emailController,
@@ -65,26 +64,9 @@ class RegisterScreen extends ConsumerWidget {
               ),
               AppSizes.largeY,
               Button(
-                press: () async {
-                  Future<Either<AuthException, Success>> result = ref
-                      .read(authNotifier.notifier)
-                      .register(
-                          name: nameController.text.trim(),
-                          email: emailController.text.trim(),
-                          password: passwordController.text.trim());
-
-                  result.fold((left) {
-                    print("exception :${left.message}");
-                  }, (right) {
-                    print("success${right.message}");
-                  });
-                },
+                press: () => _register(ref, context),
                 text: "Register",
               ),
-              // AppSizes.largeY,
-              // const Text("or register with"),
-              // AppSizes.normalY,
-              // const SocialCard(),
               const Spacer(),
               SignUpBar(
                 onTap: () => context.pop(),
@@ -94,6 +76,22 @@ class RegisterScreen extends ConsumerWidget {
             ],
           ),
         ));
+  }
+
+  void _register(WidgetRef ref, BuildContext context) async {
+    Either<AuthException, Success> result = await ref
+        .read(authNotifier.notifier)
+        .register(
+            name: nameController.text.trim(),
+            email: emailController.text.trim(),
+            password: passwordController.text.trim());
+
+    result.fold((left) {
+      context.showSnackBar(left.message.toString());
+    }, (right) {
+      context.showSnackBar(right.message.toString());
+      context.pop();
+    });
   }
 }
 

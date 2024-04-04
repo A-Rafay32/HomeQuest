@@ -1,12 +1,13 @@
 import 'package:flutter/material.dart';
-import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:real_estate_app/app/themes/app_colors.dart';
 import 'package:real_estate_app/app/themes/app_paddings.dart';
 import 'package:real_estate_app/core/extensions/routes_extenstion.dart';
+import 'package:real_estate_app/core/extensions/sizes_extensions.dart';
+import 'package:real_estate_app/core/extensions/text_theme_ext.dart';
 import 'package:real_estate_app/features/home/models/house.dart';
 
-class ImageCard extends StatefulWidget {
-  const ImageCard(
+class HouseDetailImage extends StatefulWidget {
+  const HouseDetailImage(
       {required this.house, required this.h, required this.w, super.key});
 
   final double h;
@@ -14,10 +15,10 @@ class ImageCard extends StatefulWidget {
   final House house;
 
   @override
-  State<ImageCard> createState() => _ImageCardState();
+  State<HouseDetailImage> createState() => _HouseDetailImageState();
 }
 
-class _ImageCardState extends State<ImageCard> {
+class _HouseDetailImageState extends State<HouseDetailImage> {
   int currentPage = 0;
 
   @override

@@ -14,6 +14,7 @@ class AppThemes {
       visualDensity: VisualDensity.adaptivePlatformDensity,
       searchBarTheme: searchBarThemeData,
       snackBarTheme: snackbarTheme,
+      bottomSheetTheme: bottomSheetTheme,
       bottomNavigationBarTheme: bottomNavigationBarTheme,
       progressIndicatorTheme: const ProgressIndicatorThemeData(
         color: AppColors.secondaryColor,
@@ -66,6 +67,12 @@ class AppThemes {
     iconTheme: const IconThemeData(
       color: Colors.white,
     ),
+  );
+
+  final bottomSheetTheme = const BottomSheetThemeData(
+    shape: RoundedRectangleBorder(
+        borderRadius: BorderRadius.only(
+            topLeft: Radius.circular(240), topRight: Radius.circular(240))),
   );
 
   final TextButtonThemeData textButtonTheme = TextButtonThemeData(

@@ -12,7 +12,7 @@ class Button extends StatelessWidget {
     this.vertical = 15,
     this.textColor = Colors.white,
   });
-  final VoidCallback press;
+  final void Function() press;
   final String text;
   final double horizontal;
   final double vertical;

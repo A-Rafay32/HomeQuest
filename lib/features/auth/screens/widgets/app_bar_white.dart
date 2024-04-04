@@ -2,14 +2,16 @@ import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 
 class CustomAppBar extends StatelessWidget {
-  const CustomAppBar(
+  CustomAppBar(
       {super.key,
       this.backgroundColor = Colors.white,
       this.textColors = Colors.black,
+      this.enableBackButton = true,
       required this.onPressed,
       required this.text});
 
   final String text;
+  bool enableBackButton;
   final Function() onPressed;
   final Color backgroundColor;
   final Color textColors;
@@ -23,8 +25,10 @@ class CustomAppBar extends StatelessWidget {
         style: TextStyle(color: textColors, fontSize: 21),
       ),
       actions: const [],
-      leading: CupertinoNavigationBarBackButton(
-          color: textColors, onPressed: onPressed),
+      leading: enableBackButton
+          ? CupertinoNavigationBarBackButton(
+              color: textColors, onPressed: onPressed)
+          : null,
     );
   }
 }

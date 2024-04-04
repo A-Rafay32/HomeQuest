@@ -1,6 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:real_estate_app/app/themes/app_colors.dart';
-import 'package:real_estate_app/app/themes/app_paddings.dart';
+import 'package:real_estate_app/core/extensions/sizes_extensions.dart';
 
 class SignUpBar extends StatelessWidget {
   const SignUpBar({

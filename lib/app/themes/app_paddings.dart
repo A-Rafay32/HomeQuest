@@ -15,17 +15,7 @@ class AppPaddings {
   static final tinyY = EdgeInsets.symmetric(vertical: 6.sp);
 }
 
-extension MediaQuerySizes on BuildContext {
-  double get h => MediaQuery.sizeOf(this).height;
-  double get w => MediaQuery.sizeOf(this).width;
 
-  double get halfY => MediaQuery.sizeOf(this).height * 0.5;
-  double get halfX => MediaQuery.sizeOf(this).width * 0.5;
-}
-
-extension TextThemeExt on BuildContext {
-  TextTheme get textTheme => Theme.of(this).textTheme;
-}
 
 class AppSizes {
   static final tinyX = SizedBox(width: 6.w);

@@ -1,12 +1,11 @@
 import 'package:flutter/material.dart';
+import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:flutter_svg/svg.dart';
 import 'package:real_estate_app/app/constants/app_images.dart';
 import 'package:real_estate_app/app/themes/app_colors.dart';
-import 'package:real_estate_app/core/extensions/routes_extenstion.dart';
-import 'package:real_estate_app/features/home/screens/buyer_profile_screen.dart';
-import 'package:real_estate_app/features/profile_screen.dart';
+import 'package:real_estate_app/features/home/providers/home_state_provider.dart';
 
-class CustomNavigationBar extends StatelessWidget {
+class CustomNavigationBar extends ConsumerWidget {
   const CustomNavigationBar({
     super.key,
     required this.w,
@@ -15,7 +14,8 @@ class CustomNavigationBar extends StatelessWidget {
   final double w;
 
   @override
-  Widget build(BuildContext context) {
+  Widget build(BuildContext context, WidgetRef ref) {
+    int currentTab = ref.watch(homeStateProvider);
     return Container(
       margin: const EdgeInsets.symmetric(vertical: 10.0, horizontal: 10.0),
       padding: const EdgeInsets.symmetric(vertical: 10.0, horizontal: 10.0),
@@ -36,26 +36,28 @@ class CustomNavigationBar extends StatelessWidget {
         children: [
           BottomNavBarItem(
             text: "Home",
-            onTap: () {},
-            isTagSelected: true,
+            onTap: () {
+              ref.read(homeStateProvider.notifier).state = 0;
+            },
+            isTagSelected: currentTab == 0 ? true : false,
             iconAsset: AppSvgs.home,
           ),
           BottomNavBarItem(
               text: "Camera",
-              onTap: () {},
-              isTagSelected: false,
+              onTap: () => ref.read(homeStateProvider.notifier).state = 1,
+              isTagSelected: currentTab == 1 ? true : false,
               iconAsset: AppSvgs.home),
           BottomNavBarItem(
               text: "Chat",
-              onTap: () {},
-              isTagSelected: false,
+              onTap: () => ref.read(homeStateProvider.notifier).state = 2,
+              isTagSelected: currentTab == 2 ? true : false,
               iconAsset: AppSvgs.inbox),
           BottomNavBarItem(
               text: "Profile",
               onTap: () {
-                context.push(const BuyerProfileScreen());
+                ref.read(homeStateProvider.notifier).state = 3;
               },
-              isTagSelected: false,
+              isTagSelected: currentTab == 3 ? true : false,
               iconAsset: AppSvgs.profile),
         ],
       ),

@@ -42,11 +42,9 @@ class AuthService implements AuthRepository {
           email: email, password: password);
       if (userCredential.credential != null) {
         await firebaseAuth.signInWithCredential(userCredential.credential!);
-        return Right(
-            Success(message: "User Created and signed with email $email"));
-      } else {
-        return Left(AuthException(message: "User Credential is Empty"));
       }
+      return Right(
+          Success(message: "User Created and signed with email $email"));
     } on FirebaseAuthException catch (e) {
       return Left(AuthException(message: e.message!, code: e.code));
     }

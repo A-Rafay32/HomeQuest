@@ -4,6 +4,8 @@ import 'package:real_estate_app/app/constants/app_images.dart';
 import 'package:real_estate_app/app/themes/app_colors.dart';
 import 'package:real_estate_app/app/themes/app_paddings.dart';
 import 'package:real_estate_app/core/extensions/routes_extenstion.dart';
+import 'package:real_estate_app/core/extensions/sizes_extensions.dart';
+import 'package:real_estate_app/core/extensions/text_theme_ext.dart';
 import 'package:real_estate_app/features/auth/screens/widgets/app_bar_white.dart';
 import 'package:real_estate_app/features/auth/screens/widgets/button.dart';
 import 'package:real_estate_app/features/home/models/house.dart';
