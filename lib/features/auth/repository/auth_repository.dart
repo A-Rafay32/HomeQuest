@@ -1,6 +1,6 @@
 import 'package:either_dart/either.dart';
 import 'package:firebase_auth/firebase_auth.dart';
-import 'package:real_estate_app/features/auth/exceptions/auth_exceptions.dart';
+import 'package:real_estate_app/core/exceptions/auth_exceptions.dart';
 
 abstract class AuthRepository {
   Future<Either<FirebaseAuthException, Success>> signIn(

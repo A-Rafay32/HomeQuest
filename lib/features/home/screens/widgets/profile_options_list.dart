@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:flutter_svg/svg.dart';
+import 'package:real_estate_app/core/extensions/routes_extenstion.dart';
 import 'package:real_estate_app/core/extensions/sizes_extensions.dart';
 
 class ProfileOptionsList extends StatelessWidget {
@@ -22,6 +23,12 @@ class ProfileOptionsList extends StatelessWidget {
           onTap: () {},
           icon: "assets/svgs/profile/Bag_outlined.svg",
           text: "My Houses",
+          w: context.w,
+        ),
+        ProfileOptionsCard(
+          onTap: () {},
+          icon: "assets/svgs/profile/Bag_outlined.svg",
+          text: "My Bills",
           w: context.w,
         ),
         const Divider(

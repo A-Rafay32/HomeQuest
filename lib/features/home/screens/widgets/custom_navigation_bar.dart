@@ -43,7 +43,7 @@ class CustomNavigationBar extends ConsumerWidget {
             iconAsset: AppSvgs.home,
           ),
           BottomNavBarItem(
-              text: "Camera",
+              text: "Explore",
               onTap: () => ref.read(homeStateProvider.notifier).state = 1,
               isTagSelected: currentTab == 1 ? true : false,
               iconAsset: AppSvgs.home),

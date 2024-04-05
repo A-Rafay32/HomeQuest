@@ -1,7 +1,7 @@
 import 'package:either_dart/either.dart';
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:google_sign_in/google_sign_in.dart';
-import 'package:real_estate_app/features/auth/exceptions/auth_exceptions.dart';
+import 'package:real_estate_app/core/exceptions/auth_exceptions.dart';
 import 'package:real_estate_app/features/auth/repository/auth_repository.dart';
 
 class AuthService implements AuthRepository {
