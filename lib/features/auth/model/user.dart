@@ -1,8 +1,12 @@
+// ignore_for_file: public_member_api_docs, sort_constructors_first
+import 'dart:convert';
+
 import 'package:real_estate_app/core/enums/gender.dart';
 import 'package:real_estate_app/core/enums/user_type.dart';
 import 'package:real_estate_app/features/auth/model/address.dart';
 
 class UserModel {
+  final String id;
   final String name;
   final String email;
   final String phoneNum;
@@ -15,10 +19,9 @@ class UserModel {
   final DateTime dateofBirth;
   final Gender gender;
   final UserType usertype;
-  // final List<String> userHouseIds;
-  // final List<String> userBills;
 
   UserModel({
+    required this.id,
     required this.name,
     required this.email,
     required this.address,
@@ -33,30 +36,46 @@ class UserModel {
     this.usertype = UserType.user,
   });
 
-  // UserModel fromJson(Map<dynamic, dynamic> json) {
-  //   return UserModel(
-  //       userBills: json["userBills"],
-  //       image: json["image"],
-  //       phoneNum: json["phoneNum"],
-  //       address: json["address"],
-  //       name: json["name"],
-  //       email: json["email"],
-  //       userHouseIds: json["userHouseIds"],
-  //       usertype: (json["userType"]["usertype_key"] == "user")
-  //           ? UserType.user
-  //           : UserType.admin);
-  // }
+  Map<String, dynamic> toMap() {
+    return <String, dynamic>{
+      'id': id,
+      'name': name,
+      'email': email,
+      'phoneNum': phoneNum,
+      'description': description,
+      'image': image,
+      'isEmailVerified': isEmailVerified,
+      'paymentInfo': paymentInfo,
+      'socialMediaLinks': socialMediaLinks,
+      'address': address.toMap(),
+      'dateofBirth': dateofBirth.millisecondsSinceEpoch,
+      'gender': gender.toString(),
+      'usertype': usertype.toString(),
+    };
+  }
 
-  // Map<dynamic, dynamic> toJson(UserModel user) {
-  //   return {
-  //     "name": user.name,
-  //     "email": user.email,
-  //     "address": user.address,
-  //     "phoneNum": user.phoneNum,
-  //     "image": user.image,
-  //     "userBills": userBills,
-  //     "userHouseId": user.userHouseIds,
-  //     "userType": user.usertype.name == "user" ? "user" : "admin"
-  //   };
-  // }
+  factory UserModel.fromMap(Map<String, dynamic> map) {
+    return UserModel(
+      id: map['id'] as String,
+      name: map['name'] as String,
+      email: map['email'] as String,
+      phoneNum: map['phoneNum'] as String,
+      description: map['description'] as String,
+      image: map['image'] as String,
+      isEmailVerified: map['isEmailVerified'] as bool,
+      paymentInfo: List<dynamic>.from((map['paymentInfo'] as List<dynamic>)),
+      socialMediaLinks:
+          List<String>.from((map['socialMediaLinks'] as List<String>)),
+      address: Address.fromMap(map['address'] as Map<String, dynamic>),
+      dateofBirth:
+          DateTime.fromMillisecondsSinceEpoch(map['dateofBirth'] as int),
+      gender: Gender.toGender(map['gender']),
+      usertype: UserType.toUserType(map['usertype']),
+    );
+  }
+
+  String toJson() => json.encode(toMap());
+
+  factory UserModel.fromJson(String source) =>
+      UserModel.fromMap(json.decode(source) as Map<String, dynamic>);
 }
