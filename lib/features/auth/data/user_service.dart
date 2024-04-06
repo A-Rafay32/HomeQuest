@@ -1,5 +1,3 @@
-import 'dart:html';
-
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:either_dart/either.dart';
 import 'package:real_estate_app/core/exceptions/auth_exceptions.dart';
@@ -13,7 +11,7 @@ class UserService {
 
   Future<Either<Failure, Success>> createUser(UserModel user) async {
     try {
-      await userCollection.add({user});
+      await userCollection.add(user.toMap());
       return Right(Success(message: "user created"));
     } on FirebaseException catch (e) {
       return Left(Failure(message: e.message.toString()));
@@ -21,13 +19,13 @@ class UserService {
   }
 
   Future<Either<Failure, Success>> updateUser(
-      String documentId, UserModel updatedUser) async {
+      String documentId, Map<String, dynamic> updatedFields) async {
     try {
       // get user
       DocumentSnapshot userDoc = await userCollection.doc(documentId).get();
       // update user
       if (userDoc.exists) {
-        userDoc.reference.update(updatedUser.toMap());
+        userDoc.reference.update(updatedFields);
       }
       return Right(Success(message: "User Updated"));
     } on FirebaseException catch (e) {
@@ -35,7 +33,7 @@ class UserService {
     }
   }
 
-  Future<Either<Failure, UserModel>?> readUser(String documentId) async {
+  Future<Either<Failure, UserModel>?> getUser(String documentId) async {
     try {
       // get user
       DocumentSnapshot userDoc = await userCollection.doc(documentId).get();
@@ -51,17 +49,28 @@ class UserService {
     }
   }
 
-  Future<Either<Failure, Success>> deleteUser(String documentId) async {
+  Future<Either<Failure, UserModel>> getUserByEmail(String email) async {
     try {
       // get user
-      DocumentSnapshot userDoc = await userCollection.doc(documentId).get();
-      // update user
-      if (userDoc.exists) {
-        await userDoc.reference.delete();
-        return Right(Success(message: "User deleted Successfully"));
+      QuerySnapshot userDoc =
+          await userCollection.where("email", isEqualTo: email).get();
+      if (userDoc.docs.isNotEmpty) {
+        Map<String, dynamic> userMap = userDoc.docs as Map<String, dynamic>;
+        return Right(UserModel.fromMap(userMap));
       } else {
-        return Left(Failure(message: "User doesnot exist"));
+        return Left(Failure(message: "User Doesn't exist"));
       }
+    } on FirebaseException catch (e) {
+      return Left(Failure(message: e.message.toString()));
+    }
+  }
+
+  Future<Either<Failure, Success>> deleteUser(String documentId) async {
+    try {
+      await userCollection.doc(documentId).delete().onError(
+          (error, stackTrace) =>
+              Left(Failure(message: "Failed to delete User : $error")));
+      return Right(Success(message: "User deleted Successfully"));
     } on FirebaseException catch (e) {
       return Left(Failure(message: e.message.toString()));
     }

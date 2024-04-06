@@ -1,28 +1,32 @@
 import 'package:either_dart/either.dart';
 import 'package:firebase_auth/firebase_auth.dart';
-import 'package:google_sign_in/google_sign_in.dart';
 import 'package:real_estate_app/core/exceptions/auth_exceptions.dart';
-import 'package:real_estate_app/features/auth/repository/auth_repository.dart';
+import 'package:real_estate_app/features/auth/data/user_service.dart';
+import 'package:real_estate_app/features/auth/model/user.dart';
 
-class AuthService implements AuthRepository {
+class AuthService {
+  static UserService userService = UserService();
   static FirebaseAuth get firebaseAuth => FirebaseAuth.instance;
   static User? get currentUser => firebaseAuth.currentUser;
 
   Stream<User?> authStateChanges() => firebaseAuth.authStateChanges();
 
-  @override
-  Future<Either<FirebaseAuthException, Success>> signIn(
+  Future<Either<Failure, Success>> signIn(
       {required String email, required String password}) async {
     try {
       await firebaseAuth.signInWithEmailAndPassword(
           email: email, password: password);
+      final result = await userService.getUserByEmail(email);
+
+      if (result.isLeft) {
+        return Left(Failure(message: "No user exists with the email provided"));
+      }
       return Right(Success(message: "User signed in with $email"));
     } on FirebaseAuthException catch (e) {
-      return Left(FirebaseAuthException(code: e.code, message: e.message));
+      return Left(Failure(message: e.message.toString()));
     }
   }
 
-  @override
   Future<Either<FirebaseAuthException, Success>> signOut() async {
     try {
       await firebaseAuth.signOut();
@@ -32,21 +36,28 @@ class AuthService implements AuthRepository {
     }
   }
 
-  @override
-  Future<Either<AuthException, Success>> register(
+  Future<Either<Failure, Success>> register(
       {required String name,
       required String email,
       required String password}) async {
     try {
       final userCredential = await firebaseAuth.createUserWithEmailAndPassword(
           email: email, password: password);
-      if (userCredential.credential != null) {
-        await firebaseAuth.signInWithCredential(userCredential.credential!);
+      final result = await userService.createUser(UserModel(
+          id: userCredential.user?.uid.toString() ?? "",
+          name: name,
+          email: email,
+          password: password));
+
+      if (result.isLeft) {
+        return Left(Failure(message: "User failed to be created in database"));
       }
-      return Right(
-          Success(message: "User Created and signed with email $email"));
+
+      return Right(Success(message: "User created with email: $email"));
     } on FirebaseAuthException catch (e) {
-      return Left(AuthException(message: e.message!, code: e.code));
+      return Left(Failure(
+        message: e.message!,
+      ));
     }
   }
 
@@ -69,7 +80,6 @@ class AuthService implements AuthRepository {
     }
   }
 
-  @override
   void forgetPassword() {}
 
   void updateUser() async {
@@ -78,67 +88,7 @@ class AuthService implements AuthRepository {
     }
   }
 
-  @override
   void updateEmail() {}
-  @override
+
   void updatePassword() {}
-}
-
-class SocialAuthService extends AuthService implements SocialAuthRepository {
-  // var googleAuth => Goog
-
-  @override
-  void googleSignUp() async {
-    try {
-      // Trigger the authentication flow
-      final GoogleSignInAccount? googleUser = await GoogleSignIn().signIn();
-
-      // Obtain the auth details from the request
-      final GoogleSignInAuthentication? googleAuth =
-          await googleUser?.authentication;
-
-      // Create a new credential
-      final credential = GoogleAuthProvider.credential(
-        accessToken: googleAuth?.accessToken,
-        idToken: googleAuth?.idToken,
-      );
-    } catch (e) {
-      rethrow;
-    }
-  }
-
-  @override
-  void googleSignIn() {
-    try {} catch (e) {
-      rethrow;
-    }
-  }
-
-  @override
-  void twitterSignUp() {
-    try {} catch (e) {
-      rethrow;
-    }
-  }
-
-  @override
-  void twitterSignIn() {
-    try {} catch (e) {
-      rethrow;
-    }
-  }
-
-  @override
-  void facebookSignUp() {
-    try {} catch (e) {
-      rethrow;
-    }
-  }
-
-  @override
-  void facebookSignIn() {
-    try {} catch (e) {
-      rethrow;
-    }
-  }
 }

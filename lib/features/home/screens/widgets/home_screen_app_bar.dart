@@ -1,10 +1,8 @@
-import 'dart:ui';
-
+import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:real_estate_app/app/themes/app_colors.dart';
 import 'package:real_estate_app/core/extensions/routes_extenstion.dart';
-import 'package:real_estate_app/features/auth/providers/auth_notifier_provider.dart';
 import 'package:real_estate_app/features/home/screens/notification_screen.dart';
 
 class HomeScreenAppBar extends ConsumerWidget {
@@ -14,8 +12,7 @@ class HomeScreenAppBar extends ConsumerWidget {
 
   @override
   Widget build(BuildContext context, WidgetRef ref) {
-    String? userName =
-        ref.watch(authNotifier.notifier).currentUser()?.displayName;
+    String? userName = FirebaseAuth.instance.currentUser?.displayName;
 
     return AppBar(
       centerTitle: false,

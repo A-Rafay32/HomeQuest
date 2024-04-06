@@ -79,13 +79,13 @@ class LoginScreen extends ConsumerWidget {
   }
 
   void login(WidgetRef ref, BuildContext context) async {
-    Either<FirebaseAuthException, Success> result = await ref
+    Either<Failure, Success> result = await ref
         .read(authNotifier.notifier)
         .signIn(
             email: emailController.text.trim(),
             password: passwordController.text.trim());
-    result.fold((left) {
-      context.showSnackBar(left.message.toString());
-    }, (right) {});
+    result.fold((left) {}, (right) {
+      context.showSnackBar(right.message.toString());
+    });
   }
 }

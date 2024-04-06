@@ -12,7 +12,7 @@ final List<Widget> appBars = [
   CustomAppBar(
     enableBackButton: false,
     onPressed: () {},
-    text: "Explore",
+    text: "Inbox",
   ),
   CustomAppBar(
     enableBackButton: false,

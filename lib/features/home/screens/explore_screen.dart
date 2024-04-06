@@ -1,10 +1,9 @@
-import 'package:flutter/foundation.dart';
 import 'package:flutter/material.dart';
-import 'package:flutter/widgets.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:real_estate_app/app/constants/app_images.dart';
 import 'package:real_estate_app/app/themes/app_colors.dart';
 import 'package:real_estate_app/app/themes/app_paddings.dart';
+import 'package:real_estate_app/app/themes/app_text_field_themes.dart';
 import 'package:real_estate_app/core/extensions/sizes_extensions.dart';
 import 'package:real_estate_app/core/extensions/text_theme_ext.dart';
 
@@ -20,6 +19,15 @@ class ExploreScreen extends StatelessWidget {
         padding: AppPaddings.normal,
         child: Column(
           children: [
+            SizedBox(
+              height: 50,
+              child: TextField(
+                cursorHeight: 25,
+                controller: TextEditingController(),
+                decoration: AppTextFieldDecorations.searchFieldDecoration,
+              ),
+            ),
+            AppSizes.largeY,
             Expanded(
               child: GridView.builder(
                 itemCount: 6,

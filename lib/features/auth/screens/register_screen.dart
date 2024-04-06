@@ -79,7 +79,7 @@ class RegisterScreen extends ConsumerWidget {
   }
 
   void _register(WidgetRef ref, BuildContext context) async {
-    Either<AuthException, Success> result = await ref
+    Either<Failure, Success> result = await ref
         .read(authNotifier.notifier)
         .register(
             name: nameController.text.trim(),
