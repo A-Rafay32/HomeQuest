@@ -7,7 +7,7 @@ import 'package:real_estate_app/features/auth/data/user_service.dart';
 import 'package:real_estate_app/features/auth/model/user.dart';
 
 class SocialAuthService extends AuthService {
-  static UserService userService = UserService();
+  static UserService userService = UserService.instance;
 
   Future<Either<Failure, Success>> googleSignIn() async {
     try {
@@ -71,10 +71,4 @@ class SocialAuthService extends AuthService {
       rethrow;
     }
   }
-
-  // void facebookSignIn() {
-  //   try {} catch (e) {
-  //     rethrow;
-  //   }
-  // }
 }

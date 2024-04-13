@@ -1,17 +1,18 @@
 import 'package:either_dart/either.dart';
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:real_estate_app/core/exceptions/auth_exceptions.dart';
+import 'package:real_estate_app/core/utils/types.dart';
 import 'package:real_estate_app/features/auth/data/user_service.dart';
 import 'package:real_estate_app/features/auth/model/user.dart';
 
 class AuthService {
-  static UserService userService = UserService();
+  static UserService userService = UserService.instance;
   static FirebaseAuth get firebaseAuth => FirebaseAuth.instance;
   static User? get currentUser => firebaseAuth.currentUser;
 
   Stream<User?> authStateChanges() => firebaseAuth.authStateChanges();
 
-  Future<Either<Failure, Success>> signIn(
+  FutureEither0 signIn(
       {required String email, required String password}) async {
     try {
       await firebaseAuth.signInWithEmailAndPassword(
@@ -23,20 +24,24 @@ class AuthService {
       }
       return Right(Success(message: "User signed in with $email"));
     } on FirebaseAuthException catch (e) {
-      return Left(Failure(message: e.message.toString()));
+      throw e.message.toString();
+    } catch (e) {
+      return Left(Failure(message: e.toString()));
     }
   }
 
-  Future<Either<FirebaseAuthException, Success>> signOut() async {
+  FutureEither0 signOut() async {
     try {
       await firebaseAuth.signOut();
       return Right(Success(message: "User signed out successfully"));
     } on FirebaseAuthException catch (e) {
-      return Left(FirebaseAuthException(code: e.code, message: e.message));
+      throw e.message.toString();
+    } catch (e) {
+      return Left(Failure(message: e.toString()));
     }
   }
 
-  Future<Either<Failure, Success>> register(
+  FutureEither0 register(
       {required String name,
       required String email,
       required String password}) async {

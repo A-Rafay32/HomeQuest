@@ -50,7 +50,7 @@ class HouseImages extends StatelessWidget {
                 crossAxisAlignment: CrossAxisAlignment.start,
                 children: [
                   Text(
-                    house.name,
+                    house.name.toString(),
                     style: Theme.of(context).textTheme.bodyLarge?.copyWith(
                           fontWeight: FontWeight.bold,
                           color: Colors.white,
@@ -58,7 +58,7 @@ class HouseImages extends StatelessWidget {
                   ),
                   // AppSizes.tinyY,
                   Text(
-                    "\$${house.pricePerMonth}",
+                    "\$ 690000",
                     style: Theme.of(context).textTheme.bodyLarge?.copyWith(
                           fontWeight: FontWeight.bold,
                           color: Colors.white,

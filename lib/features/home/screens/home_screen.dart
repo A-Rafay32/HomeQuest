@@ -8,6 +8,7 @@ import 'package:real_estate_app/core/extensions/routes_extenstion.dart';
 import 'package:real_estate_app/core/extensions/sizes_extensions.dart';
 import 'package:real_estate_app/features/home/models/house.dart';
 import 'package:real_estate_app/features/home/providers/home_state_provider.dart';
+import 'package:real_estate_app/features/home/providers/rental_home_notifier.dart';
 import 'package:real_estate_app/features/home/screens/buyer_profile_screen.dart';
 import 'package:real_estate_app/features/home/screens/explore_screen.dart';
 import 'package:real_estate_app/features/home/screens/house_detail_screen.dart';
@@ -49,79 +50,92 @@ class HomeScreen extends ConsumerWidget {
   }
 }
 
-class HomeScreenWidget extends StatelessWidget {
-  const HomeScreenWidget({
-    super.key,
-  });
+class HomeScreenWidget extends ConsumerStatefulWidget {
+  const HomeScreenWidget({super.key});
 
   @override
+  ConsumerState<ConsumerStatefulWidget> createState() =>
+      _HomeScreenWidgetState();
+}
+
+class _HomeScreenWidgetState extends ConsumerState<HomeScreenWidget> {
+  @override
   Widget build(BuildContext context) {
-    return SizedBox(
-      height: context.h,
-      width: context.w,
-      child: Stack(
-        children: [
-          Column(children: [
-            Container(
-              height: 50,
-              padding: const EdgeInsets.symmetric(horizontal: 10),
-              child: TextField(
-                cursorHeight: 25,
-                controller: TextEditingController(),
-                decoration: AppTextFieldDecorations.searchFieldDecoration,
+    final streamValue = ref.watch(rentalHomeStreamProvider);
+
+    streamValue.when(
+      error: (error, stackTrace) => Text(error.toString()),
+      loading: () => const CircularProgressIndicator(
+        color: AppColors.primaryColor,
+      ),
+      data: (data) => SizedBox(
+        height: context.h,
+        width: context.w,
+        child: Stack(
+          children: [
+            Column(children: [
+              Container(
+                height: 50,
+                padding: const EdgeInsets.symmetric(horizontal: 10),
+                child: TextField(
+                  cursorHeight: 25,
+                  controller: TextEditingController(),
+                  decoration: AppTextFieldDecorations.searchFieldDecoration,
+                ),
               ),
-            ),
-            AppSizes.normalY,
-            CatogoriesTabNav(w: context.w),
-          ]),
-          Positioned(
-            top: context.h * 0.17,
-            child: Container(
-              height: context.h * 0.72,
-              width: context.w,
-              padding: AppPaddings.normal,
-              decoration: const BoxDecoration(
-                color: Colors.white,
-                borderRadius: BorderRadius.only(
-                    topLeft: Radius.circular(45),
-                    topRight: Radius.circular(45)),
+              AppSizes.normalY,
+              CatogoriesTabNav(w: context.w),
+            ]),
+            Positioned(
+              top: context.h * 0.17,
+              child: Container(
+                height: context.h * 0.72,
+                width: context.w,
+                padding: AppPaddings.normal,
+                decoration: const BoxDecoration(
+                  color: Colors.white,
+                  borderRadius: BorderRadius.only(
+                      topLeft: Radius.circular(45),
+                      topRight: Radius.circular(45)),
+                ),
+                child: Column(
+                  children: [
+                    AppSizes.normalY,
+                    Row(
+                      children: [
+                        Text(
+                          "Top Property",
+                          style: Theme.of(context).textTheme.headlineLarge,
+                        ),
+                        const Spacer(),
+                        const Text("View All"),
+                      ],
+                    ),
+                    AppSizes.normalY,
+                    Expanded(
+                      child: ListView.builder(
+                          scrollDirection: Axis.horizontal,
+                          itemCount: AppImages.houseImages.length,
+                          itemBuilder: (context, index) => HouseImages(
+                                onTap: () {
+                                  context.push(
+                                      HouseDetailScreen(house: demoHouse));
+                                },
+                                house: demoHouse,
+                              )),
+                    ),
+                    AppSizes.normalY,
+                    AppSizes.normalY,
+                    AppSizes.normalY,
+                    AppSizes.normalY,
+                  ],
+                ),
               ),
-              child: Column(
-                children: [
-                  AppSizes.normalY,
-                  Row(
-                    children: [
-                      Text(
-                        "Top Property",
-                        style: Theme.of(context).textTheme.headlineLarge,
-                      ),
-                      const Spacer(),
-                      const Text("View All"),
-                    ],
-                  ),
-                  AppSizes.normalY,
-                  Expanded(
-                    child: ListView.builder(
-                        scrollDirection: Axis.horizontal,
-                        itemCount: AppImages.houseImages.length,
-                        itemBuilder: (context, index) => HouseImages(
-                              onTap: () {
-                                context
-                                    .push(HouseDetailScreen(house: demoHouse));
-                              },
-                              house: demoHouse,
-                            )),
-                  ),
-                  AppSizes.normalY,
-                  AppSizes.normalY,
-                  AppSizes.normalY,
-                  AppSizes.normalY,
-                ],
-              ),
-            ),
-          )
-        ],
+            )
+          ],
+        ),
       ),
     );
+    return Container();
   }
 }

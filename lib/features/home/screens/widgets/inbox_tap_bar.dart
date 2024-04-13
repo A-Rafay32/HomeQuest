@@ -13,52 +13,26 @@ class InboxTabBar extends StatefulWidget {
 }
 
 class _InboxTabBarState extends State<InboxTabBar> {
+  List<String> tabs = ["All", "Important", "Read", "Unread"];
   @override
   Widget build(BuildContext context) {
     return Container(
       margin: const EdgeInsets.symmetric(vertical: 8),
       height: 40,
       width: widget.w,
-      child: ListView(
-        scrollDirection: Axis.horizontal,
-        children: [
-          HomeTabNavigationItem(
-            isTagSelected: widget.selectedTabIndex == 0 ? true : false,
+      child: Row(
+        children: List.generate(
+          tabs.length,
+          (index) => HomeTabNavigationItem(
+            isTagSelected: widget.selectedTabIndex == index ? true : false,
             onTap: () {
               setState(() {
-                widget.selectedTabIndex = 0;
+                widget.selectedTabIndex = index;
               });
             },
-            text: "All",
+            text: tabs[index],
           ),
-          HomeTabNavigationItem(
-            onTap: () {
-              setState(() {
-                widget.selectedTabIndex = 1;
-              });
-            },
-            text: "Important",
-            isTagSelected: widget.selectedTabIndex == 1 ? true : false,
-          ),
-          HomeTabNavigationItem(
-            onTap: () {
-              setState(() {
-                widget.selectedTabIndex = 2;
-              });
-            },
-            text: "Read",
-            isTagSelected: widget.selectedTabIndex == 2 ? true : false,
-          ),
-          HomeTabNavigationItem(
-            onTap: () {
-              setState(() {
-                widget.selectedTabIndex = 3;
-              });
-            },
-            text: "Unread",
-            isTagSelected: widget.selectedTabIndex == 3 ? true : false,
-          ),
-        ],
+        ),
       ),
     );
   }

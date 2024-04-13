@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:real_estate_app/core/enums/house_type.dart';
 import 'package:real_estate_app/features/home/models/house.dart';
+import 'package:real_estate_app/features/home/models/rental_house.dart';
 
 class PriceCard extends StatefulWidget {
   const PriceCard({
@@ -8,7 +9,7 @@ class PriceCard extends StatefulWidget {
     required this.house,
   });
 
-  final House house;
+  final RentalHouse house;
 
   @override
   State<PriceCard> createState() => _PriceCardState();
@@ -30,10 +31,7 @@ class _PriceCardState extends State<PriceCard> {
         child: Align(
       alignment: Alignment.centerLeft,
       child: Text(
-        (widget.house.housetype == HouseType.Rent ||
-                widget.house.housetype == HouseType.Rented)
-            ? "${widget.house.pricePerMonth} USD Per Month "
-            : "${widget.house.salePrice} USD ",
+        "${widget.house.rentPerMonth} USD Per Month ",
         style: const TextStyle(
             fontFamily: "Raleway", fontSize: 21, fontWeight: FontWeight.w600),
       ),

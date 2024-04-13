@@ -6,12 +6,20 @@ import 'package:real_estate_app/app/themes/app_colors.dart';
 import 'package:real_estate_app/features/home/providers/home_state_provider.dart';
 
 class CustomNavigationBar extends ConsumerWidget {
-  const CustomNavigationBar({
+  CustomNavigationBar({
     super.key,
     required this.w,
   });
 
   final double w;
+
+  List<String> navs = ["Home", "Explore", "Chat", "Profile"];
+  List<String> navSvgs = [
+    AppSvgs.home,
+    AppSvgs.search,
+    AppSvgs.inbox,
+    AppSvgs.profile
+  ];
 
   @override
   Widget build(BuildContext context, WidgetRef ref) {
@@ -33,33 +41,18 @@ class CustomNavigationBar extends ConsumerWidget {
       ),
       child: Row(
         mainAxisAlignment: MainAxisAlignment.spaceEvenly,
-        children: [
-          BottomNavBarItem(
-            text: "Home",
+        children: List.generate(
+          navs.length,
+          (index) => BottomNavBarItem(
+            text: navs[index],
             onTap: () {
-              ref.read(homeStateProvider.notifier).state = 0;
+              ref.read(homeStateProvider.notifier).state = index;
+              currentTab = index;
             },
-            isTagSelected: currentTab == 0 ? true : false,
-            iconAsset: AppSvgs.home,
+            isTagSelected: currentTab == index ? true : false,
+            iconAsset: navSvgs[index],
           ),
-          BottomNavBarItem(
-              text: "Explore",
-              onTap: () => ref.read(homeStateProvider.notifier).state = 1,
-              isTagSelected: currentTab == 1 ? true : false,
-              iconAsset: AppSvgs.home),
-          BottomNavBarItem(
-              text: "Chat",
-              onTap: () => ref.read(homeStateProvider.notifier).state = 2,
-              isTagSelected: currentTab == 2 ? true : false,
-              iconAsset: AppSvgs.inbox),
-          BottomNavBarItem(
-              text: "Profile",
-              onTap: () {
-                ref.read(homeStateProvider.notifier).state = 3;
-              },
-              isTagSelected: currentTab == 3 ? true : false,
-              iconAsset: AppSvgs.profile),
-        ],
+        ),
       ),
     );
   }

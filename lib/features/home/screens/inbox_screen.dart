@@ -19,41 +19,38 @@ class InboxScreen extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    return SafeArea(
-      child: Container(
-          height: context.h,
-          width: context.w,
-          padding: AppPaddings.small,
-          color: AppColors.backgroundColor,
-          child: SingleChildScrollView(
-              child: Column(children: [
-            SizedBox(
-              height: 50,
-              child: TextField(
-                cursorHeight: 25,
-                controller: TextEditingController(),
-                decoration: AppTextFieldDecorations.searchFieldDecoration,
-              ),
+    return Container(
+        height: context.h,
+        width: context.w,
+        padding: AppPaddings.small,
+        color: AppColors.backgroundColor,
+        child: SingleChildScrollView(
+            child: Column(children: [
+          SizedBox(
+            height: 50,
+            child: TextField(
+              cursorHeight: 25,
+              controller: TextEditingController(),
+              decoration: AppTextFieldDecorations.searchFieldDecoration,
             ),
-            InboxTabBar(
-              selectedTabIndex: selectedTabIndex,
-              w: context.w,
-            ),
-            if (selectedTabIndex == 0)
-              (isInboxEmpty)
-                  ? const EmptyInboxBody()
-                  : InboxCard(
-                      inboxType: InboxType.Unread,
-                      from: "Allan Store",
-                      message: "Hello, How may I help you?",
-                      date: "2023/08/11",
-                      onTap: () {
-                        context
-                            .push(const ChatScreen(storeName: "Allan Store"));
-                      },
-                    )
-          ]))),
-    );
+          ),
+          InboxTabBar(
+            selectedTabIndex: selectedTabIndex,
+            w: context.w,
+          ),
+          if (selectedTabIndex == 0)
+            (isInboxEmpty)
+                ? const EmptyInboxBody()
+                : InboxCard(
+                    inboxType: InboxType.Unread,
+                    from: "Allan Store",
+                    message: "Hello, How may I help you?",
+                    date: "2023/08/11",
+                    onTap: () {
+                      context.push(const ChatScreen(storeName: "Allan Store"));
+                    },
+                  )
+        ])));
   }
 }
 

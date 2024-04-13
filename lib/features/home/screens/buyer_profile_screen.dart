@@ -1,5 +1,3 @@
-import 'package:either_dart/either.dart';
-import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
@@ -8,7 +6,7 @@ import 'package:real_estate_app/app/themes/app_paddings.dart';
 import 'package:real_estate_app/core/extensions/routes_extenstion.dart';
 import 'package:real_estate_app/core/extensions/sizes_extensions.dart';
 import 'package:real_estate_app/core/extensions/snackbar_ext.dart';
-import 'package:real_estate_app/core/exceptions/auth_exceptions.dart';
+import 'package:real_estate_app/core/utils/types.dart';
 import 'package:real_estate_app/features/auth/providers/auth_notifier_provider.dart';
 import 'package:real_estate_app/features/home/providers/home_state_provider.dart';
 import 'package:real_estate_app/features/home/screens/widgets/log_out_bottom_sheet.dart';
@@ -65,7 +63,7 @@ class BuyerProfileScreen extends ConsumerWidget {
   }
 
   void _signOut(WidgetRef ref, BuildContext context) async {
-    Either<FirebaseAuthException, Success> result =
+    Either0 result =
         await ref.read(authNotifier.notifier).signOut().whenComplete(() {
       context.pop();
       ref.read(homeStateProvider.notifier).state = 0;

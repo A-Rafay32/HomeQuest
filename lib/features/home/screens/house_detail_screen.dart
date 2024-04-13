@@ -5,6 +5,7 @@ import 'package:real_estate_app/core/extensions/routes_extenstion.dart';
 import 'package:real_estate_app/core/extensions/sizes_extensions.dart';
 import 'package:real_estate_app/features/auth/screens/widgets/button.dart';
 import 'package:real_estate_app/features/home/models/house.dart';
+import 'package:real_estate_app/features/home/models/rental_house.dart';
 import 'package:real_estate_app/features/home/screens/chat_screen.dart';
 import 'package:real_estate_app/features/payment/payment_screen.dart';
 
@@ -20,7 +21,7 @@ class HouseDetailScreen extends StatefulWidget {
     required this.house,
   });
 
-  final House house;
+  final RentalHouse house;
 
   @override
   State<HouseDetailScreen> createState() => _HouseDetailScreenState();

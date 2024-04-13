@@ -14,6 +14,7 @@ class UserModel {
   final String? description;
   final String? image;
   final bool? isEmailVerified;
+  final List<String>? houses;
   final List<dynamic>? paymentInfo;
   final List<String>? socialMediaLinks;
   final Address? address;
@@ -33,6 +34,7 @@ class UserModel {
     this.description,
     this.gender,
     this.isEmailVerified,
+    this.houses,
     this.paymentInfo,
     this.socialMediaLinks,
     this.usertype = UserType.user,
@@ -48,6 +50,7 @@ class UserModel {
       'description': description,
       'image': image,
       'isEmailVerified': isEmailVerified,
+      'houses': houses,
       'paymentInfo': paymentInfo,
       'socialMediaLinks': socialMediaLinks,
       'address': address?.toMap(),
@@ -70,6 +73,7 @@ class UserModel {
       isEmailVerified: map['isEmailVerified'] != null
           ? map['isEmailVerified'] as bool
           : null,
+      houses: map['houses'] != null ? map['houses'] as List<String> : null,
       paymentInfo: map['paymentInfo'] != null
           ? List<dynamic>.from((map['paymentInfo'] as List<dynamic>))
           : null,

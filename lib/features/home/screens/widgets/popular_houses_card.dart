@@ -5,6 +5,7 @@ import 'package:real_estate_app/app/themes/app_colors.dart';
 import 'package:real_estate_app/app/themes/app_paddings.dart';
 import 'package:real_estate_app/core/extensions/routes_extenstion.dart';
 import 'package:real_estate_app/features/home/models/house.dart';
+import 'package:real_estate_app/features/home/models/rental_house.dart';
 import 'package:real_estate_app/features/home/screens/house_detail_screen.dart';
 import 'package:real_estate_app/features/home/screens/widgets/house_image_view.dart';
 import 'package:real_estate_app/features/home/screens/widgets/house_images.dart';
@@ -20,7 +21,7 @@ class HousesCardWidget extends StatefulWidget {
 
   // final double width;
   // final double height;
-  final House house;
+  final RentalHouse house;
 
   final Function() OnTapFav;
 
@@ -76,7 +77,7 @@ class _HousesCardWidgetState extends State<HousesCardWidget> {
       mainAxisSize: MainAxisSize.min,
       children: [
         Text(
-          widget.house.name,
+          widget.house.name.toString(),
           style: Theme.of(context).textTheme.titleLarge?.copyWith(
                 color: AppColors.textBlackColor,
                 fontSize: 24.sp,
@@ -85,7 +86,7 @@ class _HousesCardWidgetState extends State<HousesCardWidget> {
         ),
         AppSizes.tinyY,
         Text(
-          "\$${widget.house.pricePerMonth}",
+          "\$ 69000000 ",
           style: Theme.of(context).textTheme.labelLarge?.copyWith(
                 color: AppColors.primaryColor,
                 fontSize: 18.sp,
