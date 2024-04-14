@@ -16,9 +16,9 @@ class UserService {
             toFirestore: (model, _) => model.toMap(),
           );
 
-  FutureEither0 createUser(UserModel user) async {
+  FutureEither0 createUser(UserModel user, String uid) async {
     try {
-      await userCollection.add(user);
+      await userCollection.doc(uid).set(user);
       return Right(Success(message: "User created successfully"));
     } on FirebaseException catch (e) {
       throw e.message.toString();

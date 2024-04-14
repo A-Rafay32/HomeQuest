@@ -1,41 +1,28 @@
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:real_estate_app/core/utils/types.dart';
+import 'package:real_estate_app/features/auth/providers/auth_providers.dart';
 import 'package:real_estate_app/features/home/data/house_data_service.dart';
 import 'package:real_estate_app/features/home/models/rental_house.dart';
 
-class RentalHomeNotifier extends StateNotifier<RentalHomeService> {
-  RentalHomeNotifier() : super(RentalHomeService.instance);
+class RentalHomeNotifier extends StateNotifier<AsyncValue> {
+  RentalHomeNotifier({required this.repository})
+      : super(const AsyncValue.data(null));
 
-  RentalHomeService repository = RentalHomeService.instance;
+  final RentalHomeService repository;
 
-  FutureEither0 addRentalHouse({
-    required String name,
-    required int bathroomQty,
-    required String description,
-    required int roomQty,
-    required int sizeInFeet,
-    required String address,
-    required String housetype,
-    required double rentPerMonth,
-    required String ownerId,
-  }) async {
-    return await repository.addRentalHouse(
-        name: name,
-        bathroomQty: bathroomQty,
-        description: description,
-        roomQty: roomQty,
-        sizeInFeet: sizeInFeet,
-        address: address,
-        housetype: housetype,
-        rentPerMonth: rentPerMonth,
-        ownerId: ownerId);
+  FutureEither0 addRentalHouse(
+      {required RentalHouse rentalHouse, required String? ownerId}) async {
+    state = const AsyncValue.loading();
+    return await repository
+        .addRentalHouse(ownerId: ownerId, rentalHouse: rentalHouse)
+        .whenComplete(() => state = const AsyncValue.data(null));
   }
 
   FutureEither0 deleteHouse() async {
     return await repository.deleteHouse();
   }
 
-  Stream<RentalHouse> getAllRentalHouse() {
+  Stream<List<RentalHouse>> getAllRentalHouse() {
     return repository.getAllRentalHouse();
   }
 
@@ -45,12 +32,16 @@ class RentalHomeNotifier extends StateNotifier<RentalHomeService> {
   }
 }
 
-final rentalHomeStateNotifier =
-    StateNotifierProvider<RentalHomeNotifier, RentalHomeService>((ref) {
-  return RentalHomeNotifier();
+final rentalHomeNotifierProvider =
+    StateNotifierProvider<RentalHomeNotifier, AsyncValue>((ref) {
+  final repository = ref.read(rentalHomeRepository);
+  return RentalHomeNotifier(repository: repository);
 });
 
-final rentalHomeRepository = Provider((ref) => RentalHomeService.instance);
+final rentalHomeRepository = Provider((ref) {
+  final userService = ref.read(userServiceProvider);
+  return RentalHomeService(userService: userService);
+});
 
 final rentalHomeStreamProvider = StreamProvider((ref) {
   final repository = ref.read(rentalHomeRepository);

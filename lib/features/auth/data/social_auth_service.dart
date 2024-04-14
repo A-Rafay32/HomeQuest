@@ -31,11 +31,13 @@ class SocialAuthService extends AuthService {
 
         // if failed to get any user with this email
         if (foundUser.isLeft) {
-          final result = await userService.createUser(UserModel(
-              id: userCredential.user?.uid ?? "",
-              name: userCredential.user?.displayName ?? "",
-              email: userCredential.user?.email ?? "",
-              password: ""));
+          final result = await userService.createUser(
+              UserModel(
+                  id: userCredential.user?.uid ?? "",
+                  name: userCredential.user?.displayName ?? "",
+                  email: userCredential.user?.email ?? "",
+                  password: ""),
+              userCredential.user?.uid.toString() ?? "");
         }
       }
       return Right(

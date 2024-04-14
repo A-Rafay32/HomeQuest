@@ -1,14 +1,11 @@
-import 'package:either_dart/either.dart';
-import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:real_estate_app/app/themes/app_paddings.dart';
 import 'package:real_estate_app/core/extensions/routes_extenstion.dart';
 import 'package:real_estate_app/core/extensions/sizes_extensions.dart';
 import 'package:real_estate_app/core/extensions/snackbar_ext.dart';
-import 'package:real_estate_app/core/exceptions/auth_exceptions.dart';
-import 'package:real_estate_app/features/auth/providers/auth_notifier_provider.dart';
-import 'package:real_estate_app/features/auth/providers/auth_service_provider.dart';
+import 'package:real_estate_app/core/utils/types.dart';
+import 'package:real_estate_app/features/auth/providers/auth_providers.dart';
 import 'package:real_estate_app/features/auth/screens/register_screen.dart';
 import 'package:real_estate_app/features/auth/screens/widgets/app_bar_white.dart';
 import 'package:real_estate_app/features/auth/screens/widgets/button.dart';
@@ -17,7 +14,6 @@ import 'package:real_estate_app/features/auth/screens/widgets/form_field.dart';
 import 'package:real_estate_app/features/auth/screens/widgets/header.dart';
 import 'package:real_estate_app/features/auth/screens/widgets/signup_bar.dart';
 import 'package:real_estate_app/features/auth/screens/widgets/socialcard.dart';
-import 'package:real_estate_app/features/home/screens/home_screen.dart';
 
 class LoginScreen extends ConsumerWidget {
   LoginScreen({
@@ -61,6 +57,7 @@ class LoginScreen extends ConsumerWidget {
               const Forgot(),
               AppSizes.normalY,
               Button(
+                isLoading: ref.watch(authNotifier).isLoading,
                 press: () => login(ref, context),
                 text: "Login",
               ),
@@ -79,12 +76,12 @@ class LoginScreen extends ConsumerWidget {
   }
 
   void login(WidgetRef ref, BuildContext context) async {
-    Either<Failure, Success> result = await ref
-        .read(authNotifier.notifier)
-        .signIn(
-            email: emailController.text.trim(),
-            password: passwordController.text.trim());
-    result.fold((left) {}, (right) {
+    Either0 result = await ref.read(authNotifier.notifier).signIn(
+        email: emailController.text.trim(),
+        password: passwordController.text.trim());
+    result.fold((left) {
+      context.showSnackBar(left.message.toString());
+    }, (right) {
       context.showSnackBar(right.message.toString());
     });
   }

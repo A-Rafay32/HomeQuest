@@ -8,7 +8,7 @@ import 'package:real_estate_app/core/extensions/routes_extenstion.dart';
 import 'package:real_estate_app/core/extensions/sizes_extensions.dart';
 import 'package:real_estate_app/core/extensions/snackbar_ext.dart';
 import 'package:real_estate_app/core/exceptions/auth_exceptions.dart';
-import 'package:real_estate_app/features/auth/providers/auth_notifier_provider.dart';
+import 'package:real_estate_app/features/auth/providers/auth_providers.dart';
 import 'package:real_estate_app/features/auth/screens/widgets/app_bar_white.dart';
 import 'package:real_estate_app/features/auth/screens/widgets/button.dart';
 import 'package:real_estate_app/features/auth/screens/widgets/custom_text_field.dart';
@@ -64,6 +64,7 @@ class RegisterScreen extends ConsumerWidget {
               ),
               AppSizes.largeY,
               Button(
+                isLoading: ref.watch(authNotifier).isLoading,
                 press: () => _register(ref, context),
                 text: "Register",
               ),

@@ -48,11 +48,14 @@ class AuthService {
     try {
       final userCredential = await firebaseAuth.createUserWithEmailAndPassword(
           email: email, password: password);
-      final result = await userService.createUser(UserModel(
-          id: userCredential.user?.uid.toString() ?? "",
-          name: name,
-          email: email,
-          password: password));
+
+      final result = await userService.createUser(
+          UserModel(
+              id: userCredential.user?.uid.toString() ?? "",
+              name: name,
+              email: email,
+              password: password),
+          userCredential.user?.uid.toString() ?? "");
 
       if (result.isLeft) {
         return Left(Failure(message: "User failed to be created in database"));

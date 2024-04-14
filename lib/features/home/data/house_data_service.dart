@@ -1,10 +1,6 @@
-import 'dart:js_interop';
-
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:either_dart/either.dart';
 import 'package:flutter/foundation.dart';
-import 'package:real_estate_app/app/constants/app_images.dart';
-import 'package:real_estate_app/core/enums/house_type.dart';
 import 'package:real_estate_app/core/enums/user_type.dart';
 import 'package:real_estate_app/core/exceptions/auth_exceptions.dart';
 import 'package:real_estate_app/core/utils/types.dart';
@@ -12,48 +8,34 @@ import 'package:real_estate_app/features/auth/data/user_service.dart';
 import 'package:real_estate_app/features/home/models/rental_house.dart';
 
 class RentalHomeService {
-  RentalHomeService._privConst();
+  RentalHomeService({required this.userService});
 
-  static final RentalHomeService instance = RentalHomeService.instance;
-
+  final UserService userService;
   final firestore = FirebaseFirestore.instance;
-  final houseCollection = FirebaseFirestore.instance.collection("house");
-  final UserService userService = UserService.instance;
+  final houseCollection = FirebaseFirestore.instance.collection("houses");
 
-  FutureEither0 addRentalHouse({
-    required String name,
-    required int bathroomQty,
-    required String description,
-    required int roomQty,
-    required int sizeInFeet,
-    required String address,
-    required String housetype,
-    required double rentPerMonth,
-    required String ownerId,
-  }) async {
+  FutureEither0 addRentalHouse(
+      {required RentalHouse rentalHouse, required String? ownerId}) async {
     try {
-      final rentalHouse = RentalHouse(
-          name: name,
-          bathroomQty: bathroomQty,
-          features: null,
-          description: description,
-          roomQty: roomQty,
-          sizeInFeet: sizeInFeet,
-          address: address,
-          housetype: HouseType.Rent,
-          constructedOn: DateTime.now(),
-          ownerId: ownerId,
-          images: AppImages.houseImages,
-          isFurnished: false,
-          rentPerMonth: rentPerMonth);
-
-      final isAdmin = await userService.getUser(ownerId).fold(
-          (left) => throw left.message,
-          (right) => right.usertype == UserType.admin ? true : false);
-
-      return (isAdmin)
-          ? Right(Success(message: "House added successfully"))
-          : Left(Failure(message: "House failed to be added"));
+      if (ownerId != null) {
+        final isLegit = await userService.getUser(ownerId).fold(
+            (left) => throw left.message,
+            (right) => right.usertype == UserType.admin ||
+                    right.usertype == UserType.seller
+                ? true
+                : false);
+        if (isLegit) {
+          houseCollection
+              .add(rentalHouse.toMap())
+              .catchError((error) => throw error.toString());
+        } else {
+          return Left(
+              Failure(message: "You don't have permission for this action"));
+        }
+        return Right(Success(message: "House added successfully"));
+      } else {
+        return Left(Failure(message: "Owner Id is empty "));
+      }
     } on FirebaseException catch (e) {
       throw e.message.toString();
     } catch (e) {
@@ -71,10 +53,11 @@ class RentalHomeService {
     }
   }
 
-  Stream<RentalHouse> getAllRentalHouse() {
+  Stream<List<RentalHouse>> getAllRentalHouse() {
     try {
-      return houseCollection.snapshots().map(
-          (event) => RentalHouse.fromMap(event.docs as Map<String, dynamic>));
+      return houseCollection.snapshots().map((event) =>
+          RentalHouse.fromMap(event.docs as Map<String, dynamic>)
+              as List<RentalHouse>);
     } on FirebaseException catch (e) {
       throw e.message.toString();
     } catch (e) {

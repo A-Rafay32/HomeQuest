@@ -1,14 +1,12 @@
-import 'package:either_dart/either.dart';
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:real_estate_app/core/utils/types.dart';
 import 'package:real_estate_app/features/auth/data/auth_service.dart';
-import 'package:real_estate_app/core/exceptions/auth_exceptions.dart';
 
-class AuthNotifier extends StateNotifier<AuthService> {
+class AuthNotifier extends StateNotifier<AsyncValue> {
   AuthNotifier({
     required this.authService,
-  }) : super(AuthService());
+  }) : super(const AsyncValue.data(null));
 
   final AuthService authService;
 
@@ -18,7 +16,10 @@ class AuthNotifier extends StateNotifier<AuthService> {
 
   FutureEither0 signIn(
       {required String email, required String password}) async {
-    return await authService.signIn(email: email, password: password);
+    state = const AsyncValue.loading();
+    return await authService
+        .signIn(email: email, password: password)
+        .whenComplete(() => state = const AsyncValue.data(null));
   }
 
   FutureEither0 signOut() async {

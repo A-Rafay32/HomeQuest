@@ -9,7 +9,7 @@ abstract class House {
   final String description;
   final String? insurance;
   final String? features;
-  final String ownerId;
+  final String? ownerId;
   final String address;
   final int roomQty;
   final int bathroomQty;
@@ -60,3 +60,9 @@ RentalHouse demoHouse = RentalHouse(
     tax: 69,
     housetype: HouseType.Rent,
     images: AppImages.houseImages);
+
+
+// 7004 Bradtke Locks, South Jordon, Georgia, USA
+// 56 Green Bank, London
+// The roof is flat and is covered with slate shingles. One large chimney sits at the side of the house. Many smaller windows let in plenty of light to the rooms below the roof.
+// The house itself is surrounded by a modest, childsafe garden covered mostly in grass and with a children's playground in the center.
