@@ -1,12 +1,11 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
-import 'package:real_estate_app/app/constants/app_images.dart';
 import 'package:real_estate_app/app/themes/app_colors.dart';
 import 'package:real_estate_app/app/themes/app_paddings.dart';
 import 'package:real_estate_app/app/themes/app_text_field_themes.dart';
 import 'package:real_estate_app/core/extensions/routes_extenstion.dart';
 import 'package:real_estate_app/core/extensions/sizes_extensions.dart';
-import 'package:real_estate_app/features/home/models/house.dart';
+import 'package:real_estate_app/core/utils/loader.dart';
 import 'package:real_estate_app/features/home/providers/home_state_provider.dart';
 import 'package:real_estate_app/features/home/providers/rental_home_notifier.dart';
 import 'package:real_estate_app/features/home/screens/add_home_screen.dart';
@@ -36,7 +35,6 @@ class HomeScreen extends ConsumerWidget {
   @override
   Widget build(BuildContext context, WidgetRef ref) {
     int currentScreen = ref.watch(homeStateProvider);
-    // UserType userType = ref.watch(userDocProvider);
 
     return Scaffold(
       extendBody: true,
@@ -51,7 +49,7 @@ class HomeScreen extends ConsumerWidget {
       floatingActionButton: FloatingActionButton(
         backgroundColor: AppColors.primaryColor,
         onPressed: () {
-          context.push(AddRentalHomeScreen());
+          context.push(const AddRentalHomeScreen());
         },
         child: const Icon(
           Icons.add,
@@ -78,77 +76,74 @@ class _HomeScreenWidgetState extends ConsumerState<HomeScreenWidget> {
     return SizedBox(
       height: context.h,
       width: context.w,
-      child:
-          // streamValue.when(
-          //   error: (error, stackTrace) => Text(error.toString()),
-          //   loading: () => const CircularProgressIndicator(
-          //     color: AppColors.primaryColor,
-          //   ),
-          //   data: (data) =>
-          Stack(
-        children: [
-          Column(children: [
-            Container(
-              height: 50,
-              padding: const EdgeInsets.symmetric(horizontal: 10),
-              child: TextField(
-                cursorHeight: 25,
-                controller: TextEditingController(),
-                decoration: AppTextFieldDecorations.searchFieldDecoration,
+      child: streamValue.when(
+        error: (error, stackTrace) =>
+            Text(error.toString(), style: const TextStyle(color: Colors.white)),
+        loading: () => const Loader(),
+        data: (data) => Stack(
+          children: [
+            Column(children: [
+              Container(
+                height: 50,
+                padding: const EdgeInsets.symmetric(horizontal: 10),
+                child: TextField(
+                  cursorHeight: 25,
+                  controller: TextEditingController(),
+                  decoration: AppTextFieldDecorations.searchFieldDecoration,
+                ),
               ),
-            ),
-            AppSizes.normalY,
-            CatogoriesTabNav(w: context.w),
-          ]),
-          Positioned(
-            top: context.h * 0.17,
-            child: Container(
-              height: context.h * 0.72,
-              width: context.w,
-              padding: AppPaddings.normal,
-              decoration: const BoxDecoration(
-                color: Colors.white,
-                borderRadius: BorderRadius.only(
-                    topLeft: Radius.circular(45),
-                    topRight: Radius.circular(45)),
+              AppSizes.normalY,
+              CatogoriesTabNav(w: context.w),
+            ]),
+            Positioned(
+              top: context.h * 0.17,
+              child: Container(
+                height: context.h * 0.72,
+                width: context.w,
+                padding: AppPaddings.normal,
+                decoration: const BoxDecoration(
+                  color: Colors.white,
+                  borderRadius: BorderRadius.only(
+                      topLeft: Radius.circular(45),
+                      topRight: Radius.circular(45)),
+                ),
+                child: Column(
+                  children: [
+                    AppSizes.normalY,
+                    Row(
+                      children: [
+                        Text(
+                          "Top Property",
+                          style: Theme.of(context).textTheme.headlineLarge,
+                        ),
+                        const Spacer(),
+                        const Text("View All"),
+                      ],
+                    ),
+                    AppSizes.normalY,
+                    Expanded(
+                      child: ListView.builder(
+                          scrollDirection: Axis.horizontal,
+                          itemCount: data.length,
+                          itemBuilder: (context, index) => HouseImages(
+                                onTap: () {
+                                  context.push(
+                                      HouseDetailScreen(house: data[index]));
+                                },
+                                house: data[index],
+                              )),
+                    ),
+                    AppSizes.normalY,
+                    AppSizes.normalY,
+                    AppSizes.normalY,
+                    AppSizes.normalY,
+                  ],
+                ),
               ),
-              child: Column(
-                children: [
-                  AppSizes.normalY,
-                  Row(
-                    children: [
-                      Text(
-                        "Top Property",
-                        style: Theme.of(context).textTheme.headlineLarge,
-                      ),
-                      const Spacer(),
-                      const Text("View All"),
-                    ],
-                  ),
-                  AppSizes.normalY,
-                  Expanded(
-                    child: ListView.builder(
-                        scrollDirection: Axis.horizontal,
-                        itemCount: AppImages.houseImages.length,
-                        itemBuilder: (context, index) => HouseImages(
-                              onTap: () {
-                                context
-                                    .push(HouseDetailScreen(house: demoHouse));
-                              },
-                              house: demoHouse,
-                            )),
-                  ),
-                  AppSizes.normalY,
-                  AppSizes.normalY,
-                  AppSizes.normalY,
-                  AppSizes.normalY,
-                ],
-              ),
-            ),
-          )
-        ],
+            )
+          ],
+        ),
       ),
-      // ),
     );
   }
 }

@@ -13,9 +13,15 @@ import 'package:real_estate_app/features/auth/screens/widgets/custom_text_field.
 import 'package:real_estate_app/features/home/models/rental_house.dart';
 import 'package:real_estate_app/features/home/providers/rental_home_notifier.dart';
 
-class AddRentalHomeScreen extends ConsumerWidget {
-  AddRentalHomeScreen({super.key});
+class AddRentalHomeScreen extends ConsumerStatefulWidget {
+  const AddRentalHomeScreen({super.key});
 
+  @override
+  ConsumerState<AddRentalHomeScreen> createState() =>
+      _AddRentalHomeScreenState();
+}
+
+class _AddRentalHomeScreenState extends ConsumerState<AddRentalHomeScreen> {
   TextEditingController nameController = TextEditingController();
   TextEditingController bathroomQtyController = TextEditingController();
   TextEditingController roomQtyController = TextEditingController();
@@ -24,8 +30,18 @@ class AddRentalHomeScreen extends ConsumerWidget {
   TextEditingController rentController = TextEditingController();
   TextEditingController descriptionController = TextEditingController();
 
+  void clear() {
+    nameController.clear();
+    bathroomQtyController.clear();
+    roomQtyController.clear();
+    addressController.clear();
+    sizeController.clear();
+    rentController.clear();
+    descriptionController.clear();
+  }
+
   @override
-  Widget build(BuildContext context, WidgetRef ref) {
+  Widget build(BuildContext context) {
     return Scaffold(
       appBar: PreferredSize(
           preferredSize: const Size.fromHeight(65),
@@ -132,6 +148,7 @@ class AddRentalHomeScreen extends ConsumerWidget {
     String? ownerId = ref.read(currentUserProvider)?.uid;
     print(ownerId);
     RentalHouse rentalhouse = RentalHouse(
+        name: nameController.text.trim().toString(),
         bathroomQty: int.parse(bathroomQtyController.text.trim().toString()),
         description: descriptionController.text.trim(),
         roomQty: int.parse(roomQtyController.text.trim().toString()),
@@ -148,6 +165,7 @@ class AddRentalHomeScreen extends ConsumerWidget {
     result.fold((left) {
       context.showSnackBar(left.message.toString());
     }, (right) {
+      clear();
       context.showSnackBar(right.message.toString());
     });
   }

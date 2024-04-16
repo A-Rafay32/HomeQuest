@@ -5,6 +5,7 @@ import 'package:real_estate_app/core/enums/user_type.dart';
 import 'package:real_estate_app/core/exceptions/auth_exceptions.dart';
 import 'package:real_estate_app/core/utils/types.dart';
 import 'package:real_estate_app/features/auth/data/user_service.dart';
+import 'package:real_estate_app/features/auth/model/user.dart';
 import 'package:real_estate_app/features/home/models/rental_house.dart';
 
 class RentalHomeService {
@@ -20,10 +21,10 @@ class RentalHomeService {
       if (ownerId != null) {
         final isLegit = await userService.getUser(ownerId).fold(
             (left) => throw left.message,
-            (right) => right.usertype == UserType.admin ||
-                    right.usertype == UserType.seller
-                ? true
-                : false);
+            (right) =>
+                right.usertype == UserType.admin ||
+                right.usertype == UserType.seller);
+
         if (isLegit) {
           houseCollection
               .add(rentalHouse.toMap())
@@ -37,8 +38,9 @@ class RentalHomeService {
         return Left(Failure(message: "Owner Id is empty "));
       }
     } on FirebaseException catch (e) {
-      throw e.message.toString();
+      rethrow;
     } catch (e) {
+      debugPrint(e.toString());
       return Left(Failure(message: e.toString()));
     }
   }
@@ -53,11 +55,33 @@ class RentalHomeService {
     }
   }
 
+  FutureEither1<RentalHouse> getRentalHouse(String houseId) async {
+    try {
+      DocumentSnapshot docSnapshot = await houseCollection.doc(houseId).get();
+      if (docSnapshot.exists) {
+        RentalHouse h =
+            RentalHouse.fromMap(docSnapshot.data() as Map<String, dynamic>);
+        print(h.toMap());
+        return Right(
+            RentalHouse.fromMap(docSnapshot.data() as Map<String, dynamic>));
+      } else {
+        return Left(Failure(message: "House Doesnot exist"));
+      }
+    } on FirebaseException catch (e) {
+      throw e.message.toString();
+    } catch (e) {
+      debugPrint(e.toString());
+      return Left(Failure(message: e.toString()));
+    }
+  }
+
   Stream<List<RentalHouse>> getAllRentalHouse() {
     try {
-      return houseCollection.snapshots().map((event) =>
-          RentalHouse.fromMap(event.docs as Map<String, dynamic>)
-              as List<RentalHouse>);
+      return houseCollection.snapshots().map((querySnapshot) {
+        return querySnapshot.docs.map((documentSnapshot) {
+          return RentalHouse.fromMap(documentSnapshot.data());
+        }).toList();
+      });
     } on FirebaseException catch (e) {
       throw e.message.toString();
     } catch (e) {

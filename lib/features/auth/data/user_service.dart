@@ -1,5 +1,6 @@
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:either_dart/either.dart';
+import 'package:flutter/material.dart';
 import 'package:real_estate_app/core/exceptions/auth_exceptions.dart';
 import 'package:real_estate_app/core/utils/types.dart';
 import 'package:real_estate_app/features/auth/model/user.dart';
@@ -11,10 +12,7 @@ class UserService {
   final FirebaseFirestore firestore = FirebaseFirestore.instance;
 
   final CollectionReference userCollection =
-      FirebaseFirestore.instance.collection("users").withConverter<UserModel>(
-            fromFirestore: (snapshot, _) => UserModel.fromMap(snapshot.data()!),
-            toFirestore: (model, _) => model.toMap(),
-          );
+      FirebaseFirestore.instance.collection("users");
 
   FutureEither0 createUser(UserModel user, String uid) async {
     try {
@@ -49,7 +47,6 @@ class UserService {
     try {
       // get user
       DocumentSnapshot userDoc = await userCollection.doc(documentId).get();
-      // update user
       if (userDoc.exists) {
         Map<String, dynamic> userMap = userDoc.data() as Map<String, dynamic>;
         return Right(UserModel.fromMap(userMap));

@@ -18,7 +18,7 @@ abstract class House {
   final bool isFeatured;
   final bool isFurnished;
   final bool isAvailable;
-  final List<String> images;
+  final List<dynamic> images;
   final DateTime constructedOn;
   final HouseType housetype;
 

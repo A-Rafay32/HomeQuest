@@ -1,6 +1,3 @@
-// ignore_for_file: public_member_api_docs, sort_constructors_first
-import 'dart:convert';
-
 import 'package:real_estate_app/core/enums/house_type.dart';
 import 'package:real_estate_app/features/bill/bill.dart';
 import 'package:real_estate_app/features/home/models/home_review.dart';
@@ -77,14 +74,13 @@ class RentalHouse extends House {
       'tenantId': tenantId,
       'noticePeriod': noticePeriod?.millisecondsSinceEpoch,
       'penalties': penalties,
-      'bills': bills != null ? bills?.map((x) => x.toMap()).toList() : [],
       'terms': terms,
       'disputes': disputes,
       'rentalHistory': rentalHistory,
-      'maintenanceRequest': maintenanceRequest != null
-          ? maintenanceRequest?.map((x) => x.toMap()).toList()
-          : [],
-      'reviews': reviews != null ? reviews?.map((x) => x.toMap()).toList() : [],
+      'bills': bills ?? bills?.map((x) => x.toMap()).toList(),
+      'maintenanceRequest': maintenanceRequest ??
+          maintenanceRequest?.map((x) => x.toMap()).toList(),
+      'reviews': reviews ?? reviews?.map((x) => x.toMap()).toList(),
     };
   }
 
@@ -93,7 +89,7 @@ class RentalHouse extends House {
       name: map['name'] != null ? map['name'] as String : null,
       description: map['description'] as String,
       insurance: map['insurance'] != null ? map['insurance'] as String : null,
-      features: map['features'] as String,
+      features: map['features'] != null ? map['features'] as String : null,
       ownerId: map['ownerId'] as String,
       address: map['address'] as String,
       roomQty: map['roomQty'] as int,
@@ -103,7 +99,7 @@ class RentalHouse extends House {
       isFeatured: map['isFeatured'] as bool,
       isFurnished: map['isFurnished'] as bool,
       isAvailable: map['isAvailable'] as bool,
-      images: List<String>.from((map['images'] as List<String>)),
+      images: map['images'],
       constructedOn:
           DateTime.fromMillisecondsSinceEpoch(map['constructedOn'] as int),
       housetype: HouseType.toHouseType(map['housetype']),
@@ -117,13 +113,6 @@ class RentalHouse extends House {
       penalties: map['penalties'] != null
           ? List<double>.from((map['penalties'] as List<double>))
           : null,
-      bills: map['bills'] != null
-          ? List<Bill>.from(
-              (map['bills'] as List<int>).map<Bill?>(
-                (x) => Bill.fromMap(x as Map<String, dynamic>),
-              ),
-            )
-          : null,
       terms: map['terms'] != null
           ? List<String>.from((map['terms'] as List<String>))
           : null,
@@ -132,6 +121,13 @@ class RentalHouse extends House {
           : null,
       rentalHistory: map['rentalHistory'] != null
           ? List<String>.from((map['rentalHistory'] as List<String>))
+          : null,
+      bills: map['bills'] != null
+          ? List<Bill>.from(
+              (map['bills'] as List).map<Bill?>(
+                (x) => Bill.fromMap(x as Map<String, dynamic>),
+              ),
+            )
           : null,
       maintenanceRequest: map['maintenanceRequest'] != null
           ? List<MaintenanceRequest>.from(
@@ -149,9 +145,4 @@ class RentalHouse extends House {
           : null,
     );
   }
-
-  String toJson() => json.encode(toMap());
-
-  factory RentalHouse.fromJson(String source) =>
-      RentalHouse.fromMap(json.decode(source) as Map<String, dynamic>);
 }

@@ -86,7 +86,8 @@ class UserModel {
       dateofBirth: map['dateofBirth'] != null
           ? DateTime.fromMillisecondsSinceEpoch(map['dateofBirth'] as int)
           : null,
-      gender: map['gender'] != null ? Gender.toGender(map['gender']) : null,
+      gender: null,
+      // map['gender'] != null ? Gender.toGender(map['gender']) : null,
       usertype:
           map['usertype'] != null ? UserType.toUserType(map['usertype']) : null,
     );

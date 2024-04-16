@@ -4,6 +4,7 @@ import 'package:real_estate_app/app/themes/app_paddings.dart';
 import 'package:real_estate_app/core/extensions/sizes_extensions.dart';
 import 'package:real_estate_app/core/extensions/text_theme_ext.dart';
 import 'package:real_estate_app/features/home/models/house.dart';
+import 'package:real_estate_app/features/home/models/rental_house.dart';
 
 class HouseImages extends StatelessWidget {
   const HouseImages({
@@ -12,7 +13,7 @@ class HouseImages extends StatelessWidget {
     required this.onTap,
   });
 
-  final House house;
+  final RentalHouse house;
   final Function() onTap;
   @override
   Widget build(BuildContext context) {

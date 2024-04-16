@@ -1,18 +1,21 @@
 import 'package:flutter/material.dart';
+import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:real_estate_app/app/constants/app_images.dart';
 import 'package:real_estate_app/app/themes/app_colors.dart';
 import 'package:real_estate_app/app/themes/app_paddings.dart';
+import 'package:real_estate_app/core/enums/user_type.dart';
+import 'package:real_estate_app/features/home/providers/rental_home_notifier.dart';
 
-class CatogoriesTabNav extends StatefulWidget {
+class CatogoriesTabNav extends ConsumerStatefulWidget {
   const CatogoriesTabNav({super.key, required this.w});
 
   final double w;
 
   @override
-  State<CatogoriesTabNav> createState() => _CatogoriesTabNavState();
+  ConsumerState<CatogoriesTabNav> createState() => _CatogoriesTabNavState();
 }
 
-class _CatogoriesTabNavState extends State<CatogoriesTabNav> {
+class _CatogoriesTabNavState extends ConsumerState<CatogoriesTabNav> {
   static int selectedTabIndex = 0;
   @override
   Widget build(BuildContext context) {
@@ -31,7 +34,11 @@ class _CatogoriesTabNavState extends State<CatogoriesTabNav> {
             text: "All",
           ),
           HomeTabNavigationItem(
-              onTap: () {},
+              onTap: () {
+                ref
+                    .read(rentalHomeRepository)
+                    .getRentalHouse("S0CORtTumnE5Wt7NGKU1");
+              },
               text: "House",
               isTagSelected: selectedTabIndex == 1 ? true : false,
               imageAsset: AppImages.houseImages[1]),
