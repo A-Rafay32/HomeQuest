@@ -5,7 +5,7 @@ import 'package:real_estate_app/core/enums/user_type.dart';
 import 'package:real_estate_app/core/exceptions/auth_exceptions.dart';
 import 'package:real_estate_app/core/utils/types.dart';
 import 'package:real_estate_app/features/auth/data/user_service.dart';
-import 'package:real_estate_app/features/auth/model/user.dart';
+import 'package:real_estate_app/features/home/models/house.dart';
 import 'package:real_estate_app/features/home/models/rental_house.dart';
 
 class RentalHomeService {
@@ -99,6 +99,25 @@ class RentalHomeService {
           .catchError((error) => throw error.toString());
 
       return Right(Success(message: "House updated successfully"));
+    } on FirebaseException catch (e) {
+      throw e.message.toString();
+    } catch (e) {
+      return Left(Failure(message: e.toString()));
+    }
+  }
+
+  FutureEither1<List<House>> getUserFavourites(List<String> houseIds) async {
+    try {
+      List<House> houses = [];
+      for (var id in houseIds) {
+        DocumentSnapshot docs = await houseCollection
+            .doc(id)
+            .get()
+            .catchError((error) => throw error.toString());
+        final house = House.fromMap(docs.data() as Map<String, dynamic>);
+        houses.add(house);
+      }
+      return Right(houses);
     } on FirebaseException catch (e) {
       throw e.message.toString();
     } catch (e) {

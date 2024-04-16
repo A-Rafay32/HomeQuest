@@ -22,6 +22,7 @@ class RentalHouse extends House {
   bool get isRented => tenantId != null ? true : false;
 
   RentalHouse({
+    required super.id,
     required super.bathroomQty,
     required super.description,
     required super.roomQty,
@@ -51,8 +52,10 @@ class RentalHouse extends House {
     this.terms,
   });
 
+  @override
   Map<String, dynamic> toMap() {
     return <String, dynamic>{
+      'id': id,
       'name': name,
       'description': description,
       'insurance': insurance,
@@ -86,6 +89,7 @@ class RentalHouse extends House {
 
   factory RentalHouse.fromMap(Map<String, dynamic> map) {
     return RentalHouse(
+      id: map["id"],
       name: map['name'] != null ? map['name'] as String : null,
       description: map['description'] as String,
       insurance: map['insurance'] != null ? map['insurance'] as String : null,

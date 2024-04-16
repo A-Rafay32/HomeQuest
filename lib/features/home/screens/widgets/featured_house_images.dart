@@ -1,13 +1,15 @@
 import 'package:flutter/material.dart';
+import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:real_estate_app/app/themes/app_colors.dart';
 import 'package:real_estate_app/app/themes/app_paddings.dart';
 import 'package:real_estate_app/core/extensions/sizes_extensions.dart';
+import 'package:real_estate_app/core/extensions/snackbar_ext.dart';
 import 'package:real_estate_app/core/extensions/text_theme_ext.dart';
-import 'package:real_estate_app/features/home/models/house.dart';
+import 'package:real_estate_app/features/auth/providers/user_notifier.dart';
 import 'package:real_estate_app/features/home/models/rental_house.dart';
 
-class HouseImages extends StatelessWidget {
-  const HouseImages({
+class FeaturedHouseImages extends ConsumerWidget {
+  const FeaturedHouseImages({
     super.key,
     required this.house,
     required this.onTap,
@@ -16,7 +18,7 @@ class HouseImages extends StatelessWidget {
   final RentalHouse house;
   final Function() onTap;
   @override
-  Widget build(BuildContext context) {
+  Widget build(BuildContext context, WidgetRef ref) {
     return GestureDetector(
       onTap: onTap,
       child: Padding(
@@ -43,7 +45,12 @@ class HouseImages extends StatelessWidget {
                 ),
               ),
             ),
-            const Positioned(top: 20, right: 10, child: FavIcon()),
+            Positioned(
+                top: 20,
+                right: 10,
+                child: FavIcon(
+                  houseId: house.id,
+                )),
             Positioned(
               bottom: 10,
               left: 10,
@@ -99,21 +106,32 @@ class HouseImages extends StatelessWidget {
   }
 }
 
-class FavIcon extends StatelessWidget {
-  const FavIcon({super.key});
+class FavIcon extends ConsumerWidget {
+  const FavIcon({super.key, required this.houseId});
+
+  final String houseId;
 
   @override
-  Widget build(BuildContext context) {
-    return const Card(
-      elevation: 5.0,
-      color: Colors.white,
-      shape: CircleBorder(),
-      child: Padding(
-        padding: EdgeInsets.all(8.0),
-        child: Icon(
-          Icons.favorite_outline_rounded,
-          color: Colors.black,
-          size: 20,
+  Widget build(BuildContext context, WidgetRef ref) {
+    return GestureDetector(
+      onTap: () async {
+        final result = await ref
+            .read(userNotifierProvider.notifier)
+            .addToFavourites(houseId);
+        result.fold((left) => context.showSnackBar(left.message),
+            (right) => context.showSnackBar(right.message));
+      },
+      child: const Card(
+        elevation: 5.0,
+        color: Colors.white,
+        shape: CircleBorder(),
+        child: Padding(
+          padding: EdgeInsets.all(8.0),
+          child: Icon(
+            Icons.favorite_outline_rounded,
+            color: Colors.black,
+            size: 20,
+          ),
         ),
       ),
     );

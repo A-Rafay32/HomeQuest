@@ -3,7 +3,6 @@ import 'dart:convert';
 
 import 'package:real_estate_app/core/enums/gender.dart';
 import 'package:real_estate_app/core/enums/user_type.dart';
-import 'package:real_estate_app/features/auth/model/address.dart';
 
 class UserModel {
   final String name;
@@ -13,11 +12,12 @@ class UserModel {
   final String? phoneNum;
   final String? description;
   final String? image;
+  final String? address;
   final bool? isEmailVerified;
-  final List<String>? houses;
+  List<dynamic> favourites;
+  List<String>? houses;
   final List<dynamic>? paymentInfo;
   final List<String>? socialMediaLinks;
-  final Address? address;
   final DateTime? dateofBirth;
   final Gender? gender;
   final UserType? usertype;
@@ -35,6 +35,7 @@ class UserModel {
     this.gender,
     this.isEmailVerified,
     this.houses,
+    this.favourites = const [],
     this.paymentInfo,
     this.socialMediaLinks,
     this.usertype = UserType.user,
@@ -49,11 +50,12 @@ class UserModel {
       'phoneNum': phoneNum,
       'description': description,
       'image': image,
+      "favourites": favourites,
       'isEmailVerified': isEmailVerified,
       'houses': houses,
       'paymentInfo': paymentInfo,
       'socialMediaLinks': socialMediaLinks,
-      'address': address?.toMap(),
+      'address': address,
       'dateofBirth': dateofBirth?.millisecondsSinceEpoch,
       'gender': gender.toString(),
       'usertype': usertype?.name.toString()
@@ -74,15 +76,14 @@ class UserModel {
           ? map['isEmailVerified'] as bool
           : null,
       houses: map['houses'] != null ? map['houses'] as List<String> : null,
+      favourites: map['favourites'] ?? [],
       paymentInfo: map['paymentInfo'] != null
           ? List<dynamic>.from((map['paymentInfo'] as List<dynamic>))
           : null,
       socialMediaLinks: map['socialMediaLinks'] != null
           ? List<String>.from((map['socialMediaLinks'] as List<String>))
           : null,
-      address: map['address'] != null
-          ? Address.fromMap(map['address'] as Map<String, dynamic>)
-          : null,
+      address: map['address'],
       dateofBirth: map['dateofBirth'] != null
           ? DateTime.fromMillisecondsSinceEpoch(map['dateofBirth'] as int)
           : null,
@@ -92,9 +93,4 @@ class UserModel {
           map['usertype'] != null ? UserType.toUserType(map['usertype']) : null,
     );
   }
-
-  String toJson() => json.encode(toMap());
-
-  factory UserModel.fromJson(String source) =>
-      UserModel.fromMap(json.decode(source) as Map<String, dynamic>);
 }

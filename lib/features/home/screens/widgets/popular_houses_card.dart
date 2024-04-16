@@ -8,7 +8,7 @@ import 'package:real_estate_app/features/home/models/house.dart';
 import 'package:real_estate_app/features/home/models/rental_house.dart';
 import 'package:real_estate_app/features/home/screens/house_detail_screen.dart';
 import 'package:real_estate_app/features/home/screens/widgets/house_image_view.dart';
-import 'package:real_estate_app/features/home/screens/widgets/house_images.dart';
+import 'package:real_estate_app/features/home/screens/widgets/featured_house_images.dart';
 
 class HousesCardWidget extends StatefulWidget {
   const HousesCardWidget({

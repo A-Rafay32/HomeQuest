@@ -148,6 +148,7 @@ class _AddRentalHomeScreenState extends ConsumerState<AddRentalHomeScreen> {
     String? ownerId = ref.read(currentUserProvider)?.uid;
     print(ownerId);
     RentalHouse rentalhouse = RentalHouse(
+        id: "",
         name: nameController.text.trim().toString(),
         bathroomQty: int.parse(bathroomQtyController.text.trim().toString()),
         description: descriptionController.text.trim(),

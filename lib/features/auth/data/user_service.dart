@@ -88,4 +88,15 @@ class UserService {
       return Left(Failure(message: e.toString()));
     }
   }
+
+  FutureEither0 addToFavourites(String userId, String houseId) async {
+    try {
+      await userCollection.doc(userId).update({
+        "favourites": FieldValue.arrayUnion([houseId])
+      }).catchError((error) => throw error);
+      return Right(Success(message: "Added to Favourites ⭐"));
+    } catch (e) {
+      return Left(Failure(message: e.toString()));
+    }
+  }
 }

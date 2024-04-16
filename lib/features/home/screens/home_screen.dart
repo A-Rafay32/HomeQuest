@@ -16,7 +16,7 @@ import 'package:real_estate_app/features/home/screens/inbox_screen.dart';
 import 'package:real_estate_app/features/home/screens/widgets/app_bars.dart';
 import 'package:real_estate_app/features/home/screens/widgets/categories_tab_nav.dart';
 import 'package:real_estate_app/features/home/screens/widgets/custom_navigation_bar.dart';
-import 'package:real_estate_app/features/home/screens/widgets/house_images.dart';
+import 'package:real_estate_app/features/home/screens/widgets/featured_house_images.dart';
 
 class HomeScreen extends ConsumerWidget {
   HomeScreen({
@@ -125,7 +125,7 @@ class _HomeScreenWidgetState extends ConsumerState<HomeScreenWidget> {
                       child: ListView.builder(
                           scrollDirection: Axis.horizontal,
                           itemCount: data.length,
-                          itemBuilder: (context, index) => HouseImages(
+                          itemBuilder: (context, index) => FeaturedHouseImages(
                                 onTap: () {
                                   context.push(
                                       HouseDetailScreen(house: data[index]));

@@ -3,7 +3,7 @@ import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:flutter_svg/svg.dart';
 import 'package:real_estate_app/app/themes/app_colors.dart';
 import 'package:real_estate_app/core/enums/house_type.dart';
-import 'package:real_estate_app/features/home/screens/widgets/house_images.dart';
+import 'package:real_estate_app/features/home/screens/widgets/featured_house_images.dart';
 
 class HouseImageView extends StatelessWidget {
   const HouseImageView({
@@ -69,7 +69,11 @@ class HouseImageView extends StatelessWidget {
         //             color: AppColors.backgroundColor, fontSize: 15.sp),
         //       )),
         // ),
-        const Positioned(left: 0, child: FavIcon())
+        const Positioned(
+            left: 0,
+            child: FavIcon(
+              houseId: "",
+            ))
       ],
     );
   }
