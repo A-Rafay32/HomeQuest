@@ -8,7 +8,7 @@ class RentalHomeNotifier extends StateNotifier<AsyncValue> {
   RentalHomeNotifier({required this.repository})
       : super(const AsyncValue.data(null));
 
-  final RentalHomeService repository;
+  final RentalHomeRepository repository;
 
   FutureEither0 addRentalHouse(
       {required RentalHouse rentalHouse, required String? ownerId}) async {
@@ -39,8 +39,7 @@ final rentalHomeNotifierProvider =
 });
 
 final rentalHomeRepository = Provider((ref) {
-  final userService = ref.read(userServiceProvider);
-  return RentalHomeService(userService: userService);
+  return RentalHomeRepository();
 });
 
 final rentalHomeStreamProvider = StreamProvider((ref) {

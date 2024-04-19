@@ -6,7 +6,7 @@ import 'package:real_estate_app/features/auth/data/user_service.dart';
 import 'package:real_estate_app/features/auth/model/user.dart';
 
 class AuthService {
-  static UserService userService = UserService.instance;
+  final UserRepository userService = UserRepository.instance;
   static FirebaseAuth get firebaseAuth => FirebaseAuth.instance;
   static User? get currentUser => firebaseAuth.currentUser;
 

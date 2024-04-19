@@ -12,6 +12,11 @@ final List<Widget> appBars = [
   CustomAppBar(
     enableBackButton: false,
     onPressed: () {},
+    text: "Favourites",
+  ),
+  CustomAppBar(
+    enableBackButton: false,
+    onPressed: () {},
     text: "Inbox",
   ),
   CustomAppBar(

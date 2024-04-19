@@ -1,16 +1,16 @@
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:either_dart/either.dart';
-import 'package:flutter/material.dart';
+import 'package:real_estate_app/app/constants/firebase_constants.dart';
 import 'package:real_estate_app/core/exceptions/auth_exceptions.dart';
 import 'package:real_estate_app/core/utils/types.dart';
 import 'package:real_estate_app/features/auth/model/user.dart';
+import 'package:real_estate_app/features/home/data/house_data_service.dart';
 
-class UserService {
-  UserService._priv();
-  static final UserService instance = UserService._priv();
+class UserRepository {
+  UserRepository._priv();
+  static final instance = UserRepository._priv();
 
   final FirebaseFirestore firestore = FirebaseFirestore.instance;
-
   final CollectionReference userCollection =
       FirebaseFirestore.instance.collection("users");
 
@@ -89,14 +89,28 @@ class UserService {
     }
   }
 
-  FutureEither0 addToFavourites(String userId, String houseId) async {
+  FutureEither0 addToFavourites(String houseId) async {
     try {
-      await userCollection.doc(userId).update({
+      await userCollection.doc(currentUser?.uid).update({
         "favourites": FieldValue.arrayUnion([houseId])
       }).catchError((error) => throw error);
       return Right(Success(message: "Added to Favourites ⭐"));
+    } on FirebaseException catch (e) {
+      throw e.message.toString();
     } catch (e) {
       return Left(Failure(message: e.toString()));
+    }
+  }
+
+  FutureEither1<List<DocumentSnapshot>> getUserFavourites() async {
+    try {
+      final user = await getUser(currentUser?.uid ?? "");
+      final houseIds = user.right.favourites;
+      return await RentalHomeRepository().getUserHouses(houseIds);
+    } on FirebaseException catch (e) {
+      throw e.message.toString();
+    } catch (e) {
+      return Left(Failure(message: "Failed to fetch the user favourites"));
     }
   }
 }

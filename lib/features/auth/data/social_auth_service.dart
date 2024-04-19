@@ -3,12 +3,9 @@ import 'package:firebase_auth/firebase_auth.dart';
 import 'package:google_sign_in/google_sign_in.dart';
 import 'package:real_estate_app/core/exceptions/auth_exceptions.dart';
 import 'package:real_estate_app/features/auth/data/auth_service.dart';
-import 'package:real_estate_app/features/auth/data/user_service.dart';
 import 'package:real_estate_app/features/auth/model/user.dart';
 
 class SocialAuthService extends AuthService {
-  static UserService userService = UserService.instance;
-
   Future<Either<Failure, Success>> googleSignIn() async {
     try {
       // Trigger the authentication flow

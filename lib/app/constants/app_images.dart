@@ -21,4 +21,5 @@ class AppSvgs {
   static const cart = "assets/svgs/cart.svg";
   static const inbox = "assets/svgs/inbox.svg";
   static const profile = "assets/svgs/profile.svg";
+  static const favourites = "assets/svgs/heart_filled.svg";
 }

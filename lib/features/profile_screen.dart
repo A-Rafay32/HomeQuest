@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
+import 'package:real_estate_app/app/constants/app_images.dart';
 import 'package:real_estate_app/app/themes/app_colors.dart';
 import 'package:real_estate_app/app/themes/app_paddings.dart';
 import 'package:real_estate_app/core/extensions/routes_extenstion.dart';
@@ -71,8 +72,11 @@ class ProfileScreen extends StatelessWidget {
                         itemCount: 6,
                         itemBuilder: (context, index) {
                           return HousesCardWidget(
-                            OnTapFav: () {},
-                            house: demoHouse,
+                            onTapFav: () {},
+                            image: AppImages.houseImages[0],
+                            address: "address",
+                            name: "56 Green Bank, London",
+                            price: "\$ 69000",
                           );
                         }),
                   ],

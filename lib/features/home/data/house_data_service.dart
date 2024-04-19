@@ -5,13 +5,11 @@ import 'package:real_estate_app/core/enums/user_type.dart';
 import 'package:real_estate_app/core/exceptions/auth_exceptions.dart';
 import 'package:real_estate_app/core/utils/types.dart';
 import 'package:real_estate_app/features/auth/data/user_service.dart';
-import 'package:real_estate_app/features/home/models/house.dart';
+import 'package:real_estate_app/features/bill/bill.dart';
 import 'package:real_estate_app/features/home/models/rental_house.dart';
 
-class RentalHomeService {
-  RentalHomeService({required this.userService});
-
-  final UserService userService;
+class RentalHomeRepository {
+  final UserRepository userService = UserRepository.instance;
   final firestore = FirebaseFirestore.instance;
   final houseCollection = FirebaseFirestore.instance.collection("houses");
 
@@ -106,18 +104,33 @@ class RentalHomeService {
     }
   }
 
-  FutureEither1<List<House>> getUserFavourites(List<String> houseIds) async {
+  FutureEither1<List<DocumentSnapshot>> getUserHouses(
+      List<dynamic> houseIds) async {
     try {
-      List<House> houses = [];
+      List<DocumentSnapshot> list = [];
       for (var id in houseIds) {
         DocumentSnapshot docs = await houseCollection
             .doc(id)
             .get()
             .catchError((error) => throw error.toString());
-        final house = House.fromMap(docs.data() as Map<String, dynamic>);
-        houses.add(house);
+        list.add(docs);
       }
-      return Right(houses);
+      return Right(list);
+    } on FirebaseException catch (e) {
+      throw e.message.toString();
+    } catch (e) {
+      return Left(Failure(message: e.toString()));
+    }
+  }
+
+  FutureEither1<List<Bill>> getAllHouseBills(String houseIds) async {
+    try {
+      QuerySnapshot docs =
+          await houseCollection.doc(houseIds).collection("bills").get();
+      return Right(docs.docs
+          .map((docSnapshot) =>
+              Bill.fromMap(docSnapshot.data() as Map<String, dynamic>))
+          .toList());
     } on FirebaseException catch (e) {
       throw e.message.toString();
     } catch (e) {

@@ -1,22 +1,17 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
-import 'package:flutter_svg/svg.dart';
-import 'package:real_estate_app/app/themes/app_colors.dart';
-import 'package:real_estate_app/core/enums/house_type.dart';
 import 'package:real_estate_app/features/home/screens/widgets/featured_house_images.dart';
 
 class HouseImageView extends StatelessWidget {
   const HouseImageView({
     super.key,
     required this.context,
-    required this.houseType,
     required this.productImage,
     required this.isPremium,
     required this.width,
   });
 
   final BuildContext context;
-  final HouseType houseType;
   final String productImage;
   final bool isPremium;
   final double width;

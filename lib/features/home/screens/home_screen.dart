@@ -11,6 +11,7 @@ import 'package:real_estate_app/features/home/providers/rental_home_notifier.dar
 import 'package:real_estate_app/features/home/screens/add_home_screen.dart';
 import 'package:real_estate_app/features/home/screens/buyer_profile_screen.dart';
 import 'package:real_estate_app/features/home/screens/explore_screen.dart';
+import 'package:real_estate_app/features/home/screens/favourites_screen..dart';
 import 'package:real_estate_app/features/home/screens/house_detail_screen.dart';
 import 'package:real_estate_app/features/home/screens/inbox_screen.dart';
 import 'package:real_estate_app/features/home/screens/widgets/app_bars.dart';
@@ -28,6 +29,7 @@ class HomeScreen extends ConsumerWidget {
   final List<Widget> screens = [
     const HomeScreenWidget(),
     const ExploreScreen(),
+    const FavouriteScreen(),
     InboxScreen(),
     const BuyerProfileScreen(),
   ];
