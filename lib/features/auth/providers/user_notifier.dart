@@ -1,7 +1,7 @@
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:real_estate_app/core/utils/types.dart';
-import 'package:real_estate_app/features/auth/data/user_service.dart';
+import 'package:real_estate_app/features/auth/repositories/user_repository.dart';
 import 'package:real_estate_app/features/auth/providers/auth_providers.dart';
 
 class UserNotifier extends StateNotifier<AsyncValue> {
@@ -14,8 +14,11 @@ class UserNotifier extends StateNotifier<AsyncValue> {
     return await userService.addToFavourites(houseId);
   }
 
-  FutureEither1<List<DocumentSnapshot>> getFavourites() async {
-    return await userService.getUserFavourites();
+  Future<AsyncValue<List<DocumentSnapshot>>> getFavourites() async {
+    state = const AsyncValue.loading();
+    return await userService
+        .getUserFavourites()
+        .then((value) => AsyncValue.data(value.right));
   }
 }
 

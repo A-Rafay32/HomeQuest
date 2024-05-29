@@ -1,10 +1,11 @@
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:either_dart/either.dart';
 import 'package:real_estate_app/app/constants/firebase_constants.dart';
-import 'package:real_estate_app/core/exceptions/auth_exceptions.dart';
+import 'package:real_estate_app/core/exceptions/exceptions.dart';
+import 'package:real_estate_app/core/services/image_picker_service.dart';
 import 'package:real_estate_app/core/utils/types.dart';
 import 'package:real_estate_app/features/auth/model/user.dart';
-import 'package:real_estate_app/features/home/data/house_data_service.dart';
+import 'package:real_estate_app/features/home/repositories/rental_home_repository.dart';
 
 class UserRepository {
   UserRepository._priv();
@@ -111,6 +112,19 @@ class UserRepository {
       throw e.message.toString();
     } catch (e) {
       return Left(Failure(message: "Failed to fetch the user favourites"));
+    }
+  }
+
+  FutureEither0 setUserProfileImage() async {
+    try {
+      final url = await ImageService()
+          .uploadImage(userStorageRef, currentUser?.displayName ?? "");
+      await currentUser
+          ?.updatePhotoURL(url.right)
+          .catchError((error) => throw error);
+      return Right(Success(message: "Profile Image updated successfully"));
+    } catch (e) {
+      return Left(Failure(message: "Failed to update the profile image "));
     }
   }
 }

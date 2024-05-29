@@ -1,11 +1,11 @@
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
-import 'package:real_estate_app/features/auth/data/auth_service.dart';
-import 'package:real_estate_app/features/auth/data/user_service.dart';
-import 'package:real_estate_app/features/auth/providers/auth_notifier.dart';
+import 'package:real_estate_app/features/auth/repositories/auth_repository.dart';
+import 'package:real_estate_app/features/auth/repositories/user_repository.dart';
+import 'package:real_estate_app/features/auth/providers/auth_provider.dart';
 
 final authServiceProvider = Provider((ref) {
-  return AuthService();
+  return AuthRepository();
 });
 
 final authNotifier = StateNotifierProvider<AuthNotifier, AsyncValue>((ref) {

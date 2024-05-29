@@ -1,11 +1,12 @@
 import 'package:either_dart/either.dart';
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:real_estate_app/core/exceptions/auth_exceptions.dart';
+import 'package:real_estate_app/core/exceptions/exceptions.dart';
 import 'package:real_estate_app/core/utils/types.dart';
-import 'package:real_estate_app/features/auth/data/user_service.dart';
+import 'package:real_estate_app/features/auth/repositories/user_repository.dart';
 import 'package:real_estate_app/features/auth/model/user.dart';
 
-class AuthService {
+class AuthRepository {
   final UserRepository userService = UserRepository.instance;
   static FirebaseAuth get firebaseAuth => FirebaseAuth.instance;
   static User? get currentUser => firebaseAuth.currentUser;
@@ -62,10 +63,12 @@ class AuthService {
       }
 
       return Right(Success(message: "User created with email: $email"));
+    } on EmailAlreadyInUseException catch (e) {
+      throw Left(Failure(message: e.message));
+    } on EmailAlreadyInUseException catch (e) {
+      throw Left(Failure(message: e.message));
     } on FirebaseAuthException catch (e) {
-      return Left(Failure(
-        message: e.message!,
-      ));
+      return Left(Failure(message: e.message!));
     }
   }
 

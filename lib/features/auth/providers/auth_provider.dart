@@ -1,16 +1,16 @@
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:real_estate_app/core/utils/types.dart';
-import 'package:real_estate_app/features/auth/data/auth_service.dart';
+import 'package:real_estate_app/features/auth/repositories/auth_repository.dart';
 
 class AuthNotifier extends StateNotifier<AsyncValue> {
   AuthNotifier({
     required this.authService,
   }) : super(const AsyncValue.data(null));
 
-  final AuthService authService;
+  final AuthRepository authService;
 
-  User? currentUser() => AuthService.currentUser;
+  User? currentUser() => AuthRepository.currentUser;
 
   Stream<User?> authStateChanges() => authService.authStateChanges();
 

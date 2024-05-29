@@ -1,7 +1,7 @@
 import 'package:flutter/material.dart';
-import 'package:real_estate_app/core/enums/house_type.dart';
+import 'package:real_estate_app/core/enums/house_status.dart';
 import 'package:real_estate_app/features/home/models/house.dart';
-import 'package:real_estate_app/features/home/models/rental_house.dart';
+import 'package:real_estate_app/features/home/models/rental_house_temp1.dart';
 
 class PriceCard extends StatefulWidget {
   const PriceCard({

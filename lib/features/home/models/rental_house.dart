@@ -1,7 +1,10 @@
+import 'package:real_estate_app/core/enums/house_status.dart';
 import 'package:real_estate_app/core/enums/house_type.dart';
 import 'package:real_estate_app/features/bill/bill.dart';
 import 'package:real_estate_app/features/home/models/home_review.dart';
 import 'package:real_estate_app/features/home/models/house.dart';
+import 'package:real_estate_app/features/home/models/house_details.dart';
+import 'package:real_estate_app/features/home/models/house_location.dart';
 import 'package:real_estate_app/features/home/models/maintenance.dart';
 
 class RentalHouse extends House {
@@ -17,136 +20,118 @@ class RentalHouse extends House {
   final List<MaintenanceRequest>? maintenanceRequest;
   final List<RentalHomeReview>? reviews;
 
-  bool get isMaintenanceRequest => maintenanceRequest != null ? true : false;
-  int get rentalCount => rentalHistory?.length ?? 0;
-  bool get isRented => tenantId != null ? true : false;
-
   RentalHouse({
-    required super.id,
-    required super.bathroomQty,
-    required super.description,
-    required super.roomQty,
-    required super.sizeInFeet,
-    required super.address,
-    required super.constructedOn,
-    required super.ownerId,
-    required super.images,
-    required super.isFurnished,
+    required String id,
+    String? name,
+    required String description,
+    String? insurance,
+    String? features,
+    String? ownerId,
+    required String listedBy,
+    double? propertyTax,
+    required bool isFeatured,
+    required bool isFurnished,
+    required bool isAvailable,
+    required List<dynamic> images,
+    required DateTime constructedOn,
+    required DateTime listedOn,
+    required HouseDetails houseDetails,
+    required HouseLocation houseLocation,
+    required HouseStatus houseStatus,
+    required HouseType houseType,
     required this.rentPerMonth,
-    super.isFeatured = false,
-    super.housetype = HouseType.Rent,
-    super.isAvailable = true,
-    super.insurance,
-    super.tax,
-    super.name,
-    this.bills,
-    this.disputes,
-    this.maintenanceRequest,
     this.otherCosts,
-    super.features,
-    this.penalties,
-    this.rentalHistory,
-    this.reviews,
-    this.noticePeriod,
     this.tenantId,
+    this.noticePeriod,
+    this.penalties,
+    this.bills,
     this.terms,
-  });
+    this.disputes,
+    this.rentalHistory,
+    this.maintenanceRequest,
+    this.reviews,
+  }) : super(
+          id: id,
+          name: name,
+          description: description,
+          insurance: insurance,
+          features: features,
+          ownerId: ownerId,
+          listedBy: listedBy,
+          propertyTax: propertyTax,
+          isFeatured: isFeatured,
+          isFurnished: isFurnished,
+          isAvailable: isAvailable,
+          images: images,
+          constructedOn: constructedOn,
+          listedOn: listedOn,
+          houseDetails: houseDetails,
+          houseLocation: houseLocation,
+          houseStatus: houseStatus,
+          houseType: houseType,
+        );
 
   @override
   Map<String, dynamic> toMap() {
-    return <String, dynamic>{
-      'id': id,
-      'name': name,
-      'description': description,
-      'insurance': insurance,
-      'features': features,
-      'ownerId': ownerId,
-      'address': address,
-      'roomQty': roomQty,
-      'bathroomQty': bathroomQty,
-      'sizeInFeet': sizeInFeet,
-      'tax': tax,
-      'isFeatured': isFeatured,
-      'isFurnished': isFurnished,
-      'isAvailable': isAvailable,
-      'images': images,
-      'constructedOn': constructedOn.millisecondsSinceEpoch,
-      'housetype': housetype.name.toString(),
+    final map = super.toMap();
+    map.addAll({
       'rentPerMonth': rentPerMonth,
       'otherCosts': otherCosts,
       'tenantId': tenantId,
-      'noticePeriod': noticePeriod?.millisecondsSinceEpoch,
+      'noticePeriod': noticePeriod?.toIso8601String(),
       'penalties': penalties,
+      'bills': bills?.map((bill) => bill.toMap()).toList(),
       'terms': terms,
       'disputes': disputes,
       'rentalHistory': rentalHistory,
-      'bills': bills ?? bills?.map((x) => x.toMap()).toList(),
-      'maintenanceRequest': maintenanceRequest ??
-          maintenanceRequest?.map((x) => x.toMap()).toList(),
-      'reviews': reviews ?? reviews?.map((x) => x.toMap()).toList(),
-    };
+      'maintenanceRequest':
+          maintenanceRequest?.map((req) => req.toMap()).toList(),
+      'reviews': reviews?.map((review) => review.toMap()).toList(),
+    });
+    return map;
   }
 
-  factory RentalHouse.fromMap(Map<String, dynamic> map) {
+  static RentalHouse fromMap(Map<String, dynamic> map) {
     return RentalHouse(
-      id: map["id"],
-      name: map['name'] != null ? map['name'] as String : null,
-      description: map['description'] as String,
-      insurance: map['insurance'] != null ? map['insurance'] as String : null,
-      features: map['features'] != null ? map['features'] as String : null,
-      ownerId: map['ownerId'] as String,
-      address: map['address'] as String,
-      roomQty: map['roomQty'] as int,
-      bathroomQty: map['bathroomQty'] as int,
-      sizeInFeet: map['sizeInFeet'] as int,
-      tax: map['tax'] != null ? map['tax'] as double : null,
-      isFeatured: map['isFeatured'] as bool,
-      isFurnished: map['isFurnished'] as bool,
-      isAvailable: map['isAvailable'] as bool,
-      images: map['images'],
-      constructedOn:
-          DateTime.fromMillisecondsSinceEpoch(map['constructedOn'] as int),
-      housetype: HouseType.toHouseType(map['housetype']),
-      rentPerMonth: map['rentPerMonth'] as double,
-      otherCosts:
-          map['otherCosts'] != null ? map['otherCosts'] as double : null,
-      tenantId: map['tenantId'] != null ? map['tenantId'] as String : null,
+      id: map['id'],
+      name: map['name'],
+      description: map['description'],
+      insurance: map['insurance'],
+      features: map['features'],
+      ownerId: map['ownerId'],
+      listedBy: map['listedBy'],
+      propertyTax: map['propertyTax'],
+      isFeatured: map['isFeatured'],
+      isFurnished: map['isFurnished'],
+      isAvailable: map['isAvailable'],
+      images: List<dynamic>.from(map['images']),
+      constructedOn: DateTime.parse(map['constructedOn']),
+      listedOn: DateTime.parse(map['listedOn']),
+      houseDetails: HouseDetails.fromMap(map['houseDetails']),
+      houseLocation: HouseLocation.fromMap(map['houseLocation']),
+      houseStatus: HouseStatus.toHouseStatus(map['houseStatus']),
+      houseType: HouseType.toHouseType(map['houseType']),
+      rentPerMonth: map['rentPerMonth'],
+      otherCosts: map['otherCosts'],
+      tenantId: map['tenantId'],
       noticePeriod: map['noticePeriod'] != null
-          ? DateTime.fromMillisecondsSinceEpoch(map['noticePeriod'] as int)
+          ? DateTime.parse(map['noticePeriod'])
           : null,
-      penalties: map['penalties'] != null
-          ? List<double>.from((map['penalties'] as List<double>))
-          : null,
-      terms: map['terms'] != null
-          ? List<String>.from((map['terms'] as List<String>))
-          : null,
-      disputes: map['disputes'] != null
-          ? List<String>.from((map['disputes'] as List<String>))
-          : null,
-      rentalHistory: map['rentalHistory'] != null
-          ? List<String>.from((map['rentalHistory'] as List<String>))
-          : null,
-      bills: map['bills'] != null
-          ? List<Bill>.from(
-              (map['bills'] as List).map<Bill?>(
-                (x) => Bill.fromMap(x as Map<String, dynamic>),
-              ),
-            )
-          : null,
-      maintenanceRequest: map['maintenanceRequest'] != null
-          ? List<MaintenanceRequest>.from(
-              (map['maintenanceRequest'] as List<int>).map<MaintenanceRequest?>(
-                (x) => MaintenanceRequest.fromMap(x as Map<String, dynamic>),
-              ),
-            )
-          : null,
-      reviews: map['reviews'] != null
-          ? List<RentalHomeReview>.from(
-              (map['reviews'] as List<int>).map<RentalHomeReview?>(
-                (x) => RentalHomeReview.fromMap(x as Map<String, dynamic>),
-              ),
-            )
-          : null,
+      penalties: (map['penalties'] as List<dynamic>?)
+          ?.map((e) => e as double)
+          .toList(),
+      bills: (map['bills'] as List<dynamic>?)
+          ?.map((e) => Bill.fromMap(e))
+          .toList(),
+      terms: List<String>.from(map['terms'] ?? []),
+      disputes: List<String>.from(map['disputes'] ?? []),
+      rentalHistory: List<String>.from(map['rentalHistory'] ?? []),
+      maintenanceRequest: (map['maintenanceRequest'] as List<dynamic>?)
+          ?.map((e) => MaintenanceRequest.fromMap(e))
+          .toList(),
+      reviews: (map['reviews'] as List<dynamic>?)
+          ?.map((e) => RentalHomeReview.fromMap(e))
+          .toList(),
     );
   }
 }

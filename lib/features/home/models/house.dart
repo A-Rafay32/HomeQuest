@@ -1,10 +1,7 @@
-// ignore_for_file: public_member_api_docs, sort_constructors_first
-
-import 'dart:convert';
-
-import 'package:real_estate_app/app/constants/app_images.dart';
+import 'package:real_estate_app/core/enums/house_status.dart';
 import 'package:real_estate_app/core/enums/house_type.dart';
-import 'package:real_estate_app/features/home/models/rental_house.dart';
+import 'package:real_estate_app/features/home/models/house_details.dart';
+import 'package:real_estate_app/features/home/models/house_location.dart';
 
 class House {
   final String id;
@@ -13,118 +10,87 @@ class House {
   final String? insurance;
   final String? features;
   final String? ownerId;
-  final String address;
-  final int roomQty;
-  final int bathroomQty;
-  final int sizeInFeet;
-  // final double price;
-  final double? tax;
+  final String listedBy;
+  final double? propertyTax;
   final bool isFeatured;
   final bool isFurnished;
   final bool isAvailable;
+  final bool isApproved;
   final List<dynamic> images;
   final DateTime constructedOn;
-  final HouseType housetype;
+  final DateTime listedOn;
+  final HouseDetails houseDetails;
+  final HouseLocation houseLocation;
+  final HouseStatus houseStatus;
+  final HouseType houseType;
 
   House({
     required this.id,
-    required this.bathroomQty,
-    required this.description,
-    required this.roomQty,
-    required this.sizeInFeet,
-    required this.address,
-    required this.housetype,
-    required this.constructedOn,
-    required this.ownerId,
-    required this.images,
-    // required this.price,
-    required this.isFurnished,
-    this.features,
-    this.isFeatured = false,
-    this.isAvailable = true,
-    this.insurance,
-    this.tax,
     this.name,
+    required this.description,
+    this.insurance,
+    this.features,
+    this.ownerId,
+    required this.listedBy,
+    this.propertyTax,
+    required this.isFeatured,
+    required this.isFurnished,
+    required this.isAvailable,
+    required this.isApproved,
+    required this.images,
+    required this.constructedOn,
+    required this.listedOn,
+    required this.houseDetails,
+    required this.houseLocation,
+    required this.houseStatus,
+    required this.houseType,
   });
 
   Map<String, dynamic> toMap() {
-    return <String, dynamic>{
+    return {
       'id': id,
       'name': name,
-      // 'price': price,
       'description': description,
       'insurance': insurance,
       'features': features,
       'ownerId': ownerId,
-      'address': address,
-      'roomQty': roomQty,
-      'bathroomQty': bathroomQty,
-      'sizeInFeet': sizeInFeet,
-      'tax': tax,
+      'listedBy': listedBy,
+      'propertyTax': propertyTax,
       'isFeatured': isFeatured,
       'isFurnished': isFurnished,
       'isAvailable': isAvailable,
+      'isApproved': isApproved,
       'images': images,
-      'constructedOn': constructedOn.millisecondsSinceEpoch,
-      'housetype': housetype.toString(),
+      'constructedOn': constructedOn.toIso8601String(),
+      'listedOn': listedOn.toIso8601String(),
+      'houseDetails': houseDetails.toMap(),
+      'houseLocation': houseLocation.toMap(),
+      'houseStatus': houseStatus.toString(),
+      'houseType': houseType.toString(),
     };
   }
 
-  factory House.fromMap(Map<String, dynamic> map) {
+  static House fromMap(Map<String, dynamic> map) {
     return House(
-        id: (map["id"] ?? '') as String,
-        // price: (map["price"] ?? 0.0),
-        name: map['name'] != null ? map["name"] ?? '' : null,
-        description: (map["description"] ?? '') as String,
-        insurance: map['insurance'] != null ? map["insurance"] ?? '' : null,
-        features: map['features'] != null ? map["features"] ?? '' : null,
-        ownerId: map['ownerId'] != null ? map["ownerId"] ?? '' : null,
-        address: (map["address"] ?? '') as String,
-        roomQty: (map["roomQty"] ?? 0) as int,
-        bathroomQty: (map["bathroomQty"] ?? 0) as int,
-        sizeInFeet: (map["sizeInFeet"] ?? 0) as int,
-        tax: map['tax'] != null ? map["tax"] ?? 0.0 : null,
-        isFeatured: (map["isFeatured"] ?? false) as bool,
-        isFurnished: (map["isFurnished"] ?? false) as bool,
-        isAvailable: (map["isAvailable"] ?? false) as bool,
-        images: List<dynamic>.from(
-          ((map['images'] ?? const <dynamic>[]) as List<dynamic>),
-        ),
-        constructedOn: DateTime.fromMillisecondsSinceEpoch(
-            (map["constructedOn"] ?? 0) as int),
-        housetype: HouseType.toHouseType(
-          (map["housetype"]),
-        ));
+      id: map['id'],
+      name: map['name'],
+      description: map['description'],
+      insurance: map['insurance'],
+      features: map['features'],
+      ownerId: map['ownerId'],
+      listedBy: map['listedBy'],
+      propertyTax: map['propertyTax'],
+      isFeatured: map['isFeatured'],
+      isFurnished: map['isFurnished'],
+      isAvailable: map['isAvailable'],
+      isApproved: map['isApproved'],
+      images: List<dynamic>.from(map['images']),
+      constructedOn: DateTime.parse(map['constructedOn']),
+      listedOn: DateTime.parse(map['listedOn']),
+      houseDetails: HouseDetails.fromMap(map['houseDetails']),
+      houseLocation: HouseLocation.fromMap(map['houseLocation']),
+      houseStatus: HouseStatus.toHouseStatus(map['houseStatus']),
+      houseType: HouseType.toHouseType(map['houseType']),
+    );
   }
-
-  String toJson() => json.encode(toMap());
-
-  factory House.fromJson(String source) =>
-      House.fromMap(json.decode(source) as Map<String, dynamic>);
 }
-
-RentalHouse demoHouse = RentalHouse(
-    id: "123",
-    rentPerMonth: 6900000,
-    name: "56 Green Bank, London",
-    description: "Description",
-    roomQty: 2,
-    sizeInFeet: 100,
-    address: "address",
-    bathroomQty: 2,
-    features: "",
-    constructedOn: DateTime.now(),
-    isFurnished: false,
-    ownerId: "asdasd",
-    insurance: null,
-    isAvailable: true,
-    isFeatured: true,
-    tax: 69,
-    housetype: HouseType.Rent,
-    images: AppImages.houseImages);
-
-
-// 7004 Bradtke Locks, South Jordon, Georgia, USA
-// 56 Green Bank, London
-// The roof is flat and is covered with slate shingles. One large chimney sits at the side of the house. Many smaller windows let in plenty of light to the rooms below the roof.
-// The house itself is surrounded by a modest, childsafe garden covered mostly in grass and with a children's playground in the center.

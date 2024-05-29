@@ -6,7 +6,7 @@ import 'package:real_estate_app/core/extensions/sizes_extensions.dart';
 import 'package:real_estate_app/core/extensions/snackbar_ext.dart';
 import 'package:real_estate_app/core/extensions/text_theme_ext.dart';
 import 'package:real_estate_app/features/auth/providers/user_notifier.dart';
-import 'package:real_estate_app/features/home/models/rental_house.dart';
+import 'package:real_estate_app/features/home/models/rental_house_temp1.dart';
 
 class FeaturedHouseImages extends ConsumerWidget {
   const FeaturedHouseImages({

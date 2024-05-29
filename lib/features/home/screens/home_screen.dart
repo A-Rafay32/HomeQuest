@@ -27,7 +27,7 @@ class HomeScreen extends ConsumerWidget {
   static String homeScreen = "/HomeScreen";
   int currentScreen = 0;
   final List<Widget> screens = [
-    const HomeScreenWidget(),
+  const HomeScreenWidget(),
     const ExploreScreen(),
     const FavouriteScreen(),
     InboxScreen(),

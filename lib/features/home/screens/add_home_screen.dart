@@ -10,7 +10,7 @@ import 'package:real_estate_app/features/auth/providers/auth_providers.dart';
 import 'package:real_estate_app/features/auth/screens/widgets/app_bar_white.dart';
 import 'package:real_estate_app/features/auth/screens/widgets/button.dart';
 import 'package:real_estate_app/features/auth/screens/widgets/custom_text_field.dart';
-import 'package:real_estate_app/features/home/models/rental_house.dart';
+import 'package:real_estate_app/features/home/models/rental_house_temp1.dart';
 import 'package:real_estate_app/features/home/providers/rental_home_notifier.dart';
 
 class AddRentalHomeScreen extends ConsumerStatefulWidget {

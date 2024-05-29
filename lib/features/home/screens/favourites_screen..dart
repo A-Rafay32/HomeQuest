@@ -5,7 +5,6 @@ import 'package:real_estate_app/app/themes/app_colors.dart';
 import 'package:real_estate_app/app/themes/app_paddings.dart';
 import 'package:real_estate_app/core/extensions/sizes_extensions.dart';
 import 'package:real_estate_app/core/utils/loader.dart';
-import 'package:real_estate_app/features/auth/providers/auth_providers.dart';
 import 'package:real_estate_app/features/auth/providers/user_notifier.dart';
 import 'package:real_estate_app/features/home/screens/widgets/popular_houses_card.dart';
 

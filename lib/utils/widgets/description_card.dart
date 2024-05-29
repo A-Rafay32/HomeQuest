@@ -31,16 +31,25 @@ class _DescriptionCardState extends State<DescriptionCard> {
 
   @override
   Widget build(BuildContext context) {
-    return Align(
-      alignment: Alignment.centerLeft,
-      child: Text(
-        "${widget.house.description} ",
-        style: const TextStyle(
-            fontFamily: "Raleway",
-            color: Colors.grey,
-            fontSize: 15,
-            fontWeight: FontWeight.w600),
-      ),
+    return Column(
+      crossAxisAlignment: CrossAxisAlignment.start,
+      children: [
+        Text("Description",
+            style: Theme.of(context).textTheme.labelLarge?.copyWith(
+                  fontWeight: FontWeight.w600,
+                  fontSize: 18,
+                  fontFamily: "Raleway",
+                )),
+        const SizedBox(height: 5),
+        Text(
+          "${widget.house.description} ",
+          style: Theme.of(context).textTheme.labelLarge?.copyWith(
+              fontFamily: "Raleway",
+              color: Colors.grey,
+              fontSize: 15,
+              fontWeight: FontWeight.w600),
+        ),
+      ],
     );
   }
 }

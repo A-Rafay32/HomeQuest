@@ -7,7 +7,7 @@ import "package:real_estate_app/app/themes/app_text_field_themes.dart";
 import 'package:real_estate_app/core/extensions/routes_extenstion.dart';
 import 'package:real_estate_app/core/extensions/sizes_extensions.dart';
 import 'package:real_estate_app/core/extensions/snackbar_ext.dart';
-import 'package:real_estate_app/core/exceptions/auth_exceptions.dart';
+import 'package:real_estate_app/core/exceptions/exceptions.dart';
 import 'package:real_estate_app/features/auth/providers/auth_providers.dart';
 import 'package:real_estate_app/features/auth/screens/widgets/app_bar_white.dart';
 import 'package:real_estate_app/features/auth/screens/widgets/button.dart';

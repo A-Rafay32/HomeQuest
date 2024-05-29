@@ -1,8 +1,7 @@
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:real_estate_app/core/utils/types.dart';
-import 'package:real_estate_app/features/auth/providers/auth_providers.dart';
-import 'package:real_estate_app/features/home/data/house_data_service.dart';
 import 'package:real_estate_app/features/home/models/rental_house.dart';
+import 'package:real_estate_app/features/home/repositories/rental_home_repository.dart';
 
 class RentalHomeNotifier extends StateNotifier<AsyncValue> {
   RentalHomeNotifier({required this.repository})
