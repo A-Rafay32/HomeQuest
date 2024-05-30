@@ -6,7 +6,7 @@ import 'package:real_estate_app/features/auth/model/user_details.dart';
 class UserModel {
   final UserDetails userDetails;
   final bool? isEmailVerified;
-  List<dynamic> favourites;
+  List<dynamic>? favourites;
   List<String>? myHouses;
   final List<dynamic>? paymentInfo;
   final List<String>? socialMediaLinks;

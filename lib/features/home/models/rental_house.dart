@@ -1,6 +1,6 @@
 import 'package:real_estate_app/core/enums/house_status.dart';
 import 'package:real_estate_app/core/enums/house_type.dart';
-import 'package:real_estate_app/features/bill/bill.dart';
+import 'package:real_estate_app/features/bill/model/bill.dart';
 import 'package:real_estate_app/features/home/models/home_review.dart';
 import 'package:real_estate_app/features/home/models/house.dart';
 import 'package:real_estate_app/features/home/models/house_details.dart';
@@ -29,6 +29,7 @@ class RentalHouse extends House {
     String? ownerId,
     required String listedBy,
     double? propertyTax,
+    bool isApproved = false,
     required bool isFeatured,
     required bool isFurnished,
     required bool isAvailable,
@@ -62,6 +63,7 @@ class RentalHouse extends House {
           isFeatured: isFeatured,
           isFurnished: isFurnished,
           isAvailable: isAvailable,
+          isApproved: isApproved,
           images: images,
           constructedOn: constructedOn,
           listedOn: listedOn,

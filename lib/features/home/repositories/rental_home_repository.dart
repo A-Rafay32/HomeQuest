@@ -5,7 +5,7 @@ import 'package:real_estate_app/core/enums/user_type.dart';
 import 'package:real_estate_app/core/exceptions/exceptions.dart';
 import 'package:real_estate_app/core/utils/types.dart';
 import 'package:real_estate_app/features/auth/repositories/user_repository.dart';
-import 'package:real_estate_app/features/bill/bill.dart';
+import 'package:real_estate_app/features/bill/model/bill.dart';
 import 'package:real_estate_app/features/home/models/rental_house_temp1.dart';
 
 class RentalHomeRepository {

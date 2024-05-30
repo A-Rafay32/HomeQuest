@@ -52,10 +52,7 @@ class AuthRepository {
 
       final result = await userService.createUser(
           UserModel(
-              id: userCredential.user?.uid.toString() ?? "",
-              name: name,
-              email: email,
-              password: password),
+              userDetails: ),
           userCredential.user?.uid.toString() ?? "");
 
       if (result.isLeft) {

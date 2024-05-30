@@ -6,8 +6,12 @@ class Contract {
   final String? depositedMoney;
   final String? installments;
   final List<String>? terms;
-  final String isVerified;
-  final String isApproved;
+  final String isApprovedByBuyer;
+  final bool isSentForApproval;
+  final bool isApprovedBySeller;
   final String statement;
   final String documentsInfo;
+  final String createdBy;
+  final DateTime createdAt;
+  final DateTime updatedAt;
 }

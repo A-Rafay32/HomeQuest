@@ -22,6 +22,7 @@ enum Category {
 }
 
 class Bill {
+  String id;
   String month;
   int amount;
   Category category;
@@ -30,6 +31,7 @@ class Bill {
 
   Bill({
     required this.category,
+    this.id = "123",
     required this.month,
     required this.amount,
     required this.date,
@@ -48,8 +50,9 @@ class Bill {
 
   factory Bill.fromMap(Map<String, dynamic> map) {
     return Bill(
-      month: map['month'] as String,
-      amount: map['amount'] as int,
+      id: map["id"] ?? "",
+      month: map['month'] ?? "",
+      amount: map['amount'] ?? 0,
       category: Category.toCategory(map['category']),
       date: DateTime.parse(map['date']),
       status: Status.toStatus(map['status']),
