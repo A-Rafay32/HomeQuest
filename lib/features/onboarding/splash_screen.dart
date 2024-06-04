@@ -6,6 +6,7 @@ import 'package:real_estate_app/core/extensions/routes_extenstion.dart';
 import 'package:real_estate_app/core/extensions/sizes_extensions.dart';
 import 'package:real_estate_app/features/auth/auth_builder.dart';
 import 'package:real_estate_app/features/home/screens/home_screen.dart';
+import 'package:real_estate_app/features/onboarding/setup_profile.dart';
 
 class SplashScreen extends StatelessWidget {
   const SplashScreen({super.key});
@@ -71,7 +72,7 @@ class GetStartedButton extends StatelessWidget {
       right: 70,
       child: GestureDetector(
         onTap: () {
-          context.push(AuthStateBuilder(widget: HomeScreen()));
+          context.push(const AuthStateBuilder(widget: SetupBuyerProfileScreen()));
         },
         child: Container(
           decoration: BoxDecoration(

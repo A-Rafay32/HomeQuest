@@ -6,7 +6,7 @@ import 'package:real_estate_app/core/extensions/sizes_extensions.dart';
 import 'package:real_estate_app/core/extensions/snackbar_ext.dart';
 import 'package:real_estate_app/core/extensions/text_theme_ext.dart';
 import 'package:real_estate_app/features/auth/providers/user_notifier.dart';
-import 'package:real_estate_app/features/home/models/rental_house_temp1.dart';
+import 'package:real_estate_app/features/home/models/rental_house.dart';
 
 class FeaturedHouseImages extends ConsumerWidget {
   const FeaturedHouseImages({
@@ -78,21 +78,18 @@ class FeaturedHouseImages extends ConsumerWidget {
                     children: [
                       const IconCard(icon: Icons.bed_outlined),
                       Text(
-                        "${house.roomQty} Bds",
-                        style: context.textTheme.bodyMedium
-                            ?.copyWith(color: Colors.white),
+                        "${house.houseDetails.roomQty} Bds",
+                        style: context.textTheme.bodyMedium?.copyWith(color: Colors.white),
                       ),
                       const IconCard(icon: Icons.bathtub_outlined),
                       Text(
-                        "${house.roomQty} Baths",
-                        style: context.textTheme.bodyMedium
-                            ?.copyWith(color: Colors.white),
+                        "${house.houseDetails.roomQty} Baths",
+                        style: context.textTheme.bodyMedium?.copyWith(color: Colors.white),
                       ),
                       const IconCard(icon: Icons.star_border_rounded),
                       Text(
-                        "${house.sizeInFeet} ft2",
-                        style: context.textTheme.bodyMedium
-                            ?.copyWith(color: Colors.white),
+                        "${house.houseDetails.sizeInFeet} ft2",
+                        style: context.textTheme.bodyMedium?.copyWith(color: Colors.white),
                       ),
                     ],
                   ),
@@ -115,9 +112,7 @@ class FavIcon extends ConsumerWidget {
   Widget build(BuildContext context, WidgetRef ref) {
     return GestureDetector(
       onTap: () async {
-        final result = await ref
-            .read(userNotifierProvider.notifier)
-            .addToFavourites(houseId);
+        final result = await ref.read(userNotifier.notifier).addToFavourites(houseId);
         result.fold((left) => context.showSnackBar(left.message),
             (right) => context.showSnackBar(right.message));
       },

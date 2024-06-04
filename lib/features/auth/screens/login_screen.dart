@@ -76,9 +76,9 @@ class LoginScreen extends ConsumerWidget {
   }
 
   void login(WidgetRef ref, BuildContext context) async {
-    Either0 result = await ref.read(authNotifier.notifier).signIn(
-        email: emailController.text.trim(),
-        password: passwordController.text.trim());
+    Either0 result = await ref
+        .read(authNotifier.notifier)
+        .signIn(email: emailController.text.trim(), password: passwordController.text.trim());
     result.fold((left) {
       context.showSnackBar(left.message.toString());
     }, (right) {

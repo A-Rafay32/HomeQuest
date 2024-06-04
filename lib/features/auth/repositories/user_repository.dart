@@ -12,10 +12,9 @@ class UserRepository {
   static final instance = UserRepository._priv();
 
   final FirebaseFirestore firestore = FirebaseFirestore.instance;
-  final CollectionReference userCollection =
-      FirebaseFirestore.instance.collection("users");
+  final CollectionReference userCollection = FirebaseFirestore.instance.collection("users");
 
-  FutureEither0 createUser(UserModel user, String uid) async {
+  FutureEither0 createUser({required UserModel user, required String uid}) async {
     try {
       await userCollection.doc(uid).set(user);
       return Right(Success(message: "User created successfully"));
@@ -26,8 +25,7 @@ class UserRepository {
     }
   }
 
-  FutureEither0 updateUser(
-      String documentId, Map<String, dynamic> updatedFields) async {
+  FutureEither0 updateUser(String documentId, Map<String, dynamic> updatedFields) async {
     try {
       // get user
       DocumentSnapshot userDoc = await userCollection.doc(documentId).get();
@@ -64,8 +62,7 @@ class UserRepository {
   FutureEither1<UserModel> getUserByEmail(String email) async {
     try {
       // get user
-      QuerySnapshot userDoc =
-          await userCollection.where("email", isEqualTo: email).get();
+      QuerySnapshot userDoc = await userCollection.where("email", isEqualTo: email).get();
       if (userDoc.docs.isNotEmpty) {
         return Right(userDoc.docs as UserModel);
       } else {
@@ -80,8 +77,10 @@ class UserRepository {
 
   FutureEither0 deleteUser(String documentId) async {
     try {
-      await userCollection.doc(documentId).delete().onError(
-          (error, stackTrace) => throw "Failed to delete User : $error");
+      await userCollection
+          .doc(documentId)
+          .delete()
+          .onError((error, stackTrace) => throw "Failed to delete User : $error");
       return Right(Success(message: "User deleted Successfully"));
     } on FirebaseException catch (e) {
       throw e.message.toString();
@@ -107,7 +106,7 @@ class UserRepository {
     try {
       final user = await getUser(currentUser?.uid ?? "");
       final houseIds = user.right.favourites;
-      return await RentalHomeRepository().getUserHouses(houseIds);
+      return await RentalHomeRepository().getUserHouses(houseIds ?? []);
     } on FirebaseException catch (e) {
       throw e.message.toString();
     } catch (e) {
@@ -117,11 +116,8 @@ class UserRepository {
 
   FutureEither0 setUserProfileImage() async {
     try {
-      final url = await ImageService()
-          .uploadImage(userStorageRef, currentUser?.displayName ?? "");
-      await currentUser
-          ?.updatePhotoURL(url.right)
-          .catchError((error) => throw error);
+      final url = await ImageService().uploadImage(userStorageRef, currentUser?.displayName ?? "");
+      await currentUser?.updatePhotoURL(url.right).catchError((error) => throw error);
       return Right(Success(message: "Profile Image updated successfully"));
     } catch (e) {
       return Left(Failure(message: "Failed to update the profile image "));

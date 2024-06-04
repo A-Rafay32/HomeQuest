@@ -4,6 +4,7 @@ import 'package:real_estate_app/core/enums/user_type.dart';
 import 'package:real_estate_app/features/auth/model/user_details.dart';
 
 class UserModel {
+  final String id;
   final UserDetails userDetails;
   final bool? isEmailVerified;
   List<dynamic>? favourites;
@@ -14,6 +15,7 @@ class UserModel {
 
   UserModel({
     required this.userDetails,
+    required this.id,
     this.isEmailVerified,
     this.myHouses,
     this.favourites = const [],
@@ -24,6 +26,7 @@ class UserModel {
 
   Map<String, dynamic> toMap() {
     return <String, dynamic>{
+      "id": id,
       "favourites": favourites,
       'isEmailVerified': isEmailVerified,
       'myHouses': myHouses,
@@ -36,10 +39,9 @@ class UserModel {
 
   factory UserModel.fromMap(Map<String, dynamic> map) {
     return UserModel(
+      id: map["id"],
       userDetails: map["userDetails"] ?? {},
-      isEmailVerified: map['isEmailVerified'] != null
-          ? map['isEmailVerified'] as bool
-          : null,
+      isEmailVerified: map['isEmailVerified'] != null ? map['isEmailVerified'] as bool : null,
       myHouses: map['myHouses'] ?? [],
       favourites: map['favourites'] ?? [],
       paymentInfo: map['paymentInfo'] != null
@@ -48,8 +50,7 @@ class UserModel {
       socialMediaLinks: map['socialMediaLinks'] != null
           ? List<String>.from((map['socialMediaLinks'] as List<String>))
           : null,
-      usertype:
-          map['usertype'] != null ? UserType.toUserType(map['usertype']) : null,
+      usertype: map['usertype'] != null ? UserType.toUserType(map['usertype']) : null,
     );
   }
 }

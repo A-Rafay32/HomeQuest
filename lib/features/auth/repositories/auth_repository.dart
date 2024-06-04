@@ -3,6 +3,7 @@ import 'package:firebase_auth/firebase_auth.dart';
 import 'package:real_estate_app/core/exceptions/auth_exceptions.dart';
 import 'package:real_estate_app/core/exceptions/exceptions.dart';
 import 'package:real_estate_app/core/utils/types.dart';
+import 'package:real_estate_app/features/auth/model/user_details.dart';
 import 'package:real_estate_app/features/auth/repositories/user_repository.dart';
 import 'package:real_estate_app/features/auth/model/user.dart';
 
@@ -13,11 +14,9 @@ class AuthRepository {
 
   Stream<User?> authStateChanges() => firebaseAuth.authStateChanges();
 
-  FutureEither0 signIn(
-      {required String email, required String password}) async {
+  FutureEither0 signIn({required String email, required String password}) async {
     try {
-      await firebaseAuth.signInWithEmailAndPassword(
-          email: email, password: password);
+      await firebaseAuth.signInWithEmailAndPassword(email: email, password: password);
       final result = await userService.getUserByEmail(email);
 
       if (result.isLeft) {
@@ -43,25 +42,24 @@ class AuthRepository {
   }
 
   FutureEither0 register(
-      {required String name,
-      required String email,
-      required String password}) async {
+      {required String name, required String email, required String password}) async {
     try {
-      final userCredential = await firebaseAuth.createUserWithEmailAndPassword(
-          email: email, password: password);
-
+      await firebaseAuth.createUserWithEmailAndPassword(email: email, password: password);
       final result = await userService.createUser(
-          UserModel(
-              userDetails: ),
-          userCredential.user?.uid.toString() ?? "");
+          user: UserModel(
+              id: currentUser?.uid ?? "",
+              userDetails: UserDetails(
+                name: name,
+                email: email,
+                password: password,
+              )),
+          uid: currentUser?.uid ?? "");
 
       if (result.isLeft) {
         return Left(Failure(message: "User failed to be created in database"));
       }
 
       return Right(Success(message: "User created with email: $email"));
-    } on EmailAlreadyInUseException catch (e) {
-      throw Left(Failure(message: e.message));
     } on EmailAlreadyInUseException catch (e) {
       throw Left(Failure(message: e.message));
     } on FirebaseAuthException catch (e) {
@@ -78,8 +76,7 @@ class AuthRepository {
       await firebaseAuth.sendPasswordResetEmail(email: email);
       String returnedEmail = await firebaseAuth.verifyPasswordResetCode(code);
       if (returnedEmail.isNotEmpty) {
-        await firebaseAuth.confirmPasswordReset(
-            code: code, newPassword: newPassword);
+        await firebaseAuth.confirmPasswordReset(code: code, newPassword: newPassword);
       } else {
         throw "Reset code failed to verify";
       }

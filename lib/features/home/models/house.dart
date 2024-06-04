@@ -18,7 +18,7 @@ class House {
   final bool isApproved;
   final List<dynamic> images;
   final DateTime constructedOn;
-  final DateTime listedOn;
+  DateTime? listedOn;
   final HouseDetails houseDetails;
   final HouseLocation houseLocation;
   final HouseStatus houseStatus;
@@ -39,7 +39,7 @@ class House {
     required this.isApproved,
     required this.images,
     required this.constructedOn,
-    required this.listedOn,
+    this.listedOn,
     required this.houseDetails,
     required this.houseLocation,
     required this.houseStatus,
@@ -62,7 +62,7 @@ class House {
       'isApproved': isApproved,
       'images': images,
       'constructedOn': constructedOn.toIso8601String(),
-      'listedOn': listedOn.toIso8601String(),
+      'listedOn': listedOn?.toIso8601String() ?? "",
       'houseDetails': houseDetails.toMap(),
       'houseLocation': houseLocation.toMap(),
       'houseStatus': houseStatus.toString(),
@@ -86,7 +86,7 @@ class House {
       isApproved: map['isApproved'],
       images: List<dynamic>.from(map['images']),
       constructedOn: DateTime.parse(map['constructedOn']),
-      listedOn: DateTime.parse(map['listedOn']),
+      listedOn: DateTime.parse(map['listedOn'] ?? ""),
       houseDetails: HouseDetails.fromMap(map['houseDetails']),
       houseLocation: HouseLocation.fromMap(map['houseLocation']),
       houseStatus: HouseStatus.toHouseStatus(map['houseStatus']),

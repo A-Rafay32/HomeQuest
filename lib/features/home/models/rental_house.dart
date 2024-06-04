@@ -35,7 +35,7 @@ class RentalHouse extends House {
     required bool isAvailable,
     required List<dynamic> images,
     required DateTime constructedOn,
-    required DateTime listedOn,
+    DateTime? listedOn,
     required HouseDetails houseDetails,
     required HouseLocation houseLocation,
     required HouseStatus houseStatus,
@@ -86,8 +86,7 @@ class RentalHouse extends House {
       'terms': terms,
       'disputes': disputes,
       'rentalHistory': rentalHistory,
-      'maintenanceRequest':
-          maintenanceRequest?.map((req) => req.toMap()).toList(),
+      'maintenanceRequest': maintenanceRequest?.map((req) => req.toMap()).toList(),
       'reviews': reviews?.map((review) => review.toMap()).toList(),
     });
     return map;
@@ -108,7 +107,7 @@ class RentalHouse extends House {
       isAvailable: map['isAvailable'],
       images: List<dynamic>.from(map['images']),
       constructedOn: DateTime.parse(map['constructedOn']),
-      listedOn: DateTime.parse(map['listedOn']),
+      listedOn: DateTime.parse(map['listedOn'] ?? ""),
       houseDetails: HouseDetails.fromMap(map['houseDetails']),
       houseLocation: HouseLocation.fromMap(map['houseLocation']),
       houseStatus: HouseStatus.toHouseStatus(map['houseStatus']),
@@ -116,24 +115,16 @@ class RentalHouse extends House {
       rentPerMonth: map['rentPerMonth'],
       otherCosts: map['otherCosts'],
       tenantId: map['tenantId'],
-      noticePeriod: map['noticePeriod'] != null
-          ? DateTime.parse(map['noticePeriod'])
-          : null,
-      penalties: (map['penalties'] as List<dynamic>?)
-          ?.map((e) => e as double)
-          .toList(),
-      bills: (map['bills'] as List<dynamic>?)
-          ?.map((e) => Bill.fromMap(e))
-          .toList(),
+      noticePeriod: map['noticePeriod'] != null ? DateTime.parse(map['noticePeriod']) : null,
+      penalties: (map['penalties'] as List<dynamic>?)?.map((e) => e as double).toList(),
+      bills: (map['bills'] as List<dynamic>?)?.map((e) => Bill.fromMap(e)).toList(),
       terms: List<String>.from(map['terms'] ?? []),
       disputes: List<String>.from(map['disputes'] ?? []),
       rentalHistory: List<String>.from(map['rentalHistory'] ?? []),
       maintenanceRequest: (map['maintenanceRequest'] as List<dynamic>?)
           ?.map((e) => MaintenanceRequest.fromMap(e))
           .toList(),
-      reviews: (map['reviews'] as List<dynamic>?)
-          ?.map((e) => RentalHomeReview.fromMap(e))
-          .toList(),
+      reviews: (map['reviews'] as List<dynamic>?)?.map((e) => RentalHomeReview.fromMap(e)).toList(),
     );
   }
 }

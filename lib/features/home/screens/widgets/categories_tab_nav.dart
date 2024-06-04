@@ -3,8 +3,7 @@ import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:real_estate_app/app/constants/app_images.dart';
 import 'package:real_estate_app/app/themes/app_colors.dart';
 import 'package:real_estate_app/app/themes/app_paddings.dart';
-import 'package:real_estate_app/core/enums/user_type.dart';
-import 'package:real_estate_app/features/home/providers/rental_home_notifier.dart';
+import 'package:real_estate_app/features/home/providers/home_providers.dart';
 
 class CatogoriesTabNav extends ConsumerStatefulWidget {
   const CatogoriesTabNav({super.key, required this.w});
@@ -35,9 +34,7 @@ class _CatogoriesTabNavState extends ConsumerState<CatogoriesTabNav> {
           ),
           HomeTabNavigationItem(
               onTap: () {
-                ref
-                    .read(rentalHomeRepository)
-                    .getRentalHouse("S0CORtTumnE5Wt7NGKU1");
+                ref.read(rentalHomeRepository).getRentalHouse("S0CORtTumnE5Wt7NGKU1");
               },
               text: "House",
               isTagSelected: selectedTabIndex == 1 ? true : false,

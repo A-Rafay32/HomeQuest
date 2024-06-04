@@ -1,20 +1,22 @@
 import 'package:flutter/material.dart';
+import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:real_estate_app/app/themes/app_paddings.dart';
 import 'package:real_estate_app/app/themes/app_text_field_themes.dart';
 import 'package:real_estate_app/core/extensions/routes_extenstion.dart';
 import 'package:real_estate_app/core/extensions/sizes_extensions.dart';
+import 'package:real_estate_app/features/auth/providers/auth_providers.dart';
 import 'package:real_estate_app/features/auth/screens/widgets/app_bar_white.dart';
 import 'package:real_estate_app/features/auth/screens/widgets/button.dart';
 import 'package:real_estate_app/features/auth/screens/widgets/custom_text_field.dart';
 import 'package:real_estate_app/features/auth/screens/widgets/cutom_drop_down.dart';
 import 'package:real_estate_app/features/auth/screens/widgets/date_picker_field.dart';
+import 'package:real_estate_app/features/home/screens/home_screen.dart';
 
 class SetupBuyerProfileScreen extends StatefulWidget {
   const SetupBuyerProfileScreen({super.key});
 
   @override
-  State<SetupBuyerProfileScreen> createState() =>
-      _SetupBuyerProfileScreenState();
+  State<SetupBuyerProfileScreen> createState() => _SetupBuyerProfileScreenState();
 }
 
 class _SetupBuyerProfileScreenState extends State<SetupBuyerProfileScreen> {
@@ -67,8 +69,7 @@ class _SetupBuyerProfileScreenState extends State<SetupBuyerProfileScreen> {
           CustomTextField(
             onChanged: (value) {},
             controller: nameController,
-            inputDecoration: AppTextFieldDecorations.genericInputDecoration(
-                label: "Full Name"),
+            inputDecoration: AppTextFieldDecorations.genericInputDecoration(label: "Full Name"),
           ),
           AppSizes.normalY,
           CustomFieldDropDown(onTap: () {}, focus: genderFocus, hint: 'Gender'),
@@ -86,14 +87,24 @@ class _SetupBuyerProfileScreenState extends State<SetupBuyerProfileScreen> {
           CustomTextField(
             onChanged: (value) {},
             controller: locationController,
-            inputDecoration: AppTextFieldDecorations.genericInputDecoration(
-                label: "Location"),
+            inputDecoration: AppTextFieldDecorations.genericInputDecoration(label: "Location"),
           ),
           AppSizes.largeY,
           Button(press: () {}, text: "Continue")
         ],
       ),
     );
+  }
+
+  void _continue(WidgetRef ref, BuildContext context) async {
+    final result = await ref
+        .read(authNotifier.notifier)
+        .signIn(email: emailController.text.trim(), password: passwordController.text.trim());
+    result.fold((left) {
+      context.showSnackBar(left.message.toString());
+    }, (right) {
+      context.push(HomeScreen());
+    });
   }
 
   profilePhoto() {
@@ -161,5 +172,3 @@ class _SetupBuyerProfileScreenState extends State<SetupBuyerProfileScreen> {
     );
   }
 }
-
-

@@ -1,18 +1,18 @@
 class HouseLocation {
   final String address;
-  final String state;
-  final String zipCode;
-  final String country;
-  final double latitude;
-  final double longitude;
+  final String? state;
+  final String? zipCode;
+  final String? country;
+  final double? latitude;
+  final double? longitude;
 
   HouseLocation({
     required this.address,
-    required this.state,
-    required this.zipCode,
-    required this.country,
-    required this.latitude,
-    required this.longitude,
+    this.state,
+    this.zipCode,
+    this.country,
+    this.latitude,
+    this.longitude,
   });
 
   Map<String, dynamic> toMap() {
@@ -28,12 +28,12 @@ class HouseLocation {
 
   factory HouseLocation.fromMap(Map<String, dynamic> map) {
     return HouseLocation(
-      address: map['address'],
-      state: map['state'],
-      zipCode: map['zipCode'],
-      country: map['country'],
-      latitude: map['latitude'],
-      longitude: map['longitude'],
+      address: map['address'] ?? "",
+      state: map['state'] ?? "",
+      zipCode: map['zipCode'] ?? "",
+      country: map['country'] ?? "",
+      latitude: map['latitude'] ?? "",
+      longitude: map['longitude'] ?? "",
     );
   }
 }
