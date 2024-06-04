@@ -64,36 +64,6 @@ class RentalHomeRepository {
     }
   }
 
-  Stream<List<RentalHouse>> getAllRentalHouse() {
-    try {
-      return houseCollection.snapshots().map((querySnapshot) {
-        return querySnapshot.docs.map((documentSnapshot) {
-          return RentalHouse.fromMap(documentSnapshot.data());
-        }).toList();
-      });
-    } on FirebaseException catch (e) {
-      throw e.message.toString();
-    } catch (e) {
-      debugPrint(e.toString());
-      rethrow;
-    }
-  }
-
-  Stream<List<RentalHouse>> getAllAvailableRentalHouse() {
-    try {
-      return houseCollection.where("isAvailable", isEqualTo: true).snapshots().map((querySnapshot) {
-        return querySnapshot.docs.map((documentSnapshot) {
-          return RentalHouse.fromMap(documentSnapshot.data());
-        }).toList();
-      });
-    } on FirebaseException catch (e) {
-      throw e.message.toString();
-    } catch (e) {
-      debugPrint(e.toString());
-      rethrow;
-    }
-  }
-
   FutureEither0 updateHouse(String houseId, Map<String, dynamic> updatefields) async {
     try {
       await houseCollection
@@ -135,6 +105,33 @@ class RentalHomeRepository {
       throw e.message.toString();
     } catch (e) {
       return Left(Failure(message: e.toString()));
+    }
+  }
+
+  Stream<List<RentalHouse>> getAllRentalHouse() {
+    try {
+      return houseCollection.snapshots().map((querySnapshot) => querySnapshot.docs
+          .map((documentSnapshot) => RentalHouse.fromMap(documentSnapshot.data()))
+          .toList());
+    } on FirebaseException catch (e) {
+      throw e.message.toString();
+    } catch (e) {
+      debugPrint(e.toString());
+      rethrow;
+    }
+  }
+
+  Stream<List<RentalHouse>> getAllAvailableRentalHouse() {
+    try {
+      return houseCollection.where("isAvailable", isEqualTo: true).snapshots().map(
+          (querySnapshot) => querySnapshot.docs
+              .map((documentSnapshot) => RentalHouse.fromMap(documentSnapshot.data()))
+              .toList());
+    } on FirebaseException catch (e) {
+      throw e.message.toString();
+    } catch (e) {
+      debugPrint(e.toString());
+      rethrow;
     }
   }
 }
