@@ -10,10 +10,10 @@ class UserNotifier extends StateNotifier<AsyncValue> {
 
   final UserRepository userService;
 
-  void updateUser(Map<String, dynamic> updatedFields) async {
+  FutureEither0 updateUser({String? field, required Map<String, dynamic> updatedFields}) async {
     state = const AsyncValue.loading();
-    await userService
-        .updateUser(currentUser?.uid ?? "", updatedFields)
+    return await userService
+        .updateUser(docId: currentUser?.uid ?? "", updatedFields: updatedFields)
         .whenComplete(() => const AsyncValue.data(null));
   }
 

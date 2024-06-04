@@ -1,7 +1,4 @@
-import 'package:either_dart/either.dart';
 import 'package:firebase_auth/firebase_auth.dart';
-import 'package:real_estate_app/core/exceptions/auth_exceptions.dart';
-import 'package:real_estate_app/core/exceptions/exceptions.dart';
 import 'package:real_estate_app/core/utils/types.dart';
 import 'package:real_estate_app/features/auth/model/user_details.dart';
 import 'package:real_estate_app/features/auth/repositories/user_repository.dart';
@@ -20,24 +17,24 @@ class AuthRepository {
       final result = await userService.getUserByEmail(email);
 
       if (result.isLeft) {
-        return Left(Failure(message: "No user exists with the email provided"));
+        return failure("No user exists with the email provided");
       }
-      return Right(Success(message: "User signed in with $email"));
+      return success("User signed in with $email");
     } on FirebaseAuthException catch (e) {
-      throw e.message.toString();
+      return failure(e.message.toString());
     } catch (e) {
-      return Left(Failure(message: e.toString()));
+      return success(e.toString());
     }
   }
 
   FutureEither0 signOut() async {
     try {
       await firebaseAuth.signOut();
-      return Right(Success(message: "User signed out successfully"));
+      return success("User signed out successfully");
     } on FirebaseAuthException catch (e) {
-      throw e.message.toString();
+      return failure(e.message.toString());
     } catch (e) {
-      return Left(Failure(message: e.toString()));
+      return success(e.toString());
     }
   }
 
@@ -56,14 +53,14 @@ class AuthRepository {
           uid: currentUser?.uid ?? "");
 
       if (result.isLeft) {
-        return Left(Failure(message: "User failed to be created in database"));
+        return failure("User failed to be created in database");
       }
 
-      return Right(Success(message: "User created with email: $email"));
-    } on EmailAlreadyInUseException catch (e) {
-      throw Left(Failure(message: e.message));
+      return success("User created with email: $email");
     } on FirebaseAuthException catch (e) {
-      return Left(Failure(message: e.message!));
+      return failure(e.message.toString());
+    } catch (e) {
+      return success(e.toString());
     }
   }
 

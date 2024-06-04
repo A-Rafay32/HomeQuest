@@ -25,15 +25,18 @@ class UserRepository {
     }
   }
 
-  FutureEither0 updateUser(String documentId, Map<String, dynamic> updatedFields) async {
+  FutureEither0 updateUser(
+      {required docId, String? field, required Map<String, dynamic> updatedFields}) async {
     try {
       // get user
-      DocumentSnapshot userDoc = await userCollection.doc(documentId).get();
+      DocumentSnapshot userDoc = await userCollection.doc(docId).get();
       // update user
       if (!userDoc.exists) {
         throw "User Doc doesnt't exist";
       }
-      await userDoc.reference.update(updatedFields);
+      (field) != null
+          ? await userDoc.reference.update({field: updatedFields})
+          : await userDoc.reference.update(updatedFields);
       return Right(Success(message: "User Updated"));
     } on FirebaseException catch (e) {
       throw e.message.toString();

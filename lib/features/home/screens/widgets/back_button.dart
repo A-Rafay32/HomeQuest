@@ -11,8 +11,7 @@ class CustomBackButton extends StatelessWidget {
       height: 10,
       width: 10,
       margin: const EdgeInsets.only(top: 10, left: 10, bottom: 10),
-      decoration:
-          BoxDecoration(color: Colors.grey.shade300, shape: BoxShape.circle),
+      decoration: BoxDecoration(color: Colors.grey.shade300, shape: BoxShape.circle),
       child: IconButton(
         onPressed: () {
           Navigator.pop(context);

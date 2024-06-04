@@ -42,7 +42,7 @@ class _AddressCardState extends State<AddressCard> {
         ),
         Align(
           alignment: Alignment.centerLeft,
-          child: Text(widget.house.address,
+          child: Text(widget.house.houseLocation.address,
               style: const TextStyle(
                 color: Colors.grey,
                 fontFamily: "Raleway",

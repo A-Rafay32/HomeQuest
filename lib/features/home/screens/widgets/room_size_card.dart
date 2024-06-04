@@ -28,27 +28,27 @@ class _HouseDetailsCardState extends State<HouseDetailsCard> {
         const SizedBox(height: 5),
         DetailCard(
           icon1: Icons.bedroom_parent_rounded,
-          info1: (widget.house.roomQty <= 1)
-              ? "${widget.house.roomQty} Bedroom"
-              : "${widget.house.roomQty} Bedrooms",
+          info1: (widget.house.houseDetails.roomQty <= 1)
+              ? "${widget.house.houseDetails.roomQty} Bedroom"
+              : "${widget.house.houseDetails.roomQty} Bedrooms",
           icon2: Icons.square_foot_outlined,
-          info2: "${widget.house.sizeInFeet} square feet",
+          info2: "${widget.house.houseDetails.sizeInFeet} square feet",
         ),
         DetailCard(
           icon1: Icons.bathtub,
-          info1: (widget.house.bathroomQty <= 1)
-              ? "${widget.house.bathroomQty} Bathroom "
-              : "${widget.house.bathroomQty} Bathrooms ",
+          info1: (widget.house.houseDetails.bathroomQty <= 1)
+              ? "${widget.house.houseDetails.bathroomQty} Bathroom "
+              : "${widget.house.houseDetails.bathroomQty} Bathrooms ",
           icon2: Icons.living_rounded,
-          info2: (widget.house.bathroomQty <= 1)
-              ? "${widget.house.bathroomQty} Living Room"
-              : "${widget.house.bathroomQty} Living Rooms",
+          info2: (widget.house.houseDetails.bathroomQty <= 1)
+              ? "${widget.house.houseDetails.bathroomQty} Living Room"
+              : "${widget.house.houseDetails.bathroomQty} Living Rooms",
         ),
         DetailCard(
           icon1: Icons.balcony,
-          info1: "${widget.house.bathroomQty} Balcony ",
+          info1: "${widget.house.houseDetails.bathroomQty} Balcony ",
           icon2: Icons.kitchen,
-          info2: "${widget.house.bathroomQty} Kitchen ",
+          info2: "${widget.house.houseDetails.bathroomQty} Kitchen ",
         ),
       ],
     );
@@ -79,8 +79,7 @@ class DetailCard extends StatelessWidget {
         ),
         Text(
           info1,
-          style: TextStyle(
-              fontFamily: "Raleway", fontSize: 16, color: Colors.grey.shade700),
+          style: TextStyle(fontFamily: "Raleway", fontSize: 16, color: Colors.grey.shade700),
         ),
         Expanded(child: Container()),
         Icon(color: Colors.grey.shade700, size: 16, icon2),

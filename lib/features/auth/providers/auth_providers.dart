@@ -2,7 +2,7 @@ import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:real_estate_app/features/auth/repositories/auth_repository.dart';
 import 'package:real_estate_app/features/auth/repositories/user_repository.dart';
-import 'package:real_estate_app/features/auth/providers/auth_provider.dart';
+import 'package:real_estate_app/features/auth/providers/auth_notifier.dart';
 
 final authServiceProvider = Provider((ref) {
   return AuthRepository();

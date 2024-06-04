@@ -28,21 +28,3 @@ class RentalHomeNotifier extends StateNotifier<AsyncValue> {
   }
 }
 
-final rentalHomeNotifierProvider = StateNotifierProvider<RentalHomeNotifier, AsyncValue>((ref) {
-  final repository = ref.read(rentalHomeRepository);
-  return RentalHomeNotifier(repository: repository);
-});
-
-final rentalHomeRepository = Provider((ref) {
-  return RentalHomeRepository();
-});
-
-final rentalHomeStreamProvider = StreamProvider((ref) {
-  final repository = ref.read(rentalHomeRepository);
-  return repository.getAllRentalHouse();
-});
-
-final availableRentalHomeStreamProvider = StreamProvider((ref) {
-  final repository = ref.read(rentalHomeRepository);
-  return repository.getAllAvailableRentalHouse();
-});

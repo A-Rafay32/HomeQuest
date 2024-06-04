@@ -4,7 +4,7 @@ import 'package:real_estate_app/app/themes/app_colors.dart';
 import 'package:real_estate_app/app/themes/text_theme.dart';
 import 'package:real_estate_app/core/extensions/routes_extenstion.dart';
 import 'package:real_estate_app/core/extensions/sizes_extensions.dart';
-import 'package:real_estate_app/features/auth/auth_builder.dart';
+import 'package:real_estate_app/features/auth/screens/auth_builder.dart';
 import 'package:real_estate_app/features/home/screens/home_screen.dart';
 import 'package:real_estate_app/features/onboarding/setup_profile.dart';
 
@@ -72,7 +72,7 @@ class GetStartedButton extends StatelessWidget {
       right: 70,
       child: GestureDetector(
         onTap: () {
-          context.push(const AuthStateBuilder(widget: SetupBuyerProfileScreen()));
+          context.push(AuthStateBuilder(widget: HomeScreen()));
         },
         child: Container(
           decoration: BoxDecoration(

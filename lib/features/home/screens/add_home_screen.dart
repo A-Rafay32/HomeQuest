@@ -17,7 +17,6 @@ import 'package:real_estate_app/features/home/models/house_details.dart';
 import 'package:real_estate_app/features/home/models/house_location.dart';
 import 'package:real_estate_app/features/home/models/rental_house.dart';
 import 'package:real_estate_app/features/home/providers/home_providers.dart';
-import 'package:real_estate_app/features/home/providers/rental_home_notifier.dart';
 
 class AddRentalHomeScreen extends ConsumerStatefulWidget {
   const AddRentalHomeScreen({super.key});
@@ -76,17 +75,6 @@ class _AddRentalHomeScreenState extends ConsumerState<AddRentalHomeScreen> {
                     inputDecoration:
                         AppTextFieldDecorations.genericInputDecoration(label: "Address")),
                 AppSizes.normalY,
-
-                // SizedBox(
-                //   height: 100,
-                //   width: context.w,
-                //   child: Row(
-                //     mainAxisAlignment: MainAxisAlignment.spaceEvenly,
-                //     children: [
-
-                //     ],
-                //   ),
-                // ),
                 CustomTextField(
                     validator: (value) {
                       return value == null ? "Field can't be empty" : null;
@@ -95,7 +83,6 @@ class _AddRentalHomeScreenState extends ConsumerState<AddRentalHomeScreen> {
                     inputDecoration:
                         AppTextFieldDecorations.genericInputDecoration(label: "No. of Bathrooms")),
                 AppSizes.normalY,
-
                 CustomTextField(
                     validator: (value) {
                       return value == null ? "Field can't be empty" : null;
@@ -104,7 +91,6 @@ class _AddRentalHomeScreenState extends ConsumerState<AddRentalHomeScreen> {
                     inputDecoration:
                         AppTextFieldDecorations.genericInputDecoration(label: "Size in feet")),
                 AppSizes.normalY,
-
                 CustomTextField(
                     validator: (value) {
                       return value == null ? "Field can't be empty" : null;
@@ -121,7 +107,6 @@ class _AddRentalHomeScreenState extends ConsumerState<AddRentalHomeScreen> {
                     inputDecoration: AppTextFieldDecorations.genericInputDecoration(
                         label: "\$ Rent Per Month ")),
                 AppSizes.normalY,
-
                 CustomTextField(
                     validator: (value) {
                       return value == null ? "Field can't be empty" : null;

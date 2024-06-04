@@ -8,7 +8,6 @@ import 'package:real_estate_app/core/extensions/sizes_extensions.dart';
 import 'package:real_estate_app/core/utils/loader.dart';
 import 'package:real_estate_app/features/home/providers/home_providers.dart';
 import 'package:real_estate_app/features/home/providers/home_state_provider.dart';
-import 'package:real_estate_app/features/home/providers/rental_home_notifier.dart';
 import 'package:real_estate_app/features/home/screens/add_home_screen.dart';
 import 'package:real_estate_app/features/home/screens/buyer_profile_screen.dart';
 import 'package:real_estate_app/features/home/screens/explore_screen.dart';

@@ -4,15 +4,15 @@ import 'package:real_estate_app/app/themes/app_paddings.dart';
 import 'package:real_estate_app/core/extensions/routes_extenstion.dart';
 import 'package:real_estate_app/core/extensions/sizes_extensions.dart';
 import 'package:real_estate_app/features/auth/screens/widgets/button.dart';
-import 'package:real_estate_app/features/home/models/rental_house_temp1.dart';
+import 'package:real_estate_app/features/home/models/rental_house.dart';
 import 'package:real_estate_app/features/payment/payment_screen.dart';
 import 'package:real_estate_app/features/profile_screen.dart';
 
-import '../../../utils/widgets/address_card.dart';
-import '../../../utils/widgets/description_card.dart';
+import 'widgets/address_card.dart';
+import 'widgets/description_card.dart';
 import 'widgets/image_card.dart';
-import '../../../utils/widgets/price_card.dart';
-import '../../../utils/widgets/room_size_card.dart';
+import 'widgets/price_card.dart';
+import 'widgets/room_size_card.dart';
 
 class HouseDetailScreen extends StatefulWidget {
   const HouseDetailScreen({
