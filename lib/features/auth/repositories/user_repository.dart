@@ -17,11 +17,9 @@ class UserRepository {
   FutureEither0 createUser({required UserModel user, required String uid}) async {
     try {
       await userCollection.doc(uid).set(user);
-      return Right(Success(message: "User created successfully"));
+      return success("User created successfully");
     } on FirebaseException catch (e) {
-      throw e.message.toString();
-    } catch (e) {
-      return Left(Failure(message: e.toString()));
+      return failure(e.message.toString());
     }
   }
 
@@ -39,9 +37,7 @@ class UserRepository {
           : await userDoc.reference.update(updatedFields);
       return Right(Success(message: "User Updated"));
     } on FirebaseException catch (e) {
-      throw e.message.toString();
-    } catch (e) {
-      return Left(Failure(message: e.toString()));
+      return failure(e.message.toString());
     }
   }
 
@@ -56,9 +52,7 @@ class UserRepository {
         throw "User Doesn't exist";
       }
     } on FirebaseException catch (e) {
-      throw e.message.toString();
-    } catch (e) {
-      return Left(Failure(message: e.toString()));
+      return failure(e.message.toString());
     }
   }
 
@@ -72,9 +66,7 @@ class UserRepository {
         throw "User Doesn't exist";
       }
     } on FirebaseException catch (e) {
-      throw e.message.toString();
-    } catch (e) {
-      return Left(Failure(message: e.toString()));
+      return failure(e.message.toString());
     }
   }
 
@@ -86,9 +78,7 @@ class UserRepository {
           .onError((error, stackTrace) => throw "Failed to delete User : $error");
       return Right(Success(message: "User deleted Successfully"));
     } on FirebaseException catch (e) {
-      throw e.message.toString();
-    } catch (e) {
-      return Left(Failure(message: e.toString()));
+      return failure(e.message.toString());
     }
   }
 
@@ -99,9 +89,7 @@ class UserRepository {
       }).catchError((error) => throw error);
       return Right(Success(message: "Added to Favourites ⭐"));
     } on FirebaseException catch (e) {
-      throw e.message.toString();
-    } catch (e) {
-      return Left(Failure(message: e.toString()));
+      return failure(e.message.toString());
     }
   }
 
@@ -111,9 +99,7 @@ class UserRepository {
       final houseIds = user.right.favourites;
       return await RentalHomeRepository().getUserHouses(houseIds ?? []);
     } on FirebaseException catch (e) {
-      throw e.message.toString();
-    } catch (e) {
-      return Left(Failure(message: "Failed to fetch the user favourites"));
+      return failure(e.message.toString());
     }
   }
 
@@ -123,7 +109,7 @@ class UserRepository {
       await currentUser?.updatePhotoURL(url.right).catchError((error) => throw error);
       return Right(Success(message: "Profile Image updated successfully"));
     } catch (e) {
-      return Left(Failure(message: "Failed to update the profile image "));
+      return failure("Failed to update the profile image ");
     }
   }
 }
