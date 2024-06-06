@@ -2,7 +2,6 @@ import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:either_dart/either.dart';
 import 'package:flutter/foundation.dart';
 import 'package:real_estate_app/core/utils/types.dart';
-import 'package:real_estate_app/features/auth/repositories/user_repository.dart';
 import 'package:real_estate_app/features/offer/model/offer.dart';
 
 class OfferRepository {
@@ -11,7 +10,6 @@ class OfferRepository {
   FutureEither0 createOffer(Offer offer) async {
     try {
       await offerCollection.add(offer.toMap()).catchError((error) => throw error);
-      // await SellerRepository().updateSeller();
       return success("Offer created successfully");
     } on FirebaseException catch (e) {
       debugPrint(e.toString());
@@ -56,6 +54,44 @@ class OfferRepository {
   Stream<List<Offer>> getAllOffers() {
     try {
       return offerCollection.snapshots().map((querySnapshot) {
+        return querySnapshot.docs.map((docSnapshot) {
+          return Offer.fromMap(docSnapshot.data());
+        }).toList();
+      });
+    } on FirebaseException catch (e) {
+      debugPrint(e.toString());
+      throw e.toString();
+    } catch (e) {
+      debugPrint(e.toString());
+      rethrow;
+    }
+  }
+
+  Stream<List<Offer>> getAllOffersForSeller(String sellerId) {
+    try {
+      return offerCollection
+          .where('isSentTo', isEqualTo: sellerId)
+          .snapshots()
+          .map((querySnapshot) {
+        return querySnapshot.docs.map((docSnapshot) {
+          return Offer.fromMap(docSnapshot.data());
+        }).toList();
+      });
+    } on FirebaseException catch (e) {
+      debugPrint(e.toString());
+      throw e.toString();
+    } catch (e) {
+      debugPrint(e.toString());
+      rethrow;
+    }
+  }
+
+  Stream<List<Offer>> getAllOffersBySeller(String sellerId) {
+    try {
+      return offerCollection
+          .where('isCreatedBy', isEqualTo: sellerId)
+          .snapshots()
+          .map((querySnapshot) {
         return querySnapshot.docs.map((docSnapshot) {
           return Offer.fromMap(docSnapshot.data());
         }).toList();

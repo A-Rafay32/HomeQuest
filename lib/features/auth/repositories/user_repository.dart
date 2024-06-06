@@ -34,7 +34,7 @@ class UserRepository {
       }
       (field) != null
           ? await userDoc.reference.update({field: updatedFields})
-          : await userDoc.reference.update(updatedFields);
+          : await userDoc.reference.update(updatedFields);  
       return Right(Success(message: "User Updated"));
     } on FirebaseException catch (e) {
       return failure(e.message.toString());

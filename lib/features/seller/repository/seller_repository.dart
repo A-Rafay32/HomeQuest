@@ -7,7 +7,7 @@ class SellerRepository {
   final FirebaseFirestore firestore = FirebaseFirestore.instance;
   final CollectionReference sellerCollection = FirebaseFirestore.instance.collection("sellers");
 
-  FutureEither0 createUser({required Seller seller, required String uid}) async {
+  FutureEither0 createSeller({required Seller seller, required String uid}) async {
     try {
       await sellerCollection.doc(uid).set(seller.toMap());
       return success("Seller created successfully");
@@ -16,16 +16,17 @@ class SellerRepository {
     }
   }
 
-  FutureEither0 updateUser({required String uid, required Seller seller}) async {
+  FutureEither0 updateSeller(
+      {required String uid, required Map<String, dynamic> updateFields}) async {
     try {
-      await sellerCollection.doc(uid).update(seller.toMap());
+      await sellerCollection.doc(uid).update(updateFields);
       return success("Seller updated successfully");
     } on FirebaseException catch (e) {
       return failure(e.message.toString());
     }
   }
 
-  FutureEither0 deleteUser({required String uid}) async {
+  FutureEither0 deleteSeller({required String uid}) async {
     try {
       await sellerCollection.doc(uid).delete();
       return success("Seller deleted successfully");
@@ -34,7 +35,7 @@ class SellerRepository {
     }
   }
 
-  FutureEither1<Seller> getUser({required String uid}) async {
+  FutureEither1<Seller> getSeller({required String uid}) async {
     try {
       final doc = await sellerCollection.doc(uid).get();
       if (doc.exists) {
