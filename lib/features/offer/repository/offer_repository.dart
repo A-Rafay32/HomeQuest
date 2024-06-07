@@ -9,7 +9,9 @@ class OfferRepository {
 
   FutureEither0 createOffer(Offer offer) async {
     try {
-      await offerCollection.add(offer.toMap()).catchError((error) => throw error);
+      await offerCollection
+          .add(offer.toMap())
+          .catchError((error) => throw error);
       return success("Offer created successfully");
     } on FirebaseException catch (e) {
       debugPrint(e.toString());
@@ -19,7 +21,10 @@ class OfferRepository {
 
   FutureEither0 updateOffer(String offerId, Offer offer) async {
     try {
-      await offerCollection.doc(offerId).update(offer.toMap()).catchError((error) => throw error);
+      await offerCollection
+          .doc(offerId)
+          .update(offer.toMap())
+          .catchError((error) => throw error);
       return success("Offer updated successfully");
     } on FirebaseException catch (e) {
       debugPrint(e.toString());
@@ -29,7 +34,10 @@ class OfferRepository {
 
   FutureEither0 deleteOffer(String offerId) async {
     try {
-      await offerCollection.doc(offerId).delete().catchError((error) => throw error);
+      await offerCollection
+          .doc(offerId)
+          .delete()
+          .catchError((error) => throw error);
       return success("Offer deleted successfully");
     } on FirebaseException catch (e) {
       debugPrint(e.toString());

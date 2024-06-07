@@ -1,5 +1,8 @@
 import 'package:firebase_auth/firebase_auth.dart';
+import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
+import 'package:real_estate_app/core/extensions/routes_extenstion.dart';
+import 'package:real_estate_app/core/extensions/snackbar_ext.dart';
 import 'package:real_estate_app/core/utils/types.dart';
 import 'package:real_estate_app/features/auth/repositories/auth_repository.dart';
 
@@ -14,23 +17,38 @@ class AuthNotifier extends StateNotifier<AsyncValue> {
 
   Stream<User?> authStateChanges() => authService.authStateChanges();
 
-  FutureEither0 signIn(
-      {required String email, required String password}) async {
+  void signIn(
+      {required String email,
+      required String password,
+      required BuildContext context}) async {
     state = const AsyncValue.loading();
-    return await authService
+    final result = await authService
         .signIn(email: email, password: password)
         .whenComplete(() => state = const AsyncValue.data(null));
+    result.fold((left) {
+      context.showSnackBar(left.message.toString());
+    }, (right) {
+      context.showSnackBar(right.message.toString());
+    });
   }
 
   FutureEither0 signOut() async {
     return await authService.signOut();
   }
 
-  FutureEither0 register(
-      {required String name,
-      required String email,
-      required String password}) async {
-    return await authService.register(
+  void register({
+    required String name,
+    required String email,
+    required String password,
+    required BuildContext context,
+  }) async {
+    final result = await authService.register(
         name: name, email: email, password: password);
+    result.fold((left) {
+      context.showSnackBar(left.message.toString());
+    }, (right) {
+      context.showSnackBar(right.message.toString());
+      context.pop();
+    });
   }
 }

@@ -24,7 +24,6 @@ class HomeScreen extends ConsumerWidget {
     super.key,
   });
 
-  static String homeScreen = "/HomeScreen";
   int currentScreen = 0;
   final List<Widget> screens = [
     const HomeScreenWidget(),
@@ -41,8 +40,9 @@ class HomeScreen extends ConsumerWidget {
     return Scaffold(
       extendBody: true,
       backgroundColor: AppColors.primaryColor,
-      appBar:
-          PreferredSize(preferredSize: const Size.fromHeight(65), child: appBars[currentScreen]),
+      appBar: PreferredSize(
+          preferredSize: const Size.fromHeight(65),
+          child: appBars[currentScreen]),
       body: screens[currentScreen],
       bottomNavigationBar: CustomNavigationBar(
         w: context.w,
@@ -65,7 +65,8 @@ class HomeScreenWidget extends ConsumerStatefulWidget {
   const HomeScreenWidget({super.key});
 
   @override
-  ConsumerState<ConsumerStatefulWidget> createState() => _HomeScreenWidgetState();
+  ConsumerState<ConsumerStatefulWidget> createState() =>
+      _HomeScreenWidgetState();
 }
 
 class _HomeScreenWidgetState extends ConsumerState<HomeScreenWidget> {
@@ -104,7 +105,8 @@ class _HomeScreenWidgetState extends ConsumerState<HomeScreenWidget> {
                 decoration: const BoxDecoration(
                   color: Colors.white,
                   borderRadius: BorderRadius.only(
-                      topLeft: Radius.circular(45), topRight: Radius.circular(45)),
+                      topLeft: Radius.circular(45),
+                      topRight: Radius.circular(45)),
                 ),
                 child: Column(
                   children: [
@@ -126,7 +128,8 @@ class _HomeScreenWidgetState extends ConsumerState<HomeScreenWidget> {
                           itemCount: data.length,
                           itemBuilder: (context, index) => FeaturedHouseImages(
                                 onTap: () {
-                                  context.push(HouseDetailScreen(house: data[index]));
+                                  context.push(
+                                      HouseDetailScreen(house: data[index]));
                                 },
                                 house: data[index],
                               )),

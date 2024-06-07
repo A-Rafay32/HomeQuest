@@ -5,9 +5,11 @@ import 'package:real_estate_app/features/seller/model/seller.dart';
 
 class SellerRepository {
   final FirebaseFirestore firestore = FirebaseFirestore.instance;
-  final CollectionReference sellerCollection = FirebaseFirestore.instance.collection("sellers");
+  final CollectionReference sellerCollection =
+      FirebaseFirestore.instance.collection("sellers");
 
-  FutureEither0 createSeller({required Seller seller, required String uid}) async {
+  FutureEither0 createSeller(
+      {required Seller seller, required String uid}) async {
     try {
       await sellerCollection.doc(uid).set(seller.toMap());
       return success("Seller created successfully");
@@ -51,7 +53,8 @@ class SellerRepository {
   FutureEither1<Seller> getSellerByEmail(String email) async {
     try {
       // get user
-      QuerySnapshot userDoc = await sellerCollection.where("email", isEqualTo: email).get();
+      QuerySnapshot userDoc =
+          await sellerCollection.where("email", isEqualTo: email).get();
       if (userDoc.docs.isNotEmpty) {
         return Right(userDoc.docs as Seller);
       } else {

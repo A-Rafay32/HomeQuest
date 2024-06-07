@@ -62,7 +62,7 @@ class SetNewPassword extends StatelessWidget {
               AppSizes.largeY,
               Button(
                 press: () {
-                  context.pushNamed(HomeScreen.homeScreen);
+                  context.push(HomeScreen());
                 },
                 text: "Submit",
               ),

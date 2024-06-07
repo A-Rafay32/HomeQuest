@@ -8,15 +8,14 @@ import 'package:real_estate_app/features/auth/model/user.dart';
 import 'package:real_estate_app/features/home/repositories/rental_home_repository.dart';
 
 class UserRepository {
-  UserRepository._priv();
-  static final instance = UserRepository._priv();
-
   final FirebaseFirestore firestore = FirebaseFirestore.instance;
-  final CollectionReference userCollection = FirebaseFirestore.instance.collection("users");
+  final CollectionReference userCollection =
+      FirebaseFirestore.instance.collection("users");
 
-  FutureEither0 createUser({required UserModel user, required String uid}) async {
+  FutureEither0 createUser(
+      {required UserModel user, required String uid}) async {
     try {
-      await userCollection.doc(uid).set(user);
+      await userCollection.doc(uid).set(user.toMap());
       return success("User created successfully");
     } on FirebaseException catch (e) {
       return failure(e.message.toString());
@@ -24,7 +23,9 @@ class UserRepository {
   }
 
   FutureEither0 updateUser(
-      {required docId, String? field, required Map<String, dynamic> updatedFields}) async {
+      {required docId,
+      String? field,
+      required Map<String, dynamic> updatedFields}) async {
     try {
       // get user
       DocumentSnapshot userDoc = await userCollection.doc(docId).get();
@@ -32,9 +33,8 @@ class UserRepository {
       if (!userDoc.exists) {
         throw "User Doc doesnt't exist";
       }
-      (field) != null
-          ? await userDoc.reference.update({field: updatedFields})
-          : await userDoc.reference.update(updatedFields);  
+
+      await userDoc.reference.update(updatedFields);
       return Right(Success(message: "User Updated"));
     } on FirebaseException catch (e) {
       return failure(e.message.toString());
@@ -59,11 +59,15 @@ class UserRepository {
   FutureEither1<UserModel> getUserByEmail(String email) async {
     try {
       // get user
-      QuerySnapshot userDoc = await userCollection.where("email", isEqualTo: email).get();
+      QuerySnapshot userDoc = await userCollection
+          .where("userDetails.email", isEqualTo: email)
+          .get();
       if (userDoc.docs.isNotEmpty) {
-        return Right(userDoc.docs as UserModel);
+        Map<String, dynamic> userData =
+            userDoc.docs.first.data() as Map<String, dynamic>;
+        return Right(UserModel.fromMap(userData));
       } else {
-        throw "User Doesn't exist";
+        return failure("User Doesn't exist");
       }
     } on FirebaseException catch (e) {
       return failure(e.message.toString());
@@ -72,10 +76,8 @@ class UserRepository {
 
   FutureEither0 deleteUser(String documentId) async {
     try {
-      await userCollection
-          .doc(documentId)
-          .delete()
-          .onError((error, stackTrace) => throw "Failed to delete User : $error");
+      await userCollection.doc(documentId).delete().onError(
+          (error, stackTrace) => throw "Failed to delete User : $error");
       return Right(Success(message: "User deleted Successfully"));
     } on FirebaseException catch (e) {
       return failure(e.message.toString());
@@ -105,8 +107,11 @@ class UserRepository {
 
   FutureEither0 setUserProfileImage() async {
     try {
-      final url = await ImageService().uploadImage(userStorageRef, currentUser?.displayName ?? "");
-      await currentUser?.updatePhotoURL(url.right).catchError((error) => throw error);
+      final url = await ImageService()
+          .uploadImage(userStorageRef, currentUser?.displayName ?? "");
+      await currentUser
+          ?.updatePhotoURL(url.right)
+          .catchError((error) => throw error);
       return Right(Success(message: "Profile Image updated successfully"));
     } catch (e) {
       return failure("Failed to update the profile image ");

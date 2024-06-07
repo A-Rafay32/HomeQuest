@@ -5,6 +5,7 @@ import 'package:real_estate_app/core/exceptions/exceptions.dart';
 import 'package:real_estate_app/features/auth/model/user_details.dart';
 import 'package:real_estate_app/features/auth/repositories/auth_repository.dart';
 import 'package:real_estate_app/features/auth/model/user.dart';
+import 'package:real_estate_app/features/auth/repositories/user_repository.dart';
 
 class SocialAuthService extends AuthRepository {
   Future<Either<Failure, Success>> googleSignIn() async {
@@ -14,9 +15,11 @@ class SocialAuthService extends AuthRepository {
 
       //check for exisiting user
       if (googleUser != null) {
-        final foundUser = await userService.getUserByEmail(googleUser.email);
+        final foundUser =
+            await UserRepository().getUserByEmail(googleUser.email);
         // Obtain the auth details from the request
-        final GoogleSignInAuthentication googleAuth = await googleUser.authentication;
+        final GoogleSignInAuthentication googleAuth =
+            await googleUser.authentication;
 
         // Create a new credential
         final credential = GoogleAuthProvider.credential(
@@ -28,7 +31,7 @@ class SocialAuthService extends AuthRepository {
 
         // if failed to get any user with this email
         if (foundUser.isLeft) {
-          final result = await userService.createUser(
+          final result = await UserRepository().createUser(
               user: UserModel(
                   id: userCredential.user?.uid ?? "",
                   userDetails: UserDetails(
@@ -38,7 +41,8 @@ class SocialAuthService extends AuthRepository {
               uid: userCredential.user?.uid.toString() ?? "");
         }
       }
-      return Right(Success(message: "User signed in with {credential.signInMethod}"));
+      return Right(
+          Success(message: "User signed in with {credential.signInMethod}"));
     } on FirebaseAuthException catch (e) {
       return Left(Failure(message: e.message.toString()));
     }
@@ -46,7 +50,8 @@ class SocialAuthService extends AuthRepository {
 
   Future<Either<Failure, Success>> facebookSignIn() async {
     try {
-      return Right(Success(message: "User signed in with {credential.signInMethod}"));
+      return Right(
+          Success(message: "User signed in with {credential.signInMethod}"));
     } on FirebaseAuthException catch (e) {
       return Left(Failure(message: e.message.toString()));
     }

@@ -5,7 +5,8 @@ import 'package:real_estate_app/features/bill/model/bill.dart';
 
 class BillRepository {
   final FirebaseFirestore firestore = FirebaseFirestore.instance;
-  final CollectionReference billCollection = FirebaseFirestore.instance.collection("bills");
+  final CollectionReference billCollection =
+      FirebaseFirestore.instance.collection("bills");
 
   FutureEither0 createBill(Bill bill) async {
     try {
@@ -64,7 +65,10 @@ class BillRepository {
 
   Stream<List<Bill>> getBillsByHouseId(String houseId) {
     try {
-      return billCollection.where('houseId', isEqualTo: houseId).snapshots().map((querySnapshot) {
+      return billCollection
+          .where('houseId', isEqualTo: houseId)
+          .snapshots()
+          .map((querySnapshot) {
         return querySnapshot.docs.map((docSnapshot) {
           return Bill.fromMap(docSnapshot.data() as Map<String, dynamic>);
         }).toList();

@@ -3,8 +3,6 @@ import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:real_estate_app/app/themes/app_paddings.dart';
 import 'package:real_estate_app/core/extensions/routes_extenstion.dart';
 import 'package:real_estate_app/core/extensions/sizes_extensions.dart';
-import 'package:real_estate_app/core/extensions/snackbar_ext.dart';
-import 'package:real_estate_app/core/utils/types.dart';
 import 'package:real_estate_app/features/auth/providers/auth_providers.dart';
 import 'package:real_estate_app/features/auth/screens/register_screen.dart';
 import 'package:real_estate_app/features/auth/screens/widgets/app_bar_white.dart';
@@ -20,7 +18,6 @@ class LoginScreen extends ConsumerWidget {
     super.key,
   });
 
-  static const loginScreen = "/LoginScreen";
   final TextEditingController emailController = TextEditingController();
   final TextEditingController passwordController = TextEditingController();
 
@@ -59,7 +56,10 @@ class LoginScreen extends ConsumerWidget {
               AppSizes.normalY,
               Button(
                 isLoading: ref.watch(authNotifier).isLoading,
-                press: () => login(ref, context),
+                press: () => ref.read(authNotifier.notifier).signIn(
+                    email: emailController.text.trim(),
+                    password: passwordController.text.trim(),
+                    context: context),
                 text: "Login",
               ),
               AppSizes.largeY,
@@ -67,23 +67,12 @@ class LoginScreen extends ConsumerWidget {
               const SocialCard(),
               const Spacer(),
               SignUpBar(
-                onTap: () => context.pushNamed(RegisterScreen.registerScreen),
+                onTap: () => context.push(RegisterScreen()),
                 text1: "Dont't have an account?",
                 text2: "Sign up",
               ),
             ],
           ),
         )));
-  }
-
-  void login(WidgetRef ref, BuildContext context) async {
-    Either0 result = await ref
-        .read(authNotifier.notifier)
-        .signIn(email: emailController.text.trim(), password: passwordController.text.trim());
-    result.fold((left) {
-      context.showSnackBar(left.message.toString());
-    }, (right) {
-      context.showSnackBar(right.message.toString());
-    });
   }
 }

@@ -11,8 +11,6 @@ import 'package:real_estate_app/features/onboarding/setup_profile.dart';
 class SplashScreen extends StatelessWidget {
   const SplashScreen({super.key});
 
-  static const String splashScreen = "/";
-
   @override
   Widget build(BuildContext context) {
     return Scaffold(

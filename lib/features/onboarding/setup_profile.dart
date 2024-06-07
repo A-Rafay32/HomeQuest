@@ -68,7 +68,8 @@ class SetupBuyerProfileScreen extends ConsumerWidget {
           CustomTextField(
             onChanged: (value) {},
             controller: addressController,
-            inputDecoration: AppTextFieldDecorations.genericInputDecoration(label: "Address"),
+            inputDecoration: AppTextFieldDecorations.genericInputDecoration(
+                label: "Address"),
           ),
           AppSizes.normalY,
           CustomFieldDropDown(onTap: () {}, focus: genderFocus, hint: 'Gender'),
@@ -86,7 +87,8 @@ class SetupBuyerProfileScreen extends ConsumerWidget {
           CustomTextField(
             onChanged: (value) {},
             controller: locationController,
-            inputDecoration: AppTextFieldDecorations.genericInputDecoration(label: "Location"),
+            inputDecoration: AppTextFieldDecorations.genericInputDecoration(
+                label: "Location"),
           ),
           AppSizes.largeY,
           Button(
@@ -99,11 +101,11 @@ class SetupBuyerProfileScreen extends ConsumerWidget {
   }
 
   void _continue(WidgetRef ref, BuildContext context) async {
-    final result = ref.read(userNotifier.notifier).updateUser(field: "userDetails", updatedFields: {
-      "phoneNum": phoneController.text.trim(),
-      "address": addressController.text.trim(),
-      "gender": CustomFieldDropDown.selectedValue,
-      "dateOfBirth": dateController.text.trim(),
+    final result = ref.read(userNotifier.notifier).updateUser(updatedFields: {
+      "userDetails.phoneNum": phoneController.text.trim(),
+      "userDetails.address": addressController.text.trim(),
+      "userDetails.gender": CustomFieldDropDown.selectedValue,
+      "userDetails.dateOfBirth": dateController.text.trim(),
     });
     result.fold((left) {
       context.showSnackBar(left.message.toString());

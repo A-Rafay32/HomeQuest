@@ -1,20 +1,22 @@
 import 'package:firebase_auth/firebase_auth.dart';
+import 'package:flutter/foundation.dart';
 import 'package:real_estate_app/core/utils/types.dart';
 import 'package:real_estate_app/features/auth/model/user_details.dart';
 import 'package:real_estate_app/features/auth/repositories/user_repository.dart';
 import 'package:real_estate_app/features/auth/model/user.dart';
 
 class AuthRepository {
-  final UserRepository userService = UserRepository.instance;
   static FirebaseAuth get firebaseAuth => FirebaseAuth.instance;
   static User? get currentUser => firebaseAuth.currentUser;
 
   Stream<User?> authStateChanges() => firebaseAuth.authStateChanges();
 
-  FutureEither0 signIn({required String email, required String password}) async {
+  FutureEither0 signIn(
+      {required String email, required String password}) async {
     try {
-      await firebaseAuth.signInWithEmailAndPassword(email: email, password: password);
-      final result = await userService.getUserByEmail(email);
+      await firebaseAuth.signInWithEmailAndPassword(
+          email: email, password: password);
+      final result = await UserRepository().getUserByEmail(email);
 
       if (result.isLeft) {
         return failure("No user exists with the email provided");
@@ -22,7 +24,8 @@ class AuthRepository {
       return success("User signed in with $email");
     } on FirebaseAuthException catch (e) {
       return failure(e.message.toString());
-    } catch (e) {
+    } catch (e, stackTrace) {
+      debugPrint('Error: $e\nStack Trace: $stackTrace');
       return success(e.toString());
     }
   }
@@ -33,16 +36,20 @@ class AuthRepository {
       return success("User signed out successfully");
     } on FirebaseAuthException catch (e) {
       return failure(e.message.toString());
-    } catch (e) {
+    } catch (e, stackTrace) {
+      debugPrint('Error: $e\nStack Trace: $stackTrace');
       return success(e.toString());
     }
   }
 
   FutureEither0 register(
-      {required String name, required String email, required String password}) async {
+      {required String name,
+      required String email,
+      required String password}) async {
     try {
-      await firebaseAuth.createUserWithEmailAndPassword(email: email, password: password);
-      final result = await userService.createUser(
+      await firebaseAuth.createUserWithEmailAndPassword(
+          email: email, password: password);
+      final result = await UserRepository().createUser(
           user: UserModel(
               id: currentUser?.uid ?? "",
               userDetails: UserDetails(
@@ -51,6 +58,7 @@ class AuthRepository {
                 password: password,
               )),
           uid: currentUser?.uid ?? "");
+      await currentUser?.updateDisplayName(name);
 
       if (result.isLeft) {
         return failure("User failed to be created in database");
@@ -59,12 +67,13 @@ class AuthRepository {
       return success("User created with email: $email");
     } on FirebaseAuthException catch (e) {
       return failure(e.message.toString());
-    } catch (e) {
+    } catch (e, stackTrace) {
+      debugPrint('Error: $e\nStack Trace: $stackTrace');
       return success(e.toString());
     }
   }
 
-  void resetPassword(
+  FutureEither0 resetPassword(
     String email,
     String code,
     String newPassword,
@@ -73,12 +82,15 @@ class AuthRepository {
       await firebaseAuth.sendPasswordResetEmail(email: email);
       String returnedEmail = await firebaseAuth.verifyPasswordResetCode(code);
       if (returnedEmail.isNotEmpty) {
-        await firebaseAuth.confirmPasswordReset(code: code, newPassword: newPassword);
+        await firebaseAuth.confirmPasswordReset(
+            code: code, newPassword: newPassword);
       } else {
-        throw "Reset code failed to verify";
+        return failure("Reset code failed to verify");
       }
-    } catch (e) {
-      rethrow;
+      return success("password reset successfully");
+    } catch (e, stackTrace) {
+      debugPrint('Error: $e\nStack Trace: $stackTrace');
+      return failure(e.toString());
     }
   }
 

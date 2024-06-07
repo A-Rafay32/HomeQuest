@@ -1,4 +1,3 @@
-import 'package:either_dart/either.dart';
 import "package:email_validator/email_validator.dart";
 import "package:flutter/material.dart";
 import 'package:flutter_riverpod/flutter_riverpod.dart';
@@ -6,8 +5,6 @@ import "package:real_estate_app/app/themes/app_paddings.dart";
 import "package:real_estate_app/app/themes/app_text_field_themes.dart";
 import 'package:real_estate_app/core/extensions/routes_extenstion.dart';
 import 'package:real_estate_app/core/extensions/sizes_extensions.dart';
-import 'package:real_estate_app/core/extensions/snackbar_ext.dart';
-import 'package:real_estate_app/core/exceptions/exceptions.dart';
 import 'package:real_estate_app/features/auth/providers/auth_providers.dart';
 import 'package:real_estate_app/features/auth/screens/widgets/app_bar_white.dart';
 import 'package:real_estate_app/features/auth/screens/widgets/button.dart';
@@ -19,7 +16,6 @@ import 'package:real_estate_app/features/auth/screens/widgets/signup_bar.dart';
 class RegisterScreen extends ConsumerWidget {
   RegisterScreen({super.key});
 
-  static String registerScreen = "/RegisterScreen";
   bool isReset = true;
 
   TextEditingController nameController = TextEditingController();
@@ -65,7 +61,11 @@ class RegisterScreen extends ConsumerWidget {
               AppSizes.largeY,
               Button(
                 isLoading: ref.watch(authNotifier).isLoading,
-                press: () => _register(ref, context),
+                press: () => ref.read(authNotifier.notifier).register(
+                    name: nameController.text.trim(),
+                    email: emailController.text.trim(),
+                    password: passwordController.text.trim(),
+                    context: context),
                 text: "Register",
               ),
               const Spacer(),
@@ -77,22 +77,6 @@ class RegisterScreen extends ConsumerWidget {
             ],
           ),
         ));
-  }
-
-  void _register(WidgetRef ref, BuildContext context) async {
-    Either<Failure, Success> result = await ref
-        .read(authNotifier.notifier)
-        .register(
-            name: nameController.text.trim(),
-            email: emailController.text.trim(),
-            password: passwordController.text.trim());
-
-    result.fold((left) {
-      context.showSnackBar(left.message.toString());
-    }, (right) {
-      context.showSnackBar(right.message.toString());
-      context.pop();
-    });
   }
 }
 
