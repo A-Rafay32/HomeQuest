@@ -22,7 +22,8 @@ class AddRentalHomeScreen extends ConsumerStatefulWidget {
   const AddRentalHomeScreen({super.key});
 
   @override
-  ConsumerState<AddRentalHomeScreen> createState() => _AddRentalHomeScreenState();
+  ConsumerState<AddRentalHomeScreen> createState() =>
+      _AddRentalHomeScreenState();
 }
 
 class _AddRentalHomeScreenState extends ConsumerState<AddRentalHomeScreen> {
@@ -65,7 +66,9 @@ class _AddRentalHomeScreenState extends ConsumerState<AddRentalHomeScreen> {
                       return value == null ? "Field can't be empty" : null;
                     },
                     controller: nameController,
-                    inputDecoration: AppTextFieldDecorations.genericInputDecoration(label: "Name")),
+                    inputDecoration:
+                        AppTextFieldDecorations.genericInputDecoration(
+                            label: "Name")),
                 AppSizes.normalY,
                 CustomTextField(
                     validator: (value) {
@@ -73,7 +76,8 @@ class _AddRentalHomeScreenState extends ConsumerState<AddRentalHomeScreen> {
                     },
                     controller: addressController,
                     inputDecoration:
-                        AppTextFieldDecorations.genericInputDecoration(label: "Address")),
+                        AppTextFieldDecorations.genericInputDecoration(
+                            label: "Address")),
                 AppSizes.normalY,
                 CustomTextField(
                     validator: (value) {
@@ -81,7 +85,8 @@ class _AddRentalHomeScreenState extends ConsumerState<AddRentalHomeScreen> {
                     },
                     controller: bathroomQtyController,
                     inputDecoration:
-                        AppTextFieldDecorations.genericInputDecoration(label: "No. of Bathrooms")),
+                        AppTextFieldDecorations.genericInputDecoration(
+                            label: "No. of Bathrooms")),
                 AppSizes.normalY,
                 CustomTextField(
                     validator: (value) {
@@ -89,7 +94,8 @@ class _AddRentalHomeScreenState extends ConsumerState<AddRentalHomeScreen> {
                     },
                     controller: sizeController,
                     inputDecoration:
-                        AppTextFieldDecorations.genericInputDecoration(label: "Size in feet")),
+                        AppTextFieldDecorations.genericInputDecoration(
+                            label: "Size in feet")),
                 AppSizes.normalY,
                 CustomTextField(
                     validator: (value) {
@@ -97,15 +103,17 @@ class _AddRentalHomeScreenState extends ConsumerState<AddRentalHomeScreen> {
                     },
                     controller: roomQtyController,
                     inputDecoration:
-                        AppTextFieldDecorations.genericInputDecoration(label: "No. of Rooms")),
+                        AppTextFieldDecorations.genericInputDecoration(
+                            label: "No. of Rooms")),
                 AppSizes.normalY,
                 CustomTextField(
                     validator: (value) {
                       return value == null ? "Field can't be empty" : null;
                     },
                     controller: rentController,
-                    inputDecoration: AppTextFieldDecorations.genericInputDecoration(
-                        label: "\$ Rent Per Month ")),
+                    inputDecoration:
+                        AppTextFieldDecorations.genericInputDecoration(
+                            label: "\$ Rent Per Month ")),
                 AppSizes.normalY,
                 CustomTextField(
                     validator: (value) {
@@ -113,7 +121,8 @@ class _AddRentalHomeScreenState extends ConsumerState<AddRentalHomeScreen> {
                     },
                     controller: descriptionController,
                     inputDecoration:
-                        AppTextFieldDecorations.genericInputDecoration(label: "Description")),
+                        AppTextFieldDecorations.genericInputDecoration(
+                            label: "Description")),
                 AppSizes.normalY,
                 Button(
                     isLoading: ref.watch(rentalHomeNotifierProvider).isLoading,
@@ -159,7 +168,7 @@ class _AddRentalHomeScreenState extends ConsumerState<AddRentalHomeScreen> {
         listedBy: currentUser?.uid ?? "",
         isApproved: true,
         propertyTax: 300,
-        rentPerMonth: double.parse(rentController.text.trim().toString()));
+        rentPerMonth: double.parse(rentController.text.trim()));
     final result = await ref
         .read(rentalHomeNotifierProvider.notifier)
         .addRentalHouse(rentalHouse: rentalhouse, ownerId: ownerId);

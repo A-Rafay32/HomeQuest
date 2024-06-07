@@ -7,7 +7,7 @@ class UserDetails {
   final String? phoneNum;
   final String? image;
   final String? address;
-  final String? bio;  
+  final String? bio;
   final DateTime? dateofBirth;
   final Gender? gender;
 
@@ -39,8 +39,8 @@ class UserDetails {
 
   factory UserDetails.fromMap(Map<String, dynamic> map) {
     return UserDetails(
-      name: map['name'],
-      email: map['email'],
+      name: map['UserDetails.name'],
+      email: map['UserDetails.email'],
       password: map['password'],
       phoneNum: map['phoneNum'],
       image: map['image'],
@@ -49,9 +49,7 @@ class UserDetails {
       dateofBirth: map['dateofBirth'] != null
           ? DateTime.parse(map['dateofBirth'])
           : null,
-      gender: map['gender'] != null
-          ? Gender.values.firstWhere((e) => e.toString() == map['gender'])
-          : null,
+      gender: Gender.toGender(map['gender']),
     );
   }
 }

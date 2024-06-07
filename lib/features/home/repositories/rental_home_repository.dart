@@ -16,28 +16,28 @@ class RentalHomeRepository {
       {required RentalHouse rentalHouse, required String? ownerId}) async {
     try {
       if (ownerId != null) {
-        final isLegit = await UserRepository().getUser(ownerId).fold(
-            (left) => throw left.message,
-            (right) =>
-                right.usertype == UserType.admin ||
-                right.usertype == UserType.seller);
+        // final isLegit = await UserRepository().getUser(ownerId).fold(
+        //     (left) => throw left.message,
+        //     (right) =>
+        //         right.usertype == UserType.admin ||
+        //         right.usertype == UserType.seller);
 
-        if (isLegit) {
-          houseCollection
-              .add(rentalHouse.toMap())
-              .catchError((error) => throw error.toString());
-        } else {
-          return Left(
-              Failure(message: "You don't have permission for this action"));
-        }
+        // if (isLegit) {
+        await houseCollection
+            .add(rentalHouse.toMap())
+            .catchError((error) => throw error.toString());
+        // } else {
+        //   return Left(
+        //       Failure(message: "You don't have permission for this action"));
+        // }
         return Right(Success(message: "House added successfully"));
       } else {
         return Left(Failure(message: "Owner Id is empty "));
       }
     } on FirebaseException catch (e) {
-      rethrow;
-    } catch (e) {
-      debugPrint(e.toString());
+      return failure(e.toString());
+    } catch (e, stackTrace) {
+      debugPrint("error : $e \n StackTrace : $stackTrace ");
       return Left(Failure(message: e.toString()));
     }
   }
