@@ -24,7 +24,7 @@ class RentalHomeRepository {
         } else {
           return Left(Failure(message: "You don't have permission for this action"));
         }
-        return Right(Success(message: "House added successfully"));
+        return Right(Success( "House added successfully"));
       } else {
         return Left(Failure(message: "Owner Id is empty "));
       }

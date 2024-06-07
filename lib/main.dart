@@ -4,7 +4,7 @@ import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:real_estate_app/app/routes/app_routes.dart';
 import 'package:real_estate_app/app/themes/app_themes.dart';
-import 'package:real_estate_app/features/onboarding/splash_screen.dart';
+import 'package:real_estate_app/features/auth/screens/login_screen.dart';
 import 'package:real_estate_app/firebase_options.dart';
 
 void main() async {
@@ -27,7 +27,7 @@ class MyApp extends StatelessWidget {
           return MaterialApp(
             debugShowCheckedModeBanner: false,
             title: 'Real Estate',
-            initialRoute: SplashScreen.splashScreen,
+            initialRoute: LoginScreen.loginScreen,
             theme: AppThemes().theme,
             routes: AppRoutes.routes,
           );

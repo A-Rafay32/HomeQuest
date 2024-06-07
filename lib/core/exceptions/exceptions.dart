@@ -1,3 +1,5 @@
+import 'package:real_estate_app/features/bill/model/bill.dart';
+
 class AppException {
   final String? code;
   final String message;
