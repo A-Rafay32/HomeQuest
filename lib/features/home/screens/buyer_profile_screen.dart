@@ -63,8 +63,7 @@ class BuyerProfileScreen extends ConsumerWidget {
   }
 
   void _signOut(WidgetRef ref, BuildContext context) async {
-    Either0 result =
-        await ref.read(authNotifier.notifier).signOut().whenComplete(() {
+    Either0 result = await ref.read(authNotifier.notifier).signOut().whenComplete(() {
       context.pop();
       ref.read(homeStateProvider.notifier).state = 0;
     });

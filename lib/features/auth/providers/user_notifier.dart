@@ -4,6 +4,7 @@ import 'package:real_estate_app/app/constants/firebase_constants.dart';
 import 'package:real_estate_app/core/utils/types.dart';
 import 'package:real_estate_app/features/auth/repositories/user_repository.dart';
 import 'package:real_estate_app/features/auth/providers/auth_providers.dart';
+import 'package:real_estate_app/features/home/models/rental_house.dart';
 
 class UserNotifier extends StateNotifier<AsyncValue> {
   UserNotifier({required this.userService}) : super(const AsyncValue.data(null));
@@ -21,7 +22,7 @@ class UserNotifier extends StateNotifier<AsyncValue> {
     return await userService.addToFavourites(houseId);
   }
 
-  Future<AsyncValue<List<DocumentSnapshot>>> getFavourites() async {
+  Future<AsyncValue<List<RentalHouse>>> getFavourites() async {
     state = const AsyncValue.loading();
     return await userService.getUserFavourites().then((value) => AsyncValue.data(value.right));
   }

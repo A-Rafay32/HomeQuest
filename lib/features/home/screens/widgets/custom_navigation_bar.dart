@@ -33,9 +33,7 @@ class CustomNavigationBar extends ConsumerWidget {
       decoration: BoxDecoration(
         boxShadow: [
           BoxShadow(
-              offset: const Offset(0, 10),
-              blurRadius: 35,
-              color: Colors.black.withOpacity(0.32))
+              offset: const Offset(0, 10), blurRadius: 35, color: Colors.black.withOpacity(0.32))
         ],
         color: Colors.black,
         borderRadius: BorderRadius.circular(30),
@@ -79,8 +77,8 @@ class BottomNavBarItem extends StatelessWidget {
       onTap: onTap,
       child: Container(
         decoration: const BoxDecoration(
-            borderRadius: BorderRadius.only(
-                topLeft: Radius.circular(15), topRight: Radius.circular(15))),
+            borderRadius:
+                BorderRadius.only(topLeft: Radius.circular(15), topRight: Radius.circular(15))),
         margin: const EdgeInsets.symmetric(horizontal: 8, vertical: 0),
         // padding: const EdgeInsets.symmetric(horizontal: 10, vertical: 0),
         child: Column(
@@ -92,9 +90,7 @@ class BottomNavBarItem extends StatelessWidget {
                     height: 17,
                     width: 17,
                     colorFilter: ColorFilter.mode(
-                        isTagSelected
-                            ? AppColors.secondaryColor
-                            : AppColors.backgroundColor,
+                        isTagSelected ? AppColors.secondaryColor : AppColors.backgroundColor,
                         BlendMode.srcIn),
                   ),
             const SizedBox(
@@ -103,9 +99,7 @@ class BottomNavBarItem extends StatelessWidget {
             Text(
               text,
               style: Theme.of(context).textTheme.labelSmall?.copyWith(
-                    color: isTagSelected
-                        ? AppColors.secondaryColor
-                        : AppColors.backgroundColor,
+                    color: isTagSelected ? AppColors.secondaryColor : AppColors.backgroundColor,
                   ),
             ),
           ],

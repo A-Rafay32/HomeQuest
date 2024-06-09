@@ -84,18 +84,20 @@ class RentalHomeRepository {
     }
   }
 
-  FutureEither1<List<DocumentSnapshot>> getUserHouses(List<dynamic> houseIds) async {
+  FutureEither1<List<RentalHouse>> getUserHouses(List<dynamic> houseIds) async {
     try {
-      List<DocumentSnapshot> list = [];
+      List<RentalHouse> list = [];
       for (var id in houseIds) {
         DocumentSnapshot docs =
             await houseCollection.doc(id).get().catchError((error) => throw error.toString());
-        list.add(docs);
+        print(docs.data() as Map<String, dynamic>);
+        list.add(RentalHouse.fromMap(docs.data() as Map<String, dynamic>));
       }
       return Right(list);
     } on FirebaseException catch (e) {
       throw e.message.toString();
-    } catch (e) {
+    } catch (e, stackTrace) {
+      debugPrint(" error : ${e.toString()} \n stackTrace : $stackTrace");
       return Left(Failure(message: e.toString()));
     }
   }

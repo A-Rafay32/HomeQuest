@@ -1,8 +1,10 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:flutter_svg/svg.dart';
+import 'package:real_estate_app/app/constants/firebase_constants.dart';
 import 'package:real_estate_app/core/extensions/routes_extenstion.dart';
 import 'package:real_estate_app/core/extensions/sizes_extensions.dart';
+import 'package:real_estate_app/features/auth/repositories/user_repository.dart';
 
 class ProfileOptionsList extends StatelessWidget {
   const ProfileOptionsList({
@@ -14,7 +16,9 @@ class ProfileOptionsList extends StatelessWidget {
     return Column(
       children: [
         ProfileOptionsCard(
-          onTap: () {},
+          onTap: () {
+            UserRepository().getUser(currentUser?.uid ?? "");
+          },
           icon: "assets/svgs/profile/profile.svg",
           text: "Profile",
           w: context.w,
@@ -145,9 +149,8 @@ class ProfileOptionsCard extends StatelessWidget {
               width: svgW ?? 25.w, // Adjust the width as needed
               height: svgH ?? 25.h, // Adjust the height as needed
 
-              colorFilter: ColorFilter.mode(
-                  text == "Logout" ? Colors.red : Colors.black,
-                  BlendMode.srcIn),
+              colorFilter:
+                  ColorFilter.mode(text == "Logout" ? Colors.red : Colors.black, BlendMode.srcIn),
             ),
             const SizedBox(width: 10),
             Text(

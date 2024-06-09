@@ -1,6 +1,5 @@
 import 'package:real_estate_app/core/enums/house_status.dart';
 import 'package:real_estate_app/core/enums/house_type.dart';
-import 'package:real_estate_app/features/bill/model/bill.dart';
 import 'package:real_estate_app/features/home/models/home_review.dart';
 import 'package:real_estate_app/features/home/models/house.dart';
 import 'package:real_estate_app/features/home/models/house_details.dart';

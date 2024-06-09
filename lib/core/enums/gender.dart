@@ -4,8 +4,10 @@ enum Gender {
   other;
 
   static Gender? toGender(String? str) {
-    return (str != null)
-        ? Gender.values.firstWhere((element) => element.name == str)
-        : Gender.male;
+    return
+        // (str != null)
+        //     ? Gender.values.firstWhere((element) => element.name == str)
+        //     :
+        Gender.male;
   }
 }

@@ -39,16 +39,14 @@ class UserDetails {
 
   factory UserDetails.fromMap(Map<String, dynamic> map) {
     return UserDetails(
-      name: map['UserDetails.name'],
-      email: map['UserDetails.email'],
+      name: map['name'],
+      email: map['email'],
       password: map['password'],
       phoneNum: map['phoneNum'],
       image: map['image'],
       address: map['address'],
       bio: map['bio'],
-      dateofBirth: map['dateofBirth'] != null
-          ? DateTime.parse(map['dateofBirth'])
-          : null,
+      dateofBirth: map['dateofBirth'] != null ? DateTime.parse(map['dateofBirth']) : null,
       gender: Gender.toGender(map['gender']),
     );
   }

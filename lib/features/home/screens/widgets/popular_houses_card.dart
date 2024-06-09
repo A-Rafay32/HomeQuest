@@ -66,15 +66,16 @@ class _HousesCardWidgetState extends State<HousesCardWidget> {
           widget.name.toString(),
           style: Theme.of(context).textTheme.titleLarge?.copyWith(
                 color: AppColors.textBlackColor,
-                fontSize: 24.sp,
+                fontSize: 21.sp,
                 fontWeight: FontWeight.w700,
               ),
         ),
         AppSizes.tinyY,
         Text(
-          "\$ 69000000 ",
+          "\$ ${widget.price}",
           style: Theme.of(context).textTheme.labelLarge?.copyWith(
                 color: AppColors.primaryColor,
+                fontWeight: FontWeight.w600,
                 fontSize: 18.sp,
               ),
         ),
@@ -83,9 +84,7 @@ class _HousesCardWidgetState extends State<HousesCardWidget> {
           widget.address,
           overflow: TextOverflow.ellipsis,
           style: Theme.of(context).textTheme.labelMedium?.copyWith(
-              fontWeight: FontWeight.w500,
-              color: AppColors.textBlackColor,
-              fontSize: 17.sp),
+              fontWeight: FontWeight.w500, color: AppColors.textBlackColor, fontSize: 17.sp),
         ),
       ],
     );

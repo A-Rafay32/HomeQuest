@@ -5,15 +5,14 @@ import 'package:real_estate_app/core/exceptions/exceptions.dart';
 import 'package:real_estate_app/core/services/image_picker_service.dart';
 import 'package:real_estate_app/core/utils/types.dart';
 import 'package:real_estate_app/features/auth/model/user.dart';
+import 'package:real_estate_app/features/home/models/rental_house.dart';
 import 'package:real_estate_app/features/home/repositories/rental_home_repository.dart';
 
 class UserRepository {
   final FirebaseFirestore firestore = FirebaseFirestore.instance;
-  final CollectionReference userCollection =
-      FirebaseFirestore.instance.collection("users");
+  final CollectionReference userCollection = FirebaseFirestore.instance.collection("users");
 
-  FutureEither0 createUser(
-      {required UserModel user, required String uid}) async {
+  FutureEither0 createUser({required UserModel user, required String uid}) async {
     try {
       await userCollection.doc(uid).set(user.toMap());
       return success("User created successfully");
@@ -23,9 +22,7 @@ class UserRepository {
   }
 
   FutureEither0 updateUser(
-      {required docId,
-      String? field,
-      required Map<String, dynamic> updatedFields}) async {
+      {required docId, String? field, required Map<String, dynamic> updatedFields}) async {
     try {
       // get user
       DocumentSnapshot userDoc = await userCollection.doc(docId).get();
@@ -47,6 +44,7 @@ class UserRepository {
       DocumentSnapshot userDoc = await userCollection.doc(documentId).get();
       if (userDoc.exists) {
         Map<String, dynamic> userMap = userDoc.data() as Map<String, dynamic>;
+        print("userMap : $userMap");
         return Right(UserModel.fromMap(userMap));
       } else {
         throw "User Doesn't exist";
@@ -59,12 +57,10 @@ class UserRepository {
   FutureEither1<UserModel> getUserByEmail(String email) async {
     try {
       // get user
-      QuerySnapshot userDoc = await userCollection
-          .where("userDetails.email", isEqualTo: email)
-          .get();
+      QuerySnapshot userDoc =
+          await userCollection.where("userDetails.email", isEqualTo: email).get();
       if (userDoc.docs.isNotEmpty) {
-        Map<String, dynamic> userData =
-            userDoc.docs.first.data() as Map<String, dynamic>;
+        Map<String, dynamic> userData = userDoc.docs.first.data() as Map<String, dynamic>;
         return Right(UserModel.fromMap(userData));
       } else {
         return failure("User Doesn't exist");
@@ -76,8 +72,10 @@ class UserRepository {
 
   FutureEither0 deleteUser(String documentId) async {
     try {
-      await userCollection.doc(documentId).delete().onError(
-          (error, stackTrace) => throw "Failed to delete User : $error");
+      await userCollection
+          .doc(documentId)
+          .delete()
+          .onError((error, stackTrace) => throw "Failed to delete User : $error");
       return Right(Success(message: "User deleted Successfully"));
     } on FirebaseException catch (e) {
       return failure(e.message.toString());
@@ -95,10 +93,14 @@ class UserRepository {
     }
   }
 
-  FutureEither1<List<DocumentSnapshot>> getUserFavourites() async {
+  FutureEither1<List<RentalHouse>> getUserFavourites() async {
     try {
-      final user = await getUser(currentUser?.uid ?? "");
-      final houseIds = user.right.favourites;
+      final user = await getUserByEmail(currentUser?.email ?? "");
+      List<dynamic>? houseIds;
+      user.fold((left) {}, (right) {
+        houseIds = right.favourites;
+        print(houseIds);
+      });
       return await RentalHomeRepository().getUserHouses(houseIds ?? []);
     } on FirebaseException catch (e) {
       return failure(e.message.toString());
@@ -107,11 +109,8 @@ class UserRepository {
 
   FutureEither0 setUserProfileImage() async {
     try {
-      final url = await ImageService()
-          .uploadImage(userStorageRef, currentUser?.displayName ?? "");
-      await currentUser
-          ?.updatePhotoURL(url.right)
-          .catchError((error) => throw error);
+      final url = await ImageService().uploadImage(userStorageRef, currentUser?.displayName ?? "");
+      await currentUser?.updatePhotoURL(url.right).catchError((error) => throw error);
       return Right(Success(message: "Profile Image updated successfully"));
     } catch (e) {
       return failure("Failed to update the profile image ");

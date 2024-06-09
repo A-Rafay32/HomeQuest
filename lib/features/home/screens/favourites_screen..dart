@@ -28,32 +28,40 @@ class _FavouriteScreenState extends ConsumerState<FavouriteScreen> {
         child: SingleChildScrollView(
             child: favourites.when(
           loading: () => const Loader(),
-          error: (error, stackTrace) => Text(
-            error.toString(),
-            style: const TextStyle(color: Colors.white),
-          ),
-          data: (data) => Column(children: [
-            AppSizes.normalY,
-            GridView.builder(
-                physics: const ClampingScrollPhysics(),
-                shrinkWrap: true,
-                gridDelegate: SliverGridDelegateWithFixedCrossAxisCount(
-                    crossAxisCount: 2,
-                    mainAxisSpacing: 20,
-                    crossAxisSpacing: 10,
-                    childAspectRatio: 0.8.h),
-                itemCount: data.right.length,
-                itemBuilder: (context, index) {
-                  Map house = data.right[index].data() as Map;
-                  return HousesCardWidget(
-                    onTapFav: () {},
-                    image: house["images"][0] ?? "",
-                    address: house["address"] ?? "",
-                    name: house["name"] ?? "",
-                    price: house["price"] ?? "",
-                  );
-                }),
-          ]),
+          error: (e, stackTrace) {
+            debugPrint(" error : ${e.toString()} \n stackTrace : $stackTrace");
+
+            return Text(
+              e.toString(),
+              style: const TextStyle(color: Colors.black),
+            );
+          },
+          data: (data) => data.isRight
+              ? Column(children: [
+                  AppSizes.normalY,
+                  GridView.builder(
+                      physics: const ClampingScrollPhysics(),
+                      shrinkWrap: true,
+                      gridDelegate: SliverGridDelegateWithFixedCrossAxisCount(
+                          crossAxisCount: 2,
+                          mainAxisSpacing: 20,
+                          crossAxisSpacing: 10,
+                          childAspectRatio: 0.8.h),
+                      itemCount: data.right.length,
+                      itemBuilder: (context, index) {
+                        return HousesCardWidget(
+                          onTapFav: () {},
+                          image: data.right[index].images[0],
+                          address: data.right[index].houseLocation.address,
+                          name: data.right[index].name ?? "",
+                          price: data.right[index].rentPerMonth.toString(),
+                        );
+                      }),
+                ])
+              : const Text(
+                  "Error ",
+                  style: TextStyle(color: Colors.white),
+                ),
         )));
   }
 

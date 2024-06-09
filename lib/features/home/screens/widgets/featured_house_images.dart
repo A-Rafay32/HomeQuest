@@ -66,7 +66,7 @@ class FeaturedHouseImages extends ConsumerWidget {
                   ),
                   // AppSizes.tinyY,
                   Text(
-                    "\$ 690000",
+                    "\$ ${house.rentPerMonth}",
                     style: Theme.of(context).textTheme.bodyLarge?.copyWith(
                           fontWeight: FontWeight.bold,
                           color: Colors.white,
