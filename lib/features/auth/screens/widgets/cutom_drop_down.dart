@@ -5,10 +5,7 @@ import 'package:real_estate_app/app/themes/app_colors.dart';
 
 class CustomFieldDropDown extends StatefulWidget {
   const CustomFieldDropDown(
-      {super.key,
-      required this.hint,
-      required this.focus,
-      required this.onTap});
+      {super.key, required this.hint, required this.focus, required this.onTap});
 
   final String hint;
   final FocusNode focus;
@@ -33,9 +30,7 @@ class _CustomFieldDropDownState extends State<CustomFieldDropDown> {
         width: double.infinity,
         decoration: BoxDecoration(
           border: Border.all(
-            color: widget.focus.hasFocus
-                ? AppColors.primaryColor
-                : Theme.of(context).shadowColor,
+            color: widget.focus.hasFocus ? AppColors.primaryColor : Theme.of(context).shadowColor,
           ),
           color: widget.focus.hasFocus
               ? AppColors.primaryColor.withOpacity(0.2)
@@ -74,20 +69,17 @@ class _CustomFieldDropDownState extends State<CustomFieldDropDown> {
               ),
             ),
 
-            value: CustomFieldDropDown
-                .selectedValue, // Set the currently selected value
+            value: CustomFieldDropDown.selectedValue, // Set the currently selected value
             // Customize the dropdown menu decoration
             items: dropdownItems.map((String value) {
               return DropdownMenuItem<String>(
                 value: value,
-                child:
-                    Text(value), // You can customize the dropdown item's text
+                child: Text(value), // You can customize the dropdown item's text
               );
             }).toList(),
             onChanged: (String? newValue) {
               setState(() {
-                CustomFieldDropDown.selectedValue =
-                    newValue; // Update the selected value
+                CustomFieldDropDown.selectedValue = newValue; // Update the selected value
               });
             },
           ),

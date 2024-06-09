@@ -29,11 +29,11 @@ class HouseLocation {
   factory HouseLocation.fromMap(Map<String, dynamic> map) {
     return HouseLocation(
       address: map['address'] ?? "",
-      state: map['state'] ?? "",
-      zipCode: map['zipCode'] ?? "",
-      country: map['country'] ?? "",
-      latitude: map['latitude'] ?? "",
-      longitude: map['longitude'] ?? "",
+      state: map['state'] ,
+      zipCode: map['zipCode'] ,
+      country: map['country'],
+      latitude: map['latitude'],
+      longitude: map['longitude'] ,
     );
   }
 }

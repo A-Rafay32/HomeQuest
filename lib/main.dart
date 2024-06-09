@@ -31,7 +31,7 @@ class MyApp extends StatelessWidget {
             debugShowCheckedModeBanner: false,
             title: 'Real Estate',
             theme: AppThemes().theme,
-            home: AuthStateBuilder(widget: SetupBuyerProfileScreen()),
+            home: AuthStateBuilder(widget: HomeScreen()),
           );
         });
   }

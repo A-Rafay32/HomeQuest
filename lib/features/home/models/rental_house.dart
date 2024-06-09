@@ -78,11 +78,10 @@ class RentalHouse extends House {
       'rentPerMonth': rentPerMonth,
       'otherCosts': otherCosts,
       'tenantId': tenantId,
-      'noticePeriod': noticePeriod?.toIso8601String(),
+      'noticePeriod': noticePeriod?.toString(),
       'penalties': penalties,
       'rentalHistory': rentalHistory,
-      'maintenanceRequest':
-          maintenanceRequest?.map((req) => req.toMap()).toList(),
+      'maintenanceRequest': maintenanceRequest?.map((req) => req.toMap()).toList(),
       'reviews': reviews?.map((review) => review.toMap()).toList(),
     });
     return map;
@@ -103,7 +102,7 @@ class RentalHouse extends House {
       isAvailable: map['isAvailable'],
       images: List<dynamic>.from(map['images']),
       constructedOn: DateTime.parse(map['constructedOn']),
-      listedOn: DateTime.parse(map['listedOn'] ?? ""),
+      listedOn: map['listedOn'] != null ?  DateTime.parse(map['listedOn']) : null, 
       houseDetails: HouseDetails.fromMap(map['houseDetails']),
       houseLocation: HouseLocation.fromMap(map['houseLocation']),
       houseStatus: HouseStatus.toHouseStatus(map['houseStatus']),
@@ -111,21 +110,15 @@ class RentalHouse extends House {
       rentPerMonth: map['rentPerMonth'],
       otherCosts: map['otherCosts'],
       tenantId: map['tenantId'],
-      noticePeriod: map['noticePeriod'] != null
-          ? DateTime.parse(map['noticePeriod'])
-          : null,
-      penalties: (map['penalties'] as List<dynamic>?)
-          ?.map((e) => e as double)
-          .toList(),
+      noticePeriod: map['noticePeriod'] != null ? DateTime.parse(map['noticePeriod']) : null,
+      penalties: (map['penalties'] as List<dynamic>?)?.map((e) => e as double).toList(),
       terms: List<String>.from(map['terms'] ?? []),
       disputes: List<String>.from(map['disputes'] ?? []),
       rentalHistory: List<String>.from(map['rentalHistory'] ?? []),
       maintenanceRequest: (map['maintenanceRequest'] as List<dynamic>?)
           ?.map((e) => MaintenanceRequest.fromMap(e))
           .toList(),
-      reviews: (map['reviews'] as List<dynamic>?)
-          ?.map((e) => RentalHomeReview.fromMap(e))
-          .toList(),
+      reviews: (map['reviews'] as List<dynamic>?)?.map((e) => RentalHomeReview.fromMap(e)).toList(),
     );
   }
 }

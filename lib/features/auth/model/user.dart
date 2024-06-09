@@ -41,9 +41,7 @@ class UserModel {
     return UserModel(
       id: map["id"],
       userDetails: UserDetails.fromMap(map["userDetails"] ?? {}),
-      isEmailVerified: map['isEmailVerified'] != null
-          ? map['isEmailVerified'] as bool
-          : null,
+      isEmailVerified: map['isEmailVerified'] != null ? map['isEmailVerified'] as bool : null,
       myHouses: map['myHouses'] ?? [],
       favourites: map['favourites'] ?? [],
       paymentInfo: map['paymentInfo'] != null
@@ -52,8 +50,7 @@ class UserModel {
       socialMediaLinks: map['socialMediaLinks'] != null
           ? List<String>.from((map['socialMediaLinks'] as List<String>))
           : null,
-      usertype:
-          map['usertype'] != null ? UserType.toUserType(map['usertype']) : null,
+      usertype: map['usertype'] != null ? UserType.toUserType(map['usertype']) : null,
     );
   }
 }

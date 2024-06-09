@@ -40,9 +40,8 @@ class HomeScreen extends ConsumerWidget {
     return Scaffold(
       extendBody: true,
       backgroundColor: AppColors.primaryColor,
-      appBar: PreferredSize(
-          preferredSize: const Size.fromHeight(65),
-          child: appBars[currentScreen]),
+      appBar:
+          PreferredSize(preferredSize: const Size.fromHeight(65), child: appBars[currentScreen]),
       body: screens[currentScreen],
       bottomNavigationBar: CustomNavigationBar(
         w: context.w,
@@ -65,8 +64,7 @@ class HomeScreenWidget extends ConsumerStatefulWidget {
   const HomeScreenWidget({super.key});
 
   @override
-  ConsumerState<ConsumerStatefulWidget> createState() =>
-      _HomeScreenWidgetState();
+  ConsumerState<ConsumerStatefulWidget> createState() => _HomeScreenWidgetState();
 }
 
 class _HomeScreenWidgetState extends ConsumerState<HomeScreenWidget> {
@@ -78,71 +76,77 @@ class _HomeScreenWidgetState extends ConsumerState<HomeScreenWidget> {
       height: context.h,
       width: context.w,
       child: streamValue.when(
-        error: (error, stackTrace) =>
-            Text(error.toString(), style: const TextStyle(color: Colors.white)),
+        error: (error, stackTrace) {
+          print("error : ${error.toString()} stackTrace: $stackTrace");
+          return Text("error : ${error.toString()} ", style: const TextStyle(color: Colors.white));
+        },
         loading: () => const Loader(),
-        data: (data) => Stack(
-          children: [
-            Column(children: [
-              Container(
-                height: 50,
-                padding: const EdgeInsets.symmetric(horizontal: 10),
-                child: TextField(
-                  cursorHeight: 25,
-                  controller: TextEditingController(),
-                  decoration: AppTextFieldDecorations.searchFieldDecoration,
+        data: (data) => RefreshIndicator(
+          color: Colors.white,
+          onRefresh: () async {
+            return;
+          },
+          child: Stack(
+            children: [
+              Column(children: [
+                Container(
+                  height: 50,
+                  padding: const EdgeInsets.symmetric(horizontal: 10),
+                  child: TextField(
+                    cursorHeight: 25,
+                    controller: TextEditingController(),
+                    decoration: AppTextFieldDecorations.searchFieldDecoration,
+                  ),
                 ),
-              ),
-              AppSizes.normalY,
-              CatogoriesTabNav(w: context.w),
-            ]),
-            Positioned(
-              top: context.h * 0.17,
-              child: Container(
-                height: context.h * 0.72,
-                width: context.w,
-                padding: AppPaddings.normal,
-                decoration: const BoxDecoration(
-                  color: Colors.white,
-                  borderRadius: BorderRadius.only(
-                      topLeft: Radius.circular(45),
-                      topRight: Radius.circular(45)),
+                AppSizes.normalY,
+                CatogoriesTabNav(w: context.w),
+              ]),
+              Positioned(
+                top: context.h * 0.17,
+                child: Container(
+                  height: context.h * 0.72,
+                  width: context.w,
+                  padding: AppPaddings.normal,
+                  decoration: const BoxDecoration(
+                    color: Colors.white,
+                    borderRadius: BorderRadius.only(
+                        topLeft: Radius.circular(45), topRight: Radius.circular(45)),
+                  ),
+                  child: Column(
+                    children: [
+                      AppSizes.normalY,
+                      Row(
+                        children: [
+                          Text(
+                            "Top Property",
+                            style: Theme.of(context).textTheme.headlineLarge,
+                          ),
+                          const Spacer(),
+                          const Text("View All"),
+                        ],
+                      ),
+                      AppSizes.normalY,
+                      Expanded(
+                        child: ListView.builder(
+                            scrollDirection: Axis.horizontal,
+                            itemCount: data.length,
+                            itemBuilder: (context, index) => FeaturedHouseImages(
+                                  onTap: () {
+                                    context.push(HouseDetailScreen(house: data[index]));
+                                  },
+                                  house: data[index],
+                                )),
+                      ),
+                      AppSizes.normalY,
+                      AppSizes.normalY,
+                      AppSizes.normalY,
+                      AppSizes.normalY,
+                    ],
+                  ),
                 ),
-                child: Column(
-                  children: [
-                    AppSizes.normalY,
-                    Row(
-                      children: [
-                        Text(
-                          "Top Property",
-                          style: Theme.of(context).textTheme.headlineLarge,
-                        ),
-                        const Spacer(),
-                        const Text("View All"),
-                      ],
-                    ),
-                    AppSizes.normalY,
-                    Expanded(
-                      child: ListView.builder(
-                          scrollDirection: Axis.horizontal,
-                          itemCount: data.length,
-                          itemBuilder: (context, index) => FeaturedHouseImages(
-                                onTap: () {
-                                  context.push(
-                                      HouseDetailScreen(house: data[index]));
-                                },
-                                house: data[index],
-                              )),
-                    ),
-                    AppSizes.normalY,
-                    AppSizes.normalY,
-                    AppSizes.normalY,
-                    AppSizes.normalY,
-                  ],
-                ),
-              ),
-            )
-          ],
+              )
+            ],
+          ),
         ),
       ),
     );

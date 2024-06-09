@@ -6,7 +6,7 @@ enum HouseStatus {
   Rented,
   Owned;
 
-  static HouseStatus toHouseStatus(String str) {
-    return HouseStatus.values.firstWhere((element) => element.name == str);
+  static HouseStatus toHouseStatus(HouseStatus houseStatus) {
+    return HouseStatus.Sale;
   }
 }
