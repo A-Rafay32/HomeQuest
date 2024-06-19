@@ -1,4 +1,3 @@
-import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:real_estate_app/app/constants/firebase_constants.dart';
 import 'package:real_estate_app/core/utils/types.dart';
