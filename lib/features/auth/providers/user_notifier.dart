@@ -1,4 +1,3 @@
-import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:real_estate_app/app/constants/firebase_constants.dart';
 import 'package:real_estate_app/core/utils/types.dart';
@@ -7,11 +6,13 @@ import 'package:real_estate_app/features/auth/providers/auth_providers.dart';
 import 'package:real_estate_app/features/home/models/rental_house.dart';
 
 class UserNotifier extends StateNotifier<AsyncValue> {
-  UserNotifier({required this.userService}) : super(const AsyncValue.data(null));
+  UserNotifier({required this.userService})
+      : super(const AsyncValue.data(null));
 
   final UserRepository userService;
 
-  FutureEither0 updateUser({String? field, required Map<String, dynamic> updatedFields}) async {
+  FutureEither0 updateUser(
+      {String? field, required Map<String, dynamic> updatedFields}) async {
     state = const AsyncValue.loading();
     return await userService
         .updateUser(docId: currentUser?.uid ?? "", updatedFields: updatedFields)
@@ -19,9 +20,9 @@ class UserNotifier extends StateNotifier<AsyncValue> {
   }
 
   FutureEither0 addToFavourites(String houseId) async {
-    return await userService.addToFavourites(houseId).whenComplete(
-          () => getFavourites(),
-        );
+    return await userService
+        .addToFavourites(houseId)
+        .whenComplete(() => getFavourites());
   }
 
   FutureEither1<List<RentalHouse>> getFavourites() async {

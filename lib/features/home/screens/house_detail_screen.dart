@@ -47,7 +47,7 @@ class _HouseDetailScreenState extends State<HouseDetailScreen> {
                 ),
               ),
               SizedBox(
-                height: context.h * 0.7,
+                height: context.h * 0.8,
                 width: context.w,
                 child: Padding(
                   padding: const EdgeInsets.symmetric(
@@ -63,33 +63,29 @@ class _HouseDetailScreenState extends State<HouseDetailScreen> {
                       HouseDetailsCard(house: widget.house),
                       AppSizes.largeY,
                       AddressCard(house: widget.house),
+                      AppSizes.smallY,
                       const Spacer(),
-                      Row(
-                        children: [
-                          Button(
-                            press: () {
-                              context.push(const ProfileScreen());
-                            },
-                            text: "Contact",
-                            horizontal: 60.w,
-                          ),
-                          const Spacer(),
-                          Button(
-                            horizontal: 60.w,
-                            press: () {
-                              context.push(
-                                  PaymentScreen(onTap: () {}, price: 100));
-                            },
-                            text: "Book Now",
-                          ),
-                        ],
-                      ),
                       AppSizes.normalY
                     ],
                   ),
                 ),
               ),
             ],
+          ),
+        ),
+      ),
+      floatingActionButtonLocation: FloatingActionButtonLocation.centerDocked,
+      floatingActionButton: FloatingActionButton(
+        onPressed: () {},
+        child: SizedBox(
+          height: 60.0,
+          width: 200.0,
+          child: Button(
+            horizontal: 60.w,
+            press: () {
+              context.push(PaymentScreen(onTap: () {}, price: 100));
+            },
+            text: "Request a visit",
           ),
         ),
       ),
