@@ -1,13 +1,10 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:real_estate_app/app/themes/app_paddings.dart';
-import 'package:real_estate_app/core/extensions/routes_extenstion.dart';
 import 'package:real_estate_app/core/extensions/sizes_extensions.dart';
 import 'package:real_estate_app/features/auth/screens/widgets/button.dart';
 import 'package:real_estate_app/features/home/models/rental_house.dart';
-import 'package:real_estate_app/features/payment/payment_screen.dart';
-import 'package:real_estate_app/features/profile_screen.dart';
-
+import 'package:real_estate_app/features/offer/screens/create_offers_screen.dart';
 import 'widgets/address_card.dart';
 import 'widgets/description_card.dart';
 import 'widgets/image_card.dart';
@@ -83,7 +80,7 @@ class _HouseDetailScreenState extends State<HouseDetailScreen> {
           child: Button(
             horizontal: 60.w,
             press: () {
-              context.push(PaymentScreen(onTap: () {}, price: 100));
+              showDialog(context: context, builder: (context) => const CreateOfferScreen());
             },
             text: "Request a visit",
           ),

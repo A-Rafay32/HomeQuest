@@ -18,9 +18,7 @@ class AuthNotifier extends StateNotifier<AsyncValue> {
   Stream<User?> authStateChanges() => authService.authStateChanges();
 
   void signIn(
-      {required String email,
-      required String password,
-      required BuildContext context}) async {
+      {required String email, required String password, required BuildContext context}) async {
     state = const AsyncValue.loading();
     final result = await authService
         .signIn(email: email, password: password)
@@ -42,8 +40,7 @@ class AuthNotifier extends StateNotifier<AsyncValue> {
     required String password,
     required BuildContext context,
   }) async {
-    final result = await authService.register(
-        name: name, email: email, password: password);
+    final result = await authService.register(name: name, email: email, password: password);
     result.fold((left) {
       context.showSnackBar(left.message.toString());
     }, (right) {

@@ -9,6 +9,7 @@ class CustomTextField extends StatelessWidget {
       this.onTap,
       this.validator,
       this.paddingX = 20,
+      this.maxLines = 1,
       required this.inputDecoration,
       required this.controller,
       this.onSubmitted});
@@ -21,6 +22,7 @@ class CustomTextField extends StatelessWidget {
   final TextEditingController controller;
   TextInputType? keyBoardType;
   bool obscureText;
+  int maxLines;
   InputDecoration inputDecoration;
 
   @override
@@ -31,6 +33,7 @@ class CustomTextField extends StatelessWidget {
       ),
       child: TextFormField(
           onChanged: onChanged,
+          maxLines: maxLines,
           onTap: onTap,
           onFieldSubmitted: onSubmitted,
           keyboardType: keyBoardType,

@@ -7,13 +7,17 @@ class Offer {
   final double? settledMoney;
   final String? statement;
   final String createdBy;
+  final String senderName;
+  final String senderEmail;
   final String isSentTo;
-  final String isAccepted;
+  final bool isAccepted;
   final OfferPurpose purpose;
   Offer({
     this.offeredMoney,
     this.settledMoney,
     this.statement,
+    required this.senderName,
+    required this.senderEmail,
     required this.createdBy,
     required this.isSentTo,
     required this.isAccepted,
@@ -26,6 +30,8 @@ class Offer {
       'settledMoney': settledMoney,
       'statement': statement,
       'createdBy': createdBy,
+      'senderName': senderName,
+      'senderEmail': senderEmail,
       'isSentTo': isSentTo,
       'isAccepted': isAccepted,
       'purpose': purpose.toString(),
@@ -38,6 +44,8 @@ class Offer {
       settledMoney: map['settledMoney'] ?? 0.0,
       statement: map['statement'] ?? "",
       createdBy: map['createdBy'] ?? "",
+      senderEmail: map['senderEmail'] ?? "",
+      senderName: map['senderName'] ?? "",
       isSentTo: map['isSentTo'] ?? "",
       isAccepted: map['isAccepted'] ?? "",
       purpose: OfferPurpose.toOfferPurpose(map['purpose']),
