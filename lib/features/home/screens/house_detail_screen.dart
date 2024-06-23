@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:real_estate_app/app/themes/app_paddings.dart';
+import 'package:real_estate_app/core/extensions/routes_extenstion.dart';
 import 'package:real_estate_app/core/extensions/sizes_extensions.dart';
 import 'package:real_estate_app/features/auth/screens/widgets/button.dart';
 import 'package:real_estate_app/features/home/models/rental_house.dart';
@@ -79,9 +80,7 @@ class _HouseDetailScreenState extends State<HouseDetailScreen> {
           width: 200.0,
           child: Button(
             horizontal: 60.w,
-            press: () {
-              showDialog(context: context, builder: (context) => const CreateOfferScreen());
-            },
+            press: () => context.push(const CreateOfferScreen()),
             text: "Request a visit",
           ),
         ),

@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
+import 'package:real_estate_app/app/constants/firebase_constants.dart';
 import 'package:real_estate_app/core/extensions/routes_extenstion.dart';
 import 'package:real_estate_app/core/extensions/snackbar_ext.dart';
 import 'package:real_estate_app/features/offer/model/offer.dart';
@@ -19,6 +20,16 @@ class OfferNotifier extends StateNotifier<AsyncValue> {
       context.pop();
       context.showSnackBar(right.message.toString());
     });
+  }
+
+  Stream<List<Offer>> getAllOffersForUser() {
+    state = const AsyncValue.loading();
+    return OfferRepository().getAllOffersForUser(currentUser?.uid ?? "");
+  }
+
+  Stream<List<Offer>> getAllOffersByUser() {
+    state = const AsyncValue.loading();
+    return OfferRepository().getAllOffersForUser(currentUser?.uid ?? "");
   }
 }
 

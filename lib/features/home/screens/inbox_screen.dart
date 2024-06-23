@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:flutter_svg/svg.dart';
 import 'package:google_fonts/google_fonts.dart';
@@ -7,18 +8,28 @@ import 'package:real_estate_app/app/themes/app_paddings.dart';
 import 'package:real_estate_app/app/themes/app_text_field_themes.dart';
 import 'package:real_estate_app/core/extensions/routes_extenstion.dart';
 import 'package:real_estate_app/core/extensions/sizes_extensions.dart';
+import 'package:real_estate_app/core/utils/loader.dart';
 import 'package:real_estate_app/features/home/screens/chat_screen.dart';
 import 'package:real_estate_app/features/home/screens/widgets/inbox_card.dart';
 import 'package:real_estate_app/features/home/screens/widgets/inbox_tap_bar.dart';
+import 'package:real_estate_app/features/offer/providers/offer_provider.dart';
 
-class InboxScreen extends StatelessWidget {
-  InboxScreen({super.key});
+class InboxScreen extends ConsumerStatefulWidget {
+  const InboxScreen({super.key});
+  @override
+  ConsumerState<ConsumerStatefulWidget> createState() => _InboxScreenState();
+}
 
+class _InboxScreenState extends ConsumerState<InboxScreen> {
   int selectedTabIndex = 0;
   bool isInboxEmpty = false;
 
   @override
   Widget build(BuildContext context) {
+    final offersByUserStream = ref.watch(offersByUserProvider);
+    final offersForUserStream = ref.watch(offersForUserProvider);
+    final selectedStream = offersByUserStream;
+
     return Container(
         height: context.h,
         width: context.w,
@@ -41,14 +52,24 @@ class InboxScreen extends StatelessWidget {
           if (selectedTabIndex == 0)
             (isInboxEmpty)
                 ? const EmptyInboxBody()
-                : InboxCard(
-                    inboxType: InboxType.Unread,
-                    from: "Allan Store",
-                    message: "Hello, How may I help you?",
-                    date: "2023/08/11",
-                    onTap: () {
-                      context.push(const ChatScreen(storeName: "Allan Store"));
+                : selectedStream.when(
+                    data: (data) => ListView.builder(
+                      itemCount: data.length,
+                      itemBuilder: (context, index) => InboxCard(
+                        inboxType: InboxType.Unread,
+                        from: "Allan Store",
+                        message: "Hello, How may I help you?",
+                        date: "2023/08/11",
+                        onTap: () {
+                          context.push(const ChatScreen(storeName: "Allan Store"));
+                        },
+                      ),
+                    ),
+                    error: (error, stackTrace) {
+                      print("error : ${error.toString()} stackTrace: $stackTrace");
+                      return Text("error : ${error.toString()} ");
                     },
+                    loading: () => const Loader(),
                   )
         ])));
   }
@@ -73,10 +94,10 @@ class EmptyInboxBody extends StatelessWidget {
       Text(
         "No Messages",
         textAlign: TextAlign.left,
-        style: Theme.of(context).textTheme.headlineLarge?.copyWith(
-            fontWeight: FontWeight.bold,
-            color: Colors.grey.shade500,
-            fontSize: 22.sp),
+        style: Theme.of(context)
+            .textTheme
+            .headlineLarge
+            ?.copyWith(fontWeight: FontWeight.bold, color: Colors.grey.shade500, fontSize: 22.sp),
       ),
       const SizedBox(
         height: 10,
@@ -107,8 +128,7 @@ class InboxSearchField extends StatelessWidget {
         height: 35,
         width: w * 0.9,
         decoration: BoxDecoration(
-            color: Colors.grey.shade200.withOpacity(0.4),
-            borderRadius: BorderRadius.circular(10)),
+            color: Colors.grey.shade200.withOpacity(0.4), borderRadius: BorderRadius.circular(10)),
         child: Row(
           children: [
             const SizedBox(
@@ -118,8 +138,7 @@ class InboxSearchField extends StatelessWidget {
               "assets/exports/search.svg",
               height: 15,
               width: 15,
-              colorFilter:
-                  ColorFilter.mode(Colors.grey.shade600, BlendMode.srcIn),
+              colorFilter: ColorFilter.mode(Colors.grey.shade600, BlendMode.srcIn),
             ),
             const SizedBox(
               width: 10,

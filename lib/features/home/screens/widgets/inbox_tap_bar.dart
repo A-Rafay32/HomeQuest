@@ -3,7 +3,11 @@ import 'package:flutter_svg/svg.dart';
 import 'package:real_estate_app/app/themes/app_colors.dart';
 
 class InboxTabBar extends StatefulWidget {
-  InboxTabBar({super.key, required this.w, required this.selectedTabIndex});
+  InboxTabBar({
+    super.key,
+    required this.w,
+    required this.selectedTabIndex,
+  });
 
   final double w;
   int selectedTabIndex;
@@ -13,7 +17,7 @@ class InboxTabBar extends StatefulWidget {
 }
 
 class _InboxTabBarState extends State<InboxTabBar> {
-  List<String> tabs = ["All", "Important", "Read", "Unread"];
+  List<String> tabs = ["Your Offers", "Offers for you"];
   @override
   Widget build(BuildContext context) {
     return Container(
@@ -63,8 +67,7 @@ class HomeTabNavigationItem extends StatelessWidget {
         margin: const EdgeInsets.symmetric(horizontal: 8, vertical: 5),
         padding: const EdgeInsets.symmetric(horizontal: 10, vertical: 5),
         decoration: BoxDecoration(
-            border:
-                Border.all(width: 1.5, color: color ?? AppColors.primaryColor),
+            border: Border.all(width: 1.5, color: color ?? AppColors.primaryColor),
             color: isTagSelected
                 ? color ?? AppColors.primaryColor.withOpacity(opacity ?? 1)
                 : AppColors.backgroundColor,
@@ -78,9 +81,7 @@ class HomeTabNavigationItem extends StatelessWidget {
                     height: 15,
                     width: 15,
                     colorFilter: ColorFilter.mode(
-                        isTagSelected
-                            ? AppColors.backgroundColor
-                            : AppColors.primaryColor,
+                        isTagSelected ? AppColors.backgroundColor : AppColors.primaryColor,
                         BlendMode.srcIn),
                   ),
             const SizedBox(

@@ -9,9 +9,7 @@ class OfferRepository {
 
   FutureEither0 createOffer(Offer offer) async {
     try {
-      await offerCollection
-          .add(offer.toMap())
-          .catchError((error) => throw error);
+      await offerCollection.add(offer.toMap()).catchError((error) => throw error);
       return success("Offer created successfully");
     } on FirebaseException catch (e) {
       debugPrint(e.toString());
@@ -21,10 +19,7 @@ class OfferRepository {
 
   FutureEither0 updateOffer(String offerId, Offer offer) async {
     try {
-      await offerCollection
-          .doc(offerId)
-          .update(offer.toMap())
-          .catchError((error) => throw error);
+      await offerCollection.doc(offerId).update(offer.toMap()).catchError((error) => throw error);
       return success("Offer updated successfully");
     } on FirebaseException catch (e) {
       debugPrint(e.toString());
@@ -34,10 +29,7 @@ class OfferRepository {
 
   FutureEither0 deleteOffer(String offerId) async {
     try {
-      await offerCollection
-          .doc(offerId)
-          .delete()
-          .catchError((error) => throw error);
+      await offerCollection.doc(offerId).delete().catchError((error) => throw error);
       return success("Offer deleted successfully");
     } on FirebaseException catch (e) {
       debugPrint(e.toString());
@@ -98,6 +90,41 @@ class OfferRepository {
     try {
       return offerCollection
           .where('isCreatedBy', isEqualTo: sellerId)
+          .snapshots()
+          .map((querySnapshot) {
+        return querySnapshot.docs.map((docSnapshot) {
+          return Offer.fromMap(docSnapshot.data());
+        }).toList();
+      });
+    } on FirebaseException catch (e) {
+      debugPrint(e.toString());
+      throw e.toString();
+    } catch (e) {
+      debugPrint(e.toString());
+      rethrow;
+    }
+  }
+
+  Stream<List<Offer>> getAllOffersForUser(String userId) {
+    try {
+      return offerCollection.where('isSentTo', isEqualTo: userId).snapshots().map((querySnapshot) {
+        return querySnapshot.docs.map((docSnapshot) {
+          return Offer.fromMap(docSnapshot.data());
+        }).toList();
+      });
+    } on FirebaseException catch (e) {
+      debugPrint(e.toString());
+      throw e.toString();
+    } catch (e) {
+      debugPrint(e.toString());
+      rethrow;
+    }
+  }
+
+  Stream<List<Offer>> getAllOffersByUser(String userId) {
+    try {
+      return offerCollection
+          .where('isCreatedBy', isEqualTo: userId)
           .snapshots()
           .map((querySnapshot) {
         return querySnapshot.docs.map((docSnapshot) {

@@ -29,7 +29,7 @@ class HomeScreen extends ConsumerWidget {
     const HomeScreenWidget(),
     const ExploreScreen(),
     const FavouriteScreen(),
-    InboxScreen(),
+    const InboxScreen(),
     const BuyerProfileScreen(),
   ];
 
