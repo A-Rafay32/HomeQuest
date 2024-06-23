@@ -37,17 +37,13 @@ class OfferRepository {
     }
   }
 
-  FutureEither1<Offer> getOffer(String offerId) async {
+  Future<Offer> getOffer(String offerId) async {
     try {
       final docSnapshot = await offerCollection.doc(offerId).get();
-      if (docSnapshot.exists) {
-        return Right(Offer.fromMap(docSnapshot.data() as Map<String, dynamic>));
-      } else {
-        return failure("Offer not found");
-      }
+      return Offer.fromMap(docSnapshot.data() as Map<String, dynamic>);
     } on FirebaseException catch (e) {
       debugPrint(e.toString());
-      return failure(e.toString());
+      rethrow;
     }
   }
 

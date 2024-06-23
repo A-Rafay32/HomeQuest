@@ -6,6 +6,7 @@ class Offer {
   final double? offeredMoney;
   final double? settledMoney;
   final String? statement;
+  final String title;
   final String createdBy;
   final String senderName;
   final String senderEmail;
@@ -17,6 +18,7 @@ class Offer {
     this.settledMoney,
     this.statement,
     required this.senderName,
+    required this.title,
     required this.senderEmail,
     required this.createdBy,
     required this.isSentTo,
@@ -27,6 +29,7 @@ class Offer {
   Map<String, dynamic> toMap() {
     return <String, dynamic>{
       'offeredMoney': offeredMoney,
+      'title': title,
       'settledMoney': settledMoney,
       'statement': statement,
       'createdBy': createdBy,
@@ -40,6 +43,7 @@ class Offer {
 
   factory Offer.fromMap(Map<String, dynamic> map) {
     return Offer(
+      title: map['title'] ?? "",
       offeredMoney: map['offeredMoney'] ?? 0.0,
       settledMoney: map['settledMoney'] ?? 0.0,
       statement: map['statement'] ?? "",
