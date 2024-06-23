@@ -85,23 +85,38 @@ class _CreateOfferDialogState extends ConsumerState<CreateOfferScreen> {
                       inputDecoration: AppTextFieldDecorations.genericInputDecoration(
                           label: "Here's what i would pay for it ......")),
                 AppSizes.normalY,
+                Text(
+                  "I want to",
+                  style: Theme.of(context).textTheme.headlineMedium,
+                ),
+                AppSizes.tinyY,
                 Row(
                   mainAxisAlignment: MainAxisAlignment.spaceAround,
                   children: [
-                    Radio(
-                        value: OfferPurpose.visit,
-                        groupValue: offerPurpose,
-                        onChanged: (OfferPurpose? value) {
-                          offerPurpose = value!;
-                          setState(() {});
-                        }),
-                    Radio(
-                        value: OfferPurpose.buy,
-                        groupValue: offerPurpose,
-                        onChanged: (OfferPurpose? value) {
-                          offerPurpose = value!;
-                          setState(() {});
-                        }),
+                    Column(
+                      children: [
+                        const Text("Visit"),
+                        Radio(
+                            value: OfferPurpose.visit,
+                            groupValue: offerPurpose,
+                            onChanged: (OfferPurpose? value) {
+                              offerPurpose = value!;
+                              setState(() {});
+                            }),
+                      ],
+                    ),
+                    Column(
+                      children: [
+                        const Text("Buy"),
+                        Radio(
+                            value: OfferPurpose.buy,
+                            groupValue: offerPurpose,
+                            onChanged: (OfferPurpose? value) {
+                              offerPurpose = value!;
+                              setState(() {});
+                            }),
+                      ],
+                    ),
                   ],
                 ),
                 AppSizes.normalY,
@@ -123,8 +138,9 @@ class _CreateOfferDialogState extends ConsumerState<CreateOfferScreen> {
         senderName: nameController.text.trim(),
         senderEmail: emailController.text.trim(),
         createdBy: currentUser?.uid ?? "",
-        isSentTo: "",
+        sentTo: "",
         isAccepted: false,
+        createdAt: DateTime.now(),
         offeredMoney: offeredMoneyController.text.trim().isEmpty
             ? null
             : double.parse(offeredMoneyController.text.trim()),

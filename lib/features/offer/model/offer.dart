@@ -11,9 +11,11 @@ class Offer {
   final String createdBy;
   final String senderName;
   final String senderEmail;
-  final String isSentTo;
+  final String sentTo;
   final bool isAccepted;
   final OfferPurpose purpose;
+  final DateTime createdAt;
+
   Offer({
     this.offeredMoney,
     this.settledMoney,
@@ -23,7 +25,8 @@ class Offer {
     required this.title,
     required this.senderEmail,
     required this.createdBy,
-    required this.isSentTo,
+    required this.createdAt,
+    required this.sentTo,
     required this.isAccepted,
     required this.purpose,
   });
@@ -36,11 +39,12 @@ class Offer {
       'settledMoney': settledMoney,
       'statement': statement,
       'createdBy': createdBy,
+      'createdAt': createdAt.toString(),
       'senderName': senderName,
       'senderEmail': senderEmail,
-      'isSentTo': isSentTo,
+      'sentTo': sentTo,
       'isAccepted': isAccepted,
-      'purpose': purpose.toString(),
+      'purpose': purpose.name.toString(),
     };
   }
 
@@ -54,8 +58,9 @@ class Offer {
       createdBy: map['createdBy'] ?? "",
       senderEmail: map['senderEmail'] ?? "",
       senderName: map['senderName'] ?? "",
-      isSentTo: map['isSentTo'] ?? "",
+      sentTo: map['sentTo'] ?? "",
       isAccepted: map['isAccepted'] ?? "",
+      createdAt: DateTime.parse(map['createdAt'] ?? ""),
       purpose: OfferPurpose.toOfferPurpose(map['purpose']),
     );
   }

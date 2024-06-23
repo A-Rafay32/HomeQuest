@@ -65,10 +65,7 @@ class OfferRepository {
 
   Stream<List<Offer>> getAllOffersForSeller(String sellerId) {
     try {
-      return offerCollection
-          .where('isSentTo', isEqualTo: sellerId)
-          .snapshots()
-          .map((querySnapshot) {
+      return offerCollection.where('sentTo', isEqualTo: sellerId).snapshots().map((querySnapshot) {
         return querySnapshot.docs.map((docSnapshot) {
           return Offer.fromMap(docSnapshot.data());
         }).toList();
@@ -85,7 +82,7 @@ class OfferRepository {
   Stream<List<Offer>> getAllOffersBySeller(String sellerId) {
     try {
       return offerCollection
-          .where('isCreatedBy', isEqualTo: sellerId)
+          .where('createdBy', isEqualTo: sellerId)
           .snapshots()
           .map((querySnapshot) {
         return querySnapshot.docs.map((docSnapshot) {
@@ -103,7 +100,7 @@ class OfferRepository {
 
   Stream<List<Offer>> getAllOffersForUser(String userId) {
     try {
-      return offerCollection.where('isSentTo', isEqualTo: userId).snapshots().map((querySnapshot) {
+      return offerCollection.where('sentTo', isEqualTo: userId).snapshots().map((querySnapshot) {
         return querySnapshot.docs.map((docSnapshot) {
           return Offer.fromMap(docSnapshot.data());
         }).toList();
@@ -119,10 +116,7 @@ class OfferRepository {
 
   Stream<List<Offer>> getAllOffersByUser(String userId) {
     try {
-      return offerCollection
-          .where('isCreatedBy', isEqualTo: userId)
-          .snapshots()
-          .map((querySnapshot) {
+      return offerCollection.where('createdBy', isEqualTo: userId).snapshots().map((querySnapshot) {
         return querySnapshot.docs.map((docSnapshot) {
           return Offer.fromMap(docSnapshot.data());
         }).toList();

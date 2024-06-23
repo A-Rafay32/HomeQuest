@@ -12,6 +12,7 @@ import 'package:real_estate_app/core/utils/loader.dart';
 import 'package:real_estate_app/features/home/screens/chat_screen.dart';
 import 'package:real_estate_app/features/home/screens/widgets/inbox_card.dart';
 import 'package:real_estate_app/features/home/screens/widgets/inbox_tap_bar.dart';
+import 'package:real_estate_app/features/offer/model/offer.dart';
 import 'package:real_estate_app/features/offer/providers/offer_provider.dart';
 import 'package:real_estate_app/features/offer/screens/offer_detailed_screen.dart';
 
@@ -24,12 +25,13 @@ class InboxScreen extends ConsumerStatefulWidget {
 class _InboxScreenState extends ConsumerState<InboxScreen> {
   int selectedTabIndex = 0;
   bool isInboxEmpty = false;
+  List<String> tabs = ["Your Offers", "Offers for you"];
 
   @override
   Widget build(BuildContext context) {
     final offersByUserStream = ref.watch(offersByUserProvider);
     final offersForUserStream = ref.watch(offersForUserProvider);
-    final selectedStream = offersByUserStream;
+    AsyncValue<List<Offer>> selectedStream = offersByUserStream;
 
     return Container(
         height: context.h,
@@ -46,32 +48,59 @@ class _InboxScreenState extends ConsumerState<InboxScreen> {
               decoration: AppTextFieldDecorations.searchFieldDecoration,
             ),
           ),
-          InboxTabBar(
-            selectedTabIndex: selectedTabIndex,
-            w: context.w,
+          Container(
+            margin: const EdgeInsets.symmetric(vertical: 8),
+            height: 40,
+            width: context.w,
+            child: Row(
+              children: List.generate(
+                tabs.length,
+                (index) => HomeTabNavigationItem(
+                  isTagSelected: selectedTabIndex == index ? true : false,
+                  onTap: () {
+                    setState(() {
+                      selectedTabIndex = index;
+                      selectedStream == offersForUserStream
+                          ? selectedStream = offersByUserStream
+                          : selectedStream = offersForUserStream;
+                    });
+                  },
+                  text: tabs[index],
+                ),
+              ),
+            ),
           ),
+          // InboxTabBar(
+          //   selectedTabIndex: selectedTabIndex,
+          //   w: context.w,
+          // ),
           if (selectedTabIndex == 0)
-            (isInboxEmpty)
-                ? const EmptyInboxBody()
-                : selectedStream.when(
-                    data: (data) => ListView.builder(
-                      itemCount: data.length,
-                      itemBuilder: (context, index) => InboxCard(
-                        inboxType: InboxType.Unread,
-                        from: "Allan Store",
-                        message: "Hello, How may I help you?",
-                        date: "2023/08/11",
-                        onTap: () {
-                          context.push(OfferDetailedScreen(offerId: data[index].id ?? ""));
-                        },
+            selectedStream.when(
+              data: (data) => data.isEmpty
+                  ? const EmptyInboxBody()
+                  : SizedBox(
+                      height: context.h * 0.6,
+                      width: context.w,
+                      child: ListView.builder(
+                        physics: const ClampingScrollPhysics(),
+                        itemCount: data.length,
+                        itemBuilder: (context, index) => InboxCard(
+                          inboxType: InboxType.Unread,
+                          from: data[index].title,
+                          message: data[index].statement ?? "",
+                          date: data[index].createdAt.toString(),
+                          onTap: () {
+                            context.push(OfferDetailedScreen(offerId: data[index].id ?? ""));
+                          },
+                        ),
                       ),
                     ),
-                    error: (error, stackTrace) {
-                      print("error : ${error.toString()} stackTrace: $stackTrace");
-                      return Text("error : ${error.toString()} ");
-                    },
-                    loading: () => const Loader(),
-                  )
+              error: (error, stackTrace) {
+                print("error : ${error.toString()} stackTrace: $stackTrace");
+                return Text("error : ${error.toString()} ");
+              },
+              loading: () => const Loader(),
+            )
         ])));
   }
 }
@@ -87,7 +116,7 @@ class EmptyInboxBody extends StatelessWidget {
       Padding(
         padding: EdgeInsets.only(top: 250.h, bottom: 10),
         child: Image.asset(
-          "assets/exports/empty_chat.png",
+          "assets/svgs/empty_chat.png",
           height: 100.h,
           width: 100.h,
         ),

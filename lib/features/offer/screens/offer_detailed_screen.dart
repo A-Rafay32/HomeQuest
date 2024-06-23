@@ -35,25 +35,21 @@ class OfferDetailedScreen extends ConsumerWidget {
                 padding: AppPaddings.tiny,
                 height: context.h,
                 width: context.w,
-                child: SingleChildScrollView(
-                  child: Column(
-                    children: [
-                      Text(data.toMap().toString()),
-                      const Spacer(),
-                      if (data.createdBy == currentUser?.uid)
-                        Button(
-                          horizontal: double.infinity,
-                          press: () {},
-                          text: "Withdraw ",
-                        )
-                      else
-                        Button(
-                          horizontal: double.infinity,
-                          press: () {},
-                          text: "Accept ",
-                        ),
-                    ],
-                  ),
+                child: Column(
+                  children: [
+                    Text(data.toMap().toString()),
+                    const Spacer(),
+                    if (data.createdBy == currentUser?.uid)
+                      Button(
+                        press: () {},
+                        text: "Withdraw ",
+                      )
+                    else
+                      Button(
+                        press: () {},
+                        text: "Accept ",
+                      ),
+                  ],
                 ))));
   }
 }
