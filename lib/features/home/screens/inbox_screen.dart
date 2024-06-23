@@ -13,6 +13,7 @@ import 'package:real_estate_app/features/home/screens/chat_screen.dart';
 import 'package:real_estate_app/features/home/screens/widgets/inbox_card.dart';
 import 'package:real_estate_app/features/home/screens/widgets/inbox_tap_bar.dart';
 import 'package:real_estate_app/features/offer/providers/offer_provider.dart';
+import 'package:real_estate_app/features/offer/screens/offer_detailed_screen.dart';
 
 class InboxScreen extends ConsumerStatefulWidget {
   const InboxScreen({super.key});
@@ -61,7 +62,7 @@ class _InboxScreenState extends ConsumerState<InboxScreen> {
                         message: "Hello, How may I help you?",
                         date: "2023/08/11",
                         onTap: () {
-                          context.push(const ChatScreen(storeName: "Allan Store"));
+                          context.push(OfferDetailedScreen(offerId: data[index].id ?? ""));
                         },
                       ),
                     ),

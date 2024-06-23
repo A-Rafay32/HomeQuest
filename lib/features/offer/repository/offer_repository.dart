@@ -9,7 +9,7 @@ class OfferRepository {
 
   FutureEither0 createOffer(Offer offer) async {
     try {
-      await offerCollection.add(offer.toMap()).catchError((error) => throw error);
+      await offerCollection.doc(offer.id).set(offer.toMap()).catchError((error) => throw error);
       return success("Offer created successfully");
     } on FirebaseException catch (e) {
       debugPrint(e.toString());

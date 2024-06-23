@@ -3,6 +3,7 @@ import 'dart:convert';
 // ignore_for_file: public_member_api_docs, sort_constructors_first
 
 class Offer {
+  final String? id;
   final double? offeredMoney;
   final double? settledMoney;
   final String? statement;
@@ -17,6 +18,7 @@ class Offer {
     this.offeredMoney,
     this.settledMoney,
     this.statement,
+    required this.id,
     required this.senderName,
     required this.title,
     required this.senderEmail,
@@ -28,6 +30,7 @@ class Offer {
 
   Map<String, dynamic> toMap() {
     return <String, dynamic>{
+      'id': id,
       'offeredMoney': offeredMoney,
       'title': title,
       'settledMoney': settledMoney,
@@ -43,6 +46,7 @@ class Offer {
 
   factory Offer.fromMap(Map<String, dynamic> map) {
     return Offer(
+      id: map['id'] ?? "",
       title: map['title'] ?? "",
       offeredMoney: map['offeredMoney'] ?? 0.0,
       settledMoney: map['settledMoney'] ?? 0.0,

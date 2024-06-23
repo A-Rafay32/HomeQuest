@@ -5,6 +5,7 @@ import 'package:real_estate_app/app/themes/app_paddings.dart';
 import 'package:real_estate_app/app/themes/app_text_field_themes.dart';
 import 'package:real_estate_app/core/extensions/routes_extenstion.dart';
 import 'package:real_estate_app/core/extensions/sizes_extensions.dart';
+import 'package:real_estate_app/core/utils/gen_random_ids.dart';
 import 'package:real_estate_app/features/auth/screens/widgets/app_bar_white.dart';
 import 'package:real_estate_app/features/auth/screens/widgets/button.dart';
 import 'package:real_estate_app/features/auth/screens/widgets/custom_text_field.dart';
@@ -117,7 +118,8 @@ class _CreateOfferDialogState extends ConsumerState<CreateOfferScreen> {
 
   _createOffer() {
     Offer offer = Offer(
-      title: titleController.text.trim(),
+        id: generateId(),
+        title: titleController.text.trim(),
         senderName: nameController.text.trim(),
         senderEmail: emailController.text.trim(),
         createdBy: currentUser?.uid ?? "",
