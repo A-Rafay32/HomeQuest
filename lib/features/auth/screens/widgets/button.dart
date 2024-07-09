@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
+import 'package:real_estate_app/app/themes/app_colors.dart';
 import 'package:real_estate_app/core/utils/loader.dart';
 
 class Button extends StatelessWidget {
@@ -23,12 +24,11 @@ class Button extends StatelessWidget {
   Widget build(BuildContext context) {
     return ElevatedButton(
         style: ElevatedButton.styleFrom(
-          shape:
-              RoundedRectangleBorder(borderRadius: BorderRadius.circular(30)),
-          padding: EdgeInsets.symmetric(
-              horizontal: horizontal.w, vertical: vertical.h),
-          elevation: 2.0,
-        ),
+            shape:
+                RoundedRectangleBorder(borderRadius: BorderRadius.circular(30)),
+            padding: EdgeInsets.symmetric(
+                horizontal: horizontal.w, vertical: vertical.h),
+            elevation: 2.0),
         onPressed: press,
         child: isLoading
             ? const ButtonLoader()
@@ -38,5 +38,34 @@ class Button extends StatelessWidget {
                     .textTheme
                     .bodyLarge
                     ?.copyWith(color: textColor, fontWeight: FontWeight.w700)));
+  }
+}
+
+class FAButton extends StatelessWidget {
+  FAButton({
+    super.key,
+    required this.title,
+    required this.onTap,
+  });
+
+  final String title;
+  Function() onTap;
+
+  @override
+  Widget build(BuildContext context) {
+    return SizedBox(
+      width: 200.0,
+      child: FloatingActionButton(
+        backgroundColor: AppColors.primaryColor,
+        onPressed: onTap,
+        shape:
+            RoundedRectangleBorder(borderRadius: BorderRadius.circular(20.0)),
+        child: Text(title,
+            style: Theme.of(context)
+                .textTheme
+                .labelLarge
+                ?.copyWith(color: Colors.white)),
+      ),
+    );
   }
 }

@@ -9,7 +9,10 @@ class OfferRepository {
 
   FutureEither0 createOffer(Offer offer) async {
     try {
-      await offerCollection.doc(offer.id).set(offer.toMap()).catchError((error) => throw error);
+      await offerCollection
+          .doc(offer.id)
+          .set(offer.toMap())
+          .catchError((error) => throw error);
       return success("Offer created successfully");
     } on FirebaseException catch (e) {
       debugPrint(e.toString());
@@ -19,7 +22,10 @@ class OfferRepository {
 
   FutureEither0 updateOffer(String offerId, Offer offer) async {
     try {
-      await offerCollection.doc(offerId).update(offer.toMap()).catchError((error) => throw error);
+      await offerCollection
+          .doc(offerId)
+          .update(offer.toMap())
+          .catchError((error) => throw error);
       return success("Offer updated successfully");
     } on FirebaseException catch (e) {
       debugPrint(e.toString());
@@ -29,7 +35,10 @@ class OfferRepository {
 
   FutureEither0 deleteOffer(String offerId) async {
     try {
-      await offerCollection.doc(offerId).delete().catchError((error) => throw error);
+      await offerCollection
+          .doc(offerId)
+          .delete()
+          .catchError((error) => throw error);
       return success("Offer deleted successfully");
     } on FirebaseException catch (e) {
       debugPrint(e.toString());
@@ -65,7 +74,10 @@ class OfferRepository {
 
   Stream<List<Offer>> getAllOffersForSeller(String sellerId) {
     try {
-      return offerCollection.where('sentTo', isEqualTo: sellerId).snapshots().map((querySnapshot) {
+      return offerCollection
+          .where('sentTo', isEqualTo: sellerId)
+          .snapshots()
+          .map((querySnapshot) {
         return querySnapshot.docs.map((docSnapshot) {
           return Offer.fromMap(docSnapshot.data());
         }).toList();
@@ -100,7 +112,10 @@ class OfferRepository {
 
   Stream<List<Offer>> getAllOffersForUser(String userId) {
     try {
-      return offerCollection.where('sentTo', isEqualTo: userId).snapshots().map((querySnapshot) {
+      return offerCollection
+          .where('sentTo', isEqualTo: userId)
+          .snapshots()
+          .map((querySnapshot) {
         return querySnapshot.docs.map((docSnapshot) {
           return Offer.fromMap(docSnapshot.data());
         }).toList();
@@ -116,7 +131,10 @@ class OfferRepository {
 
   Stream<List<Offer>> getAllOffersByUser(String userId) {
     try {
-      return offerCollection.where('createdBy', isEqualTo: userId).snapshots().map((querySnapshot) {
+      return offerCollection
+          .where('createdBy', isEqualTo: userId)
+          .snapshots()
+          .map((querySnapshot) {
         return querySnapshot.docs.map((docSnapshot) {
           return Offer.fromMap(docSnapshot.data());
         }).toList();

@@ -15,7 +15,8 @@ import 'package:real_estate_app/features/offer/providers/offer_notifier.dart';
 class CreateOfferScreen extends ConsumerStatefulWidget {
   const CreateOfferScreen({super.key});
   @override
-  ConsumerState<ConsumerStatefulWidget> createState() => _CreateOfferDialogState();
+  ConsumerState<ConsumerStatefulWidget> createState() =>
+      _CreateOfferDialogState();
 }
 
 class _CreateOfferDialogState extends ConsumerState<CreateOfferScreen> {
@@ -55,7 +56,9 @@ class _CreateOfferDialogState extends ConsumerState<CreateOfferScreen> {
                       return value == null ? "Field can't be empty" : null;
                     },
                     controller: nameController,
-                    inputDecoration: AppTextFieldDecorations.genericInputDecoration(label: "Name")),
+                    inputDecoration:
+                        AppTextFieldDecorations.genericInputDecoration(
+                            label: "Name")),
                 AppSizes.normalY,
                 CustomTextField(
                     validator: (value) {
@@ -63,7 +66,8 @@ class _CreateOfferDialogState extends ConsumerState<CreateOfferScreen> {
                     },
                     controller: emailController,
                     inputDecoration:
-                        AppTextFieldDecorations.genericInputDecoration(label: "Email")),
+                        AppTextFieldDecorations.genericInputDecoration(
+                            label: "Email")),
                 AppSizes.normalY,
                 CustomTextField(
                     validator: (value) {
@@ -71,19 +75,22 @@ class _CreateOfferDialogState extends ConsumerState<CreateOfferScreen> {
                     },
                     controller: titleController,
                     inputDecoration:
-                        AppTextFieldDecorations.genericInputDecoration(label: "Title")),
+                        AppTextFieldDecorations.genericInputDecoration(
+                            label: "Title")),
                 AppSizes.normalY,
                 CustomTextField(
                     maxLines: 4,
                     controller: statementController,
-                    inputDecoration: AppTextFieldDecorations.genericInputDecoration(
-                        label: "(Optional) I want to ...")),
+                    inputDecoration:
+                        AppTextFieldDecorations.genericInputDecoration(
+                            label: "(Optional) I want to ...")),
                 AppSizes.normalY,
                 if (offerPurpose == OfferPurpose.buy)
                   CustomTextField(
                       controller: offeredMoneyController,
-                      inputDecoration: AppTextFieldDecorations.genericInputDecoration(
-                          label: "Here's what i would pay for it ......")),
+                      inputDecoration:
+                          AppTextFieldDecorations.genericInputDecoration(
+                              label: "Here's what i would pay for it ......")),
                 AppSizes.normalY,
                 Text(
                   "I want to",

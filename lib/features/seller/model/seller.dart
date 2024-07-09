@@ -7,7 +7,7 @@ class Seller {
   final double rating;
   final List<String> reviews;
   final List<String> listedHouseIds;
-  final DateTime registeredOn;
+  final DateTime? registeredOn;
   final List<String> contracts;
   final List<String> offers;
   final String licenseNumber;
@@ -40,7 +40,7 @@ class Seller {
       'rating': rating,
       'reviews': reviews,
       'listedHouseIds': listedHouseIds,
-      'registeredOn': registeredOn.toIso8601String(),
+      'registeredOn': registeredOn?.toIso8601String(),
       'contracts': contracts,
       'offers': offers,
       'licenseNumber': licenseNumber,

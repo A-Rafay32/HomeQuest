@@ -9,7 +9,6 @@ import 'package:real_estate_app/app/themes/app_text_field_themes.dart';
 import 'package:real_estate_app/core/extensions/routes_extenstion.dart';
 import 'package:real_estate_app/core/extensions/sizes_extensions.dart';
 import 'package:real_estate_app/core/utils/loader.dart';
-import 'package:real_estate_app/features/home/screens/chat_screen.dart';
 import 'package:real_estate_app/features/home/screens/widgets/inbox_card.dart';
 import 'package:real_estate_app/features/home/screens/widgets/inbox_tap_bar.dart';
 import 'package:real_estate_app/features/offer/model/offer.dart';
@@ -90,7 +89,8 @@ class _InboxScreenState extends ConsumerState<InboxScreen> {
                           message: data[index].statement ?? "",
                           date: data[index].createdAt.toString(),
                           onTap: () {
-                            context.push(OfferDetailedScreen(offerId: data[index].id ?? ""));
+                            context.push(OfferDetailedScreen(
+                                offerId: data[index].id ?? ""));
                           },
                         ),
                       ),
@@ -124,10 +124,10 @@ class EmptyInboxBody extends StatelessWidget {
       Text(
         "No Messages",
         textAlign: TextAlign.left,
-        style: Theme.of(context)
-            .textTheme
-            .headlineLarge
-            ?.copyWith(fontWeight: FontWeight.bold, color: Colors.grey.shade500, fontSize: 22.sp),
+        style: Theme.of(context).textTheme.headlineLarge?.copyWith(
+            fontWeight: FontWeight.bold,
+            color: Colors.grey.shade500,
+            fontSize: 22.sp),
       ),
       const SizedBox(
         height: 10,
@@ -158,7 +158,8 @@ class InboxSearchField extends StatelessWidget {
         height: 35,
         width: w * 0.9,
         decoration: BoxDecoration(
-            color: Colors.grey.shade200.withOpacity(0.4), borderRadius: BorderRadius.circular(10)),
+            color: Colors.grey.shade200.withOpacity(0.4),
+            borderRadius: BorderRadius.circular(10)),
         child: Row(
           children: [
             const SizedBox(
@@ -168,7 +169,8 @@ class InboxSearchField extends StatelessWidget {
               "assets/exports/search.svg",
               height: 15,
               width: 15,
-              colorFilter: ColorFilter.mode(Colors.grey.shade600, BlendMode.srcIn),
+              colorFilter:
+                  ColorFilter.mode(Colors.grey.shade600, BlendMode.srcIn),
             ),
             const SizedBox(
               width: 10,

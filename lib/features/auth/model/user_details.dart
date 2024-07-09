@@ -46,7 +46,9 @@ class UserDetails {
       image: map['image'],
       address: map['address'],
       bio: map['bio'],
-      dateofBirth: map['dateofBirth'] != null ? DateTime.parse(map['dateofBirth']) : null,
+      dateofBirth: map['dateofBirth'] != null
+          ? DateTime.parse(map['dateofBirth'])
+          : null,
       gender: Gender.toGender(map['gender']),
     );
   }

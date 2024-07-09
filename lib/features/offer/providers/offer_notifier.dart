@@ -11,10 +11,36 @@ class OfferNotifier extends StateNotifier<AsyncValue> {
 
   void createOffer(Offer offer, BuildContext context) async {
     state = const AsyncValue.loading();
-    final result =
-        await OfferRepository().createOffer(offer).whenComplete(() => const AsyncValue.data(null));
+    final result = await OfferRepository()
+        .createOffer(offer)
+        .whenComplete(() => const AsyncValue.data(null));
     result.fold((left) {
       context.pop();
+      context.showSnackBar(left.message.toString());
+    }, (right) {
+      context.pop();
+      context.showSnackBar(right.message.toString());
+    });
+  }
+
+  void updateOffer(String offerId, Offer offer, BuildContext context) async {
+    state = const AsyncValue.loading();
+    final result = await OfferRepository()
+        .updateOffer(offerId, offer)
+        .whenComplete(() => const AsyncValue.data(null));
+    result.fold((left) {
+      context.showSnackBar(left.message.toString());
+    }, (right) {
+      context.showSnackBar(right.message.toString());
+    });
+  }
+
+  void deleteOffer(String offerId, BuildContext context) async {
+    state = const AsyncValue.loading();
+    final result = await OfferRepository()
+        .deleteOffer(offerId)
+        .whenComplete(() => const AsyncValue.data(null));
+    result.fold((left) {
       context.showSnackBar(left.message.toString());
     }, (right) {
       context.pop();
@@ -33,6 +59,7 @@ class OfferNotifier extends StateNotifier<AsyncValue> {
   }
 }
 
-final offerNotifierProvider = StateNotifierProvider<OfferNotifier, AsyncValue>((ref) {
+final offerNotifierProvider =
+    StateNotifierProvider<OfferNotifier, AsyncValue>((ref) {
   return OfferNotifier();
 });

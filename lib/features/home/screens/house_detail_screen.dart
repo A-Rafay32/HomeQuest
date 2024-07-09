@@ -1,11 +1,13 @@
 import 'package:flutter/material.dart';
-import 'package:flutter_screenutil/flutter_screenutil.dart';
+import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:real_estate_app/app/themes/app_paddings.dart';
 import 'package:real_estate_app/core/extensions/routes_extenstion.dart';
 import 'package:real_estate_app/core/extensions/sizes_extensions.dart';
+import 'package:real_estate_app/core/utils/loader.dart';
 import 'package:real_estate_app/features/auth/screens/widgets/button.dart';
 import 'package:real_estate_app/features/home/models/rental_house.dart';
 import 'package:real_estate_app/features/offer/screens/create_offers_screen.dart';
+import 'package:real_estate_app/features/seller/provider/seller_provider.dart';
 import 'widgets/address_card.dart';
 import 'widgets/description_card.dart';
 import 'widgets/image_card.dart';
@@ -39,18 +41,13 @@ class _HouseDetailScreenState extends State<HouseDetailScreen> {
                 height: context.h * 0.4,
                 width: context.w,
                 child: HouseDetailImage(
-                  h: context.h,
-                  w: context.w,
-                  house: widget.house,
-                ),
+                    h: context.h, w: context.w, house: widget.house),
               ),
               SizedBox(
                 height: context.h * 0.8,
                 width: context.w,
                 child: Padding(
-                  padding: const EdgeInsets.symmetric(
-                    horizontal: 20,
-                  ),
+                  padding: const EdgeInsets.symmetric(horizontal: 20),
                   child: Column(
                     mainAxisSize: MainAxisSize.min,
                     children: [
@@ -61,6 +58,8 @@ class _HouseDetailScreenState extends State<HouseDetailScreen> {
                       HouseDetailsCard(house: widget.house),
                       AppSizes.largeY,
                       AddressCard(house: widget.house),
+                      AppSizes.largeY,
+                      SellerCard(sellerId: widget.house.listedBy),
                       AppSizes.smallY,
                       const Spacer(),
                       AppSizes.normalY
@@ -72,19 +71,46 @@ class _HouseDetailScreenState extends State<HouseDetailScreen> {
           ),
         ),
       ),
-      floatingActionButtonLocation: FloatingActionButtonLocation.centerDocked,
-      floatingActionButton: FloatingActionButton(
-        onPressed: () {},
-        child: SizedBox(
-          height: 60.0,
-          width: 200.0,
-          child: Button(
-            horizontal: 60.w,
-            press: () => context.push(const CreateOfferScreen()),
-            text: "Request a visit",
-          ),
-        ),
+      floatingActionButtonLocation: FloatingActionButtonLocation.centerFloat,
+      floatingActionButton: FAButton(
+        title: "Request a visit",
+        onTap: () => context.push(const CreateOfferScreen()),
       ),
+    );
+  }
+}
+
+class SellerCard extends ConsumerWidget {
+  const SellerCard({required this.sellerId, super.key});
+
+  final String sellerId;
+
+  @override
+  Widget build(BuildContext context, WidgetRef ref) {
+    final sellerValue = ref.watch(getSellerProvider(sellerId));
+
+    return sellerValue.when(
+      data: (data) => Column(
+        crossAxisAlignment: CrossAxisAlignment.start,
+        children: [
+          Text("About Seller",
+              style: Theme.of(context).textTheme.headlineSmall),
+          AppSizes.smallY,
+          Row(
+            children: [
+              const CircleAvatar(backgroundImage: NetworkImage(""), radius: 20),
+              const SizedBox(width: 10),
+              Text(
+                data.userDetails.name,
+                style: Theme.of(context).textTheme.titleLarge,
+              )
+            ],
+          ),
+        ],
+      ),
+      error: (error, stackTrace) =>
+          Text(error.toString() + stackTrace.toString()),
+      loading: () => const Loader(),
     );
   }
 }

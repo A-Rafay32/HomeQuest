@@ -1,5 +1,6 @@
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:either_dart/either.dart';
+import 'package:flutter/foundation.dart';
 import 'package:real_estate_app/core/utils/types.dart';
 import 'package:real_estate_app/features/seller/model/seller.dart';
 
@@ -37,16 +38,13 @@ class SellerRepository {
     }
   }
 
-  FutureEither1<Seller> getSeller({required String uid}) async {
+  Future<Seller> getSeller({required String uid}) async {
     try {
       final doc = await sellerCollection.doc(uid).get();
-      if (doc.exists) {
-        return Right(Seller.fromMap(doc.data() as Map<String, dynamic>));
-      } else {
-        return failure("Seller not found");
-      }
-    } on FirebaseException catch (e) {
-      return failure(e.message.toString());
+      return Seller.fromMap(doc.data() as Map<String, dynamic>);
+    } on FirebaseException catch (e, stackTrace) {
+      debugPrint(" error : ${e.toString()} \n stackTrace : $stackTrace");
+      rethrow;
     }
   }
 

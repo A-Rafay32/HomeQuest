@@ -7,6 +7,7 @@ import 'package:real_estate_app/core/extensions/sizes_extensions.dart';
 import 'package:real_estate_app/core/utils/loader.dart';
 import 'package:real_estate_app/features/auth/screens/widgets/app_bar_white.dart';
 import 'package:real_estate_app/features/auth/screens/widgets/button.dart';
+import 'package:real_estate_app/features/offer/providers/offer_notifier.dart';
 import 'package:real_estate_app/features/offer/providers/offer_provider.dart';
 
 class OfferDetailedScreen extends ConsumerWidget {
@@ -20,7 +21,8 @@ class OfferDetailedScreen extends ConsumerWidget {
     return offerFuture.when(
         error: (error, stackTrace) {
           print("error : ${error.toString()} stackTrace: $stackTrace");
-          return Text("error : ${error.toString()} ", style: const TextStyle(color: Colors.white));
+          return Text("error : ${error.toString()} ",
+              style: const TextStyle(color: Colors.white));
         },
         loading: () => const Loader(),
         data: (data) => Scaffold(
@@ -41,7 +43,9 @@ class OfferDetailedScreen extends ConsumerWidget {
                     const Spacer(),
                     if (data.createdBy == currentUser?.uid)
                       Button(
-                        press: () {},
+                        press: () => ref
+                            .read(offerNotifierProvider.notifier)
+                            .deleteOffer(offerId, context),
                         text: "Withdraw ",
                       )
                     else

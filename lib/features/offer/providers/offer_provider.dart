@@ -9,13 +9,18 @@ final offerRepositoryProvider = Provider((ref) {
   return OfferRepository();
 });
 final offersByUserProvider = StreamProvider((ref) {
-  return ref.watch(offerRepositoryProvider).getAllOffersByUser(currentUser?.uid ?? "");
+  return ref
+      .watch(offerRepositoryProvider)
+      .getAllOffersByUser(currentUser?.uid ?? "");
 });
 
 final offersForUserProvider = StreamProvider((ref) {
-  return ref.watch(offerRepositoryProvider).getAllOffersForUser(currentUser?.uid ?? "");
+  return ref
+      .watch(offerRepositoryProvider)
+      .getAllOffersForUser(currentUser?.uid ?? "");
 });
 
-final offerFutureProvider = FutureProvider.family<Offer, String>((ref, String offerId) async {
+final offerFutureProvider =
+    FutureProvider.family<Offer, String>((ref, String offerId) async {
   return ref.watch(offerRepositoryProvider).getOffer(offerId);
 });

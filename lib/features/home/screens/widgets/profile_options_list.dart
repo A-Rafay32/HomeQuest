@@ -2,9 +2,12 @@ import 'package:flutter/material.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:flutter_svg/svg.dart';
 import 'package:real_estate_app/app/constants/firebase_constants.dart';
+import 'package:real_estate_app/app/themes/app_paddings.dart';
 import 'package:real_estate_app/core/extensions/routes_extenstion.dart';
 import 'package:real_estate_app/core/extensions/sizes_extensions.dart';
 import 'package:real_estate_app/features/auth/repositories/user_repository.dart';
+import 'package:real_estate_app/features/auth/screens/widgets/button.dart';
+import 'package:real_estate_app/features/seller/screen/seller_form_screen.dart';
 
 class ProfileOptionsList extends StatelessWidget {
   const ProfileOptionsList({
@@ -39,7 +42,32 @@ class ProfileOptionsList extends StatelessWidget {
           color: Color.fromARGB(255, 238, 238, 238),
         ),
         ProfileOptionsCard(
-          onTap: () {},
+          onTap: () => showDialog(
+            context: context,
+            builder: (context) => AlertDialog(
+              actionsAlignment: MainAxisAlignment.spaceBetween,
+              actions: [
+                TextButton(
+                    onPressed: () => context.pop(),
+                    child: const Text("Cancel")),
+                TextButton(
+                    onPressed: () => context.push(const SellerFormScreen()),
+                    child: const Text("Continue")),
+              ],
+              shape: RoundedRectangleBorder(
+                  borderRadius: BorderRadius.circular(20)),
+              content: Column(
+                mainAxisSize: MainAxisSize.min,
+                children: [
+                  Text("Become A Seller ",
+                      style: Theme.of(context).textTheme.headlineSmall),
+                  AppSizes.normalY,
+                  Text("Submit details and become a seller",
+                      style: Theme.of(context).textTheme.bodyMedium),
+                ],
+              ),
+            ),
+          ),
           icon: "assets/svgs/profile/seller.svg",
           text: "Become A Seller",
           w: context.w,
@@ -149,8 +177,9 @@ class ProfileOptionsCard extends StatelessWidget {
               width: svgW ?? 25.w, // Adjust the width as needed
               height: svgH ?? 25.h, // Adjust the height as needed
 
-              colorFilter:
-                  ColorFilter.mode(text == "Logout" ? Colors.red : Colors.black, BlendMode.srcIn),
+              colorFilter: ColorFilter.mode(
+                  text == "Logout" ? Colors.red : Colors.black,
+                  BlendMode.srcIn),
             ),
             const SizedBox(width: 10),
             Text(

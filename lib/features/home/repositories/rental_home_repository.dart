@@ -10,7 +10,8 @@ class RentalHomeRepository {
   final firestore = FirebaseFirestore.instance;
   final houseCollection = FirebaseFirestore.instance.collection("houses");
 
-  FutureEither0 addRentalHouse({required RentalHouse rentalHouse, required String? ownerId}) async {
+  FutureEither0 addRentalHouse(
+      {required RentalHouse rentalHouse, required String? ownerId}) async {
     try {
       if (ownerId != null) {
         // final isLegit = await UserRepository().getUser(ownerId).fold(
@@ -53,9 +54,11 @@ class RentalHomeRepository {
     try {
       DocumentSnapshot docSnapshot = await houseCollection.doc(houseId).get();
       if (docSnapshot.exists) {
-        RentalHouse h = RentalHouse.fromMap(docSnapshot.data() as Map<String, dynamic>);
+        RentalHouse h =
+            RentalHouse.fromMap(docSnapshot.data() as Map<String, dynamic>);
         print(h.toMap());
-        return Right(RentalHouse.fromMap(docSnapshot.data() as Map<String, dynamic>));
+        return Right(
+            RentalHouse.fromMap(docSnapshot.data() as Map<String, dynamic>));
       } else {
         return Left(Failure(message: "House Doesnot exist"));
       }
@@ -67,7 +70,8 @@ class RentalHomeRepository {
     }
   }
 
-  FutureEither0 updateHouse(String houseId, Map<String, dynamic> updatefields) async {
+  FutureEither0 updateHouse(
+      String houseId, Map<String, dynamic> updatefields) async {
     try {
       await houseCollection
           .doc(houseId)
@@ -86,8 +90,10 @@ class RentalHomeRepository {
     try {
       List<RentalHouse> list = [];
       for (var id in houseIds) {
-        DocumentSnapshot docs =
-            await houseCollection.doc(id).get().catchError((error) => throw error.toString());
+        DocumentSnapshot docs = await houseCollection
+            .doc(id)
+            .get()
+            .catchError((error) => throw error.toString());
         print(docs.data() as Map<String, dynamic>);
         list.add(RentalHouse.fromMap(docs.data() as Map<String, dynamic>));
       }
@@ -102,9 +108,11 @@ class RentalHomeRepository {
 
   FutureEither1<List<Bill>> getAllHouseBills(String houseIds) async {
     try {
-      QuerySnapshot docs = await houseCollection.doc(houseIds).collection("bills").get();
+      QuerySnapshot docs =
+          await houseCollection.doc(houseIds).collection("bills").get();
       return Right(docs.docs
-          .map((docSnapshot) => Bill.fromMap(docSnapshot.data() as Map<String, dynamic>))
+          .map((docSnapshot) =>
+              Bill.fromMap(docSnapshot.data() as Map<String, dynamic>))
           .toList());
     } on FirebaseException catch (e) {
       throw e.message.toString();
@@ -115,8 +123,10 @@ class RentalHomeRepository {
 
   Stream<List<RentalHouse>> getAllRentalHouse() {
     try {
-      return houseCollection.snapshots().map((querySnapshot) => querySnapshot.docs
-          .map((documentSnapshot) => RentalHouse.fromMap(documentSnapshot.data()))
+      return houseCollection.snapshots().map((querySnapshot) => querySnapshot
+          .docs
+          .map((documentSnapshot) =>
+              RentalHouse.fromMap(documentSnapshot.data()))
           .toList());
     } on FirebaseException catch (e) {
       throw e.message.toString();
@@ -128,9 +138,12 @@ class RentalHomeRepository {
 
   Stream<List<RentalHouse>> getAllAvailableRentalHouse() {
     try {
-      return houseCollection.where("isAvailable", isEqualTo: true).snapshots().map(
-          (querySnapshot) => querySnapshot.docs
-              .map((documentSnapshot) => RentalHouse.fromMap(documentSnapshot.data()))
+      return houseCollection
+          .where("isAvailable", isEqualTo: true)
+          .snapshots()
+          .map((querySnapshot) => querySnapshot.docs
+              .map((documentSnapshot) =>
+                  RentalHouse.fromMap(documentSnapshot.data()))
               .toList());
     } on FirebaseException catch (e) {
       throw e.message.toString();
