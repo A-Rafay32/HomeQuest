@@ -74,7 +74,8 @@ class _HouseDetailScreenState extends State<HouseDetailScreen> {
       floatingActionButtonLocation: FloatingActionButtonLocation.centerFloat,
       floatingActionButton: FAButton(
         title: "Request a visit",
-        onTap: () => context.push(const CreateOfferScreen()),
+        onTap: () =>
+            context.push(CreateOfferScreen(sellerId: widget.house.listedBy)),
       ),
     );
   }

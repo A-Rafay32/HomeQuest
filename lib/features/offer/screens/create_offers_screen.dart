@@ -13,7 +13,10 @@ import 'package:real_estate_app/features/offer/model/offer.dart';
 import 'package:real_estate_app/features/offer/providers/offer_notifier.dart';
 
 class CreateOfferScreen extends ConsumerStatefulWidget {
-  const CreateOfferScreen({super.key});
+  const CreateOfferScreen({super.key, required this.sellerId});
+
+  final String sellerId;
+
   @override
   ConsumerState<ConsumerStatefulWidget> createState() =>
       _CreateOfferDialogState();
@@ -145,7 +148,7 @@ class _CreateOfferDialogState extends ConsumerState<CreateOfferScreen> {
         senderName: nameController.text.trim(),
         senderEmail: emailController.text.trim(),
         createdBy: currentUser?.uid ?? "",
-        sentTo: "",
+        sentTo: widget.sellerId,
         isAccepted: false,
         createdAt: DateTime.now(),
         offeredMoney: offeredMoneyController.text.trim().isEmpty
