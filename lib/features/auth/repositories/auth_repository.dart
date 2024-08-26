@@ -58,6 +58,7 @@ class AuthRepository {
                 password: password,
               )),
           uid: currentUser?.uid ?? "");
+
       await currentUser?.updateDisplayName(name);
 
       if (result.isLeft) {

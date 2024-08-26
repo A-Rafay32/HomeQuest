@@ -34,24 +34,77 @@ class OfferDetailedScreen extends ConsumerWidget {
                     },
                     text: data.title)),
             body: Container(
-                padding: AppPaddings.tiny,
+                padding: AppPaddings.small,
                 height: context.h,
                 width: context.w,
                 child: Column(
+                  crossAxisAlignment: CrossAxisAlignment.start,
                   children: [
-                    Text(data.toMap().toString()),
+                    Text("Sender Name",
+                        style: Theme.of(context).textTheme.titleLarge),
+                    AppSizes.smallY,
+                    Text(data.senderName),
+                    AppSizes.normalY,
+                    Text("Statement",
+                        style: Theme.of(context).textTheme.titleLarge),
+                    AppSizes.smallY,
+                    Text(data.statement ?? ""),
+                    AppSizes.normalY,
+                    Text("Purpose",
+                        style: Theme.of(context).textTheme.titleLarge),
+                    AppSizes.smallY,
+                    Text(data.purpose.toString()),
+                    AppSizes.normalY,
+                    if (data.offeredMoney == null)
+                      Column(children: [
+                        Text("Offered Amount",
+                            style: Theme.of(context).textTheme.titleLarge),
+                        AppSizes.smallY,
+                        Text(data.offeredMoney?.toStringAsFixed(2) ?? ""),
+                        AppSizes.normalY,
+                      ]),
                     const Spacer(),
                     if (data.createdBy == currentUser?.uid)
-                      Button(
-                        press: () => ref
-                            .read(offerNotifierProvider.notifier)
-                            .deleteOffer(offerId, context),
-                        text: "Withdraw ",
+                      Align(
+                        alignment: Alignment.center,
+                        child: Button(
+                          press: () => ref
+                              .read(offerNotifierProvider.notifier)
+                              .deleteOffer(offerId, context),
+                          text: "Withdraw ",
+                        ),
                       )
                     else
-                      Button(
-                        press: () {},
-                        text: "Accept ",
+                      Align(
+                        alignment: Alignment.center,
+                        child: Row(
+                          children: [
+                            Button(
+                                isLoading:
+                                    ref.read(offerNotifierProvider).isLoading,
+                                press: () => ref
+                                    .read(offerNotifierProvider.notifier)
+                                    .updateOffer(
+                                        offerId, {"isAccepted": true}, context),
+                                text: "Accept "),
+                            Button(
+                                isLoading:
+                                    ref.read(offerNotifierProvider).isLoading,
+                                press: () => ref
+                                    .read(offerNotifierProvider.notifier)
+                                    .updateOffer(
+                                        offerId, {"isAccepted": true}, context),
+                                text: "Reject "),
+                            // Button(
+                            //     isLoading:
+                            //         ref.read(offerNotifierProvider).isLoading,
+                            //     press: () => ref
+                            //         .read(offerNotifierProvider.notifier)
+                            //         .updateOffer(
+                            //             offerId, {"isAccepted": true}, context),
+                            //     text: "Counter"),
+                          ],
+                        ),
                       ),
                   ],
                 ))));

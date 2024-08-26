@@ -11,10 +11,12 @@ class InboxCard extends StatelessWidget {
       required this.from,
       required this.date,
       required this.inboxType,
+      required this.isAccepted,
       required this.message});
 
   final String from;
   final String date;
+  final bool isAccepted;
   final String message;
   final InboxType inboxType;
   final Function() onTap;
@@ -24,69 +26,90 @@ class InboxCard extends StatelessWidget {
     return GestureDetector(
       onTap: onTap,
       child: SizedBox(
-        width: double.infinity,
-        child: Card(
-            color: Colors.orange.shade100,
-            child: Padding(
-              padding: const EdgeInsets.symmetric(vertical: 8, horizontal: 12),
-              child: Column(
-                crossAxisAlignment: CrossAxisAlignment.start,
-                children: [
-                  Text(
-                    from,
-                    style: Theme.of(context).textTheme.headlineMedium?.copyWith(
-                          color: Colors.black,
-                          fontSize: 19.sp,
-                          fontWeight: FontWeight.w600,
-                        ),
-                  ),
-                  RichText(
-                      text: TextSpan(children: [
-                    TextSpan(
-                      text: date,
-                      style:
-                          Theme.of(context).textTheme.headlineMedium?.copyWith(
-                                color: Colors.grey.shade600,
-                                fontSize: 17.sp,
-                              ),
-                    ),
-                    const WidgetSpan(
-                        child: SizedBox(
-                      width: 5,
-                    )),
-                    if (inboxType == InboxType.Unread)
-                      TextSpan(
-                        text: inboxType.name,
-                        style: Theme.of(context)
-                            .textTheme
-                            .headlineMedium
-                            ?.copyWith(
-                              color: AppColors.primaryColor,
-                              fontSize: 17.sp,
-                            ),
-                      )
-                  ])),
-                  SizedBox(
-                    height: 8.h,
-                  ),
-                  Container(
-                    width: 300.w,
-                    padding: const EdgeInsets.all(4),
-                    child: Text(
-                      message,
-                      textAlign: TextAlign.start,
-                      style:
-                          Theme.of(context).textTheme.headlineMedium?.copyWith(
-                                color: inboxType == InboxType.Unread
-                                    ? AppColors.primaryColor
-                                    : Colors.grey.shade600,
-                                fontSize: 17.sp,
-                              ),
-                    ),
-                  ),
-                ],
-              ),
-            )),
+          width: double.infinity,
+          child: Card(
+              color: Colors.orange.shade100,
+              child: Padding(
+                padding:
+                    const EdgeInsets.symmetric(vertical: 8, horizontal: 12),
+                child: Column(
+                    crossAxisAlignment: CrossAxisAlignment.start,
+                    children: [
+                      Row(children: [
+                        Text(from,
+                            style: Theme.of(context)
+                                .textTheme
+                                .headlineMedium
+                                ?.copyWith(
+                                  color: Colors.black,
+                                  fontSize: 19.sp,
+                                  fontWeight: FontWeight.w600,
+                                )),
+                        const Spacer(),
+                        AcceptivityBadge(isAccepted: isAccepted)
+                      ]),
+                      RichText(
+                          text: TextSpan(children: [
+                        TextSpan(
+                            text: date,
+                            style: Theme.of(context)
+                                .textTheme
+                                .headlineMedium
+                                ?.copyWith(
+                                  color: Colors.grey.shade600,
+                                  fontSize: 17.sp,
+                                )),
+                        const WidgetSpan(child: SizedBox(width: 5)),
+                        if (inboxType == InboxType.Unread)
+                          TextSpan(
+                            text: inboxType.name,
+                            style: Theme.of(context)
+                                .textTheme
+                                .headlineMedium
+                                ?.copyWith(
+                                  color: AppColors.primaryColor,
+                                  fontSize: 17.sp,
+                                ),
+                          )
+                      ])),
+                      SizedBox(height: 8.h),
+                      Container(
+                          width: 300.w,
+                          padding: const EdgeInsets.all(4),
+                          child: Text(message,
+                              textAlign: TextAlign.start,
+                              style: Theme.of(context)
+                                  .textTheme
+                                  .headlineMedium
+                                  ?.copyWith(
+                                    color: inboxType == InboxType.Unread
+                                        ? AppColors.primaryColor
+                                        : Colors.grey.shade600,
+                                    fontSize: 17.sp,
+                                  ))),
+                    ]),
+              ))),
+    );
+  }
+}
+
+class AcceptivityBadge extends StatelessWidget {
+  const AcceptivityBadge({super.key, required this.isAccepted});
+
+  final bool isAccepted;
+  @override
+  Widget build(BuildContext context) {
+    return Container(
+      padding: EdgeInsets.symmetric(horizontal: 10.w, vertical: 5.h),
+      decoration: BoxDecoration(
+        borderRadius: BorderRadius.circular(8),
+        color: isAccepted
+            ? Colors.green.shade600.withOpacity(0.3)
+            : Colors.red.shade600.withOpacity(0.3),
+      ),
+      child: Icon(
+        isAccepted ? Icons.check : Icons.cancel,
+        color: isAccepted ? Colors.green.shade900 : Colors.red.shade900,
       ),
     );
   }

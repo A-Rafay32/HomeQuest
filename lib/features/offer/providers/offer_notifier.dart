@@ -23,11 +23,9 @@ class OfferNotifier extends StateNotifier<AsyncValue> {
     });
   }
 
-  void updateOffer(String offerId, Offer offer, BuildContext context) async {
+  void updateOffer(String offerId, offer, BuildContext context) async {
     state = const AsyncValue.loading();
-    final result = await OfferRepository()
-        .updateOffer(offerId, offer)
-        .whenComplete(() => const AsyncValue.data(null));
+    final result = await OfferRepository().updateOffer(offerId, offer);
     result.fold((left) {
       context.showSnackBar(left.message.toString());
     }, (right) {

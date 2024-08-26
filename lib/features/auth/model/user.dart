@@ -7,6 +7,7 @@ class UserModel {
   final String id;
   final UserDetails userDetails;
   final bool? isEmailVerified;
+  final bool isSeller;
   List<dynamic>? favourites;
   List<String>? myHouses;
   final List<dynamic>? paymentInfo;
@@ -17,6 +18,7 @@ class UserModel {
     required this.userDetails,
     required this.id,
     this.isEmailVerified,
+    this.isSeller = false,
     this.myHouses,
     this.favourites = const [],
     this.paymentInfo,
@@ -27,6 +29,7 @@ class UserModel {
   Map<String, dynamic> toMap() {
     return <String, dynamic>{
       "id": id,
+      'isSeller': isSeller,
       "favourites": favourites,
       'isEmailVerified': isEmailVerified,
       'myHouses': myHouses,
@@ -40,8 +43,11 @@ class UserModel {
   factory UserModel.fromMap(Map<String, dynamic> map) {
     return UserModel(
       id: map["id"],
+      isSeller: map["isSeller"],
       userDetails: UserDetails.fromMap(map["userDetails"] ?? {}),
-      isEmailVerified: map['isEmailVerified'] != null ? map['isEmailVerified'] as bool : null,
+      isEmailVerified: map['isEmailVerified'] != null
+          ? map['isEmailVerified'] as bool
+          : null,
       myHouses: map['myHouses'] ?? [],
       favourites: map['favourites'] ?? [],
       paymentInfo: map['paymentInfo'] != null
@@ -50,7 +56,8 @@ class UserModel {
       socialMediaLinks: map['socialMediaLinks'] != null
           ? List<String>.from((map['socialMediaLinks'] as List<String>))
           : null,
-      usertype: map['usertype'] != null ? UserType.toUserType(map['usertype']) : null,
+      usertype:
+          map['usertype'] != null ? UserType.toUserType(map['usertype']) : null,
     );
   }
 }

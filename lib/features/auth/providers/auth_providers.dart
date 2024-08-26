@@ -1,6 +1,7 @@
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
+import 'package:real_estate_app/app/constants/firebase_constants.dart';
 import 'package:real_estate_app/features/auth/repositories/auth_repository.dart';
 import 'package:real_estate_app/features/auth/repositories/user_repository.dart';
 import 'package:real_estate_app/features/auth/providers/auth_notifier.dart';
@@ -21,6 +22,9 @@ final authStreamProvider = StreamProvider.autoDispose((ref) {
 final currentUserProvider = Provider<User?>((ref) {
   return FirebaseAuth.instance.currentUser;
 });
+
+final currentUserDocProvider = Provider((ref) =>
+    ref.read(userServiceProvider).getUserByEmail(currentUser?.email ?? ""));
 
 final userServiceProvider = Provider((ref) => UserRepository());
 

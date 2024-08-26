@@ -48,33 +48,22 @@ class _InboxScreenState extends ConsumerState<InboxScreen> {
             ),
           ),
           Container(
-            margin: const EdgeInsets.symmetric(vertical: 8),
-            height: 40,
-            width: context.w,
-            child: Row(
-              children: List.generate(
-                tabs.length,
-                (index) => HomeTabNavigationItem(
-                  isTagSelected: selectedTabIndex == index ? true : false,
-                  onTap: () {
-                    setState(() {
-                      selectedTabIndex = index;
-                      selectedStream == offersForUserStream
-                          ? selectedStream = offersByUserStream
-                          : selectedStream = offersForUserStream;
-                    });
-                  },
-                  text: tabs[index],
-                ),
-              ),
-            ),
-          ),
-          // InboxTabBar(
-          //   selectedTabIndex: selectedTabIndex,
-          //   w: context.w,
-          // ),
+              margin: const EdgeInsets.symmetric(vertical: 8),
+              height: 40,
+              width: context.w,
+              child: Row(
+                  children: List.generate(
+                      tabs.length,
+                      (index) => HomeTabNavigationItem(
+                          isTagSelected:
+                              selectedTabIndex == index ? true : false,
+                          onTap: () {
+                            selectedTabIndex = index;
+                            setState(() {});
+                          },
+                          text: tabs[index])))),
           if (selectedTabIndex == 0)
-            selectedStream.when(
+            offersByUserStream.when(
               data: (data) => data.isEmpty
                   ? const EmptyInboxBody()
                   : SizedBox(
@@ -84,6 +73,36 @@ class _InboxScreenState extends ConsumerState<InboxScreen> {
                         physics: const ClampingScrollPhysics(),
                         itemCount: data.length,
                         itemBuilder: (context, index) => InboxCard(
+                          isAccepted: data[index].isAccepted,
+                          inboxType: InboxType.Unread,
+                          from: data[index].title,
+                          message: data[index].statement ?? "",
+                          date: data[index].createdAt.toString(),
+                          onTap: () {
+                            context.push(OfferDetailedScreen(
+                                offerId: data[index].id ?? ""));
+                          },
+                        ),
+                      ),
+                    ),
+              error: (error, stackTrace) {
+                print("error : ${error.toString()} stackTrace: $stackTrace");
+                return Text("error : ${error.toString()} ");
+              },
+              loading: () => const Loader(),
+            )
+          else
+            offersForUserStream.when(
+              data: (data) => data.isEmpty
+                  ? const EmptyInboxBody()
+                  : SizedBox(
+                      height: context.h * 0.6,
+                      width: context.w,
+                      child: ListView.builder(
+                        physics: const ClampingScrollPhysics(),
+                        itemCount: data.length,
+                        itemBuilder: (context, index) => InboxCard(
+                          isAccepted: data[index].isAccepted,
                           inboxType: InboxType.Unread,
                           from: data[index].title,
                           message: data[index].statement ?? "",

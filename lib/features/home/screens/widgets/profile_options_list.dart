@@ -1,18 +1,36 @@
+import 'package:either_dart/either.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:flutter_svg/svg.dart';
 import 'package:real_estate_app/app/constants/firebase_constants.dart';
 import 'package:real_estate_app/app/themes/app_paddings.dart';
 import 'package:real_estate_app/core/extensions/routes_extenstion.dart';
 import 'package:real_estate_app/core/extensions/sizes_extensions.dart';
+import 'package:real_estate_app/features/auth/providers/auth_providers.dart';
 import 'package:real_estate_app/features/auth/repositories/user_repository.dart';
 import 'package:real_estate_app/features/auth/screens/widgets/button.dart';
+import 'package:real_estate_app/features/seller/screen/seller_dashboard_screen.dart';
 import 'package:real_estate_app/features/seller/screen/seller_form_screen.dart';
 
-class ProfileOptionsList extends StatelessWidget {
+class ProfileOptionsList extends ConsumerStatefulWidget {
   const ProfileOptionsList({
     super.key,
   });
+
+  @override
+  ConsumerState<ProfileOptionsList> createState() => _ProfileOptionsListState();
+}
+
+class _ProfileOptionsListState extends ConsumerState<ProfileOptionsList> {
+  bool isSeller = false;
+  @override
+  void initState() {
+    ref
+        .read(currentUserDocProvider)
+        .fold((left) => null, (right) => isSeller = right.isSeller);
+    super.initState();
+  }
 
   @override
   Widget build(BuildContext context) {
@@ -41,37 +59,48 @@ class ProfileOptionsList extends StatelessWidget {
         const Divider(
           color: Color.fromARGB(255, 238, 238, 238),
         ),
-        ProfileOptionsCard(
-          onTap: () => showDialog(
-            context: context,
-            builder: (context) => AlertDialog(
-              actionsAlignment: MainAxisAlignment.spaceBetween,
-              actions: [
-                TextButton(
-                    onPressed: () => context.pop(),
-                    child: const Text("Cancel")),
-                TextButton(
-                    onPressed: () => context.push(const SellerFormScreen()),
-                    child: const Text("Continue")),
-              ],
-              shape: RoundedRectangleBorder(
-                  borderRadius: BorderRadius.circular(20)),
-              content: Column(
-                mainAxisSize: MainAxisSize.min,
-                children: [
-                  Text("Become A Seller ",
-                      style: Theme.of(context).textTheme.headlineSmall),
-                  AppSizes.normalY,
-                  Text("Submit details and become a seller",
-                      style: Theme.of(context).textTheme.bodyMedium),
+        if (!isSeller)
+          ProfileOptionsCard(
+            onTap: () => showDialog(
+              context: context,
+              builder: (context) => AlertDialog(
+                actionsAlignment: MainAxisAlignment.spaceBetween,
+                actions: [
+                  TextButton(
+                      onPressed: () => context.pop(),
+                      child: const Text("Cancel")),
+                  TextButton(
+                      onPressed: () {
+                        context.pop();
+                        context.push(const SellerStoreScreen());
+                      },
+                      child: const Text("Continue")),
                 ],
+                shape: RoundedRectangleBorder(
+                    borderRadius: BorderRadius.circular(20)),
+                content: Column(
+                  mainAxisSize: MainAxisSize.min,
+                  children: [
+                    Text("Become A Seller ",
+                        style: Theme.of(context).textTheme.headlineSmall),
+                    AppSizes.normalY,
+                    Text("Submit details and become a seller",
+                        style: Theme.of(context).textTheme.bodyMedium),
+                  ],
+                ),
               ),
             ),
+            icon: "assets/svgs/profile/seller.svg",
+            text: "Become A Seller",
+            w: context.w,
+          )
+        else
+          ProfileOptionsCard(
+            onTap: () {},
+            icon: "assets/svgs/profile/seller.svg",
+            text: "Switch to Seller",
+            w: context.w,
           ),
-          icon: "assets/svgs/profile/seller.svg",
-          text: "Become A Seller",
-          w: context.w,
-        ),
         const Divider(
           color: Color.fromARGB(255, 238, 238, 238),
         ),

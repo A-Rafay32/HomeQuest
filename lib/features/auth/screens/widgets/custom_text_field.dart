@@ -41,7 +41,10 @@ class CustomTextField extends StatelessWidget {
           validator: validator,
           controller: controller,
           cursorColor: Colors.black,
-          style: const TextStyle(fontSize: 16, color: Colors.black),
+          style: Theme.of(context)
+              .textTheme
+              .labelLarge
+              ?.copyWith(fontWeight: FontWeight.w900),
           autovalidateMode: AutovalidateMode.onUserInteraction,
           decoration: inputDecoration),
     );

@@ -11,7 +11,7 @@ class AppTextFieldDecorations {
       filled: true,
       border: OutlineInputBorder(
           borderSide: const BorderSide(color: AppColors.blackshadowColor),
-          borderRadius: BorderRadius.circular(25),
+          borderRadius: BorderRadius.circular(15),
           gapPadding: 10),
 
       // prefixIcon: Padding(
@@ -31,25 +31,25 @@ class AppTextFieldDecorations {
           colorFilter: const ColorFilter.mode(Colors.black, BlendMode.srcIn),
         ),
       ),
-      contentPadding: const EdgeInsets.symmetric(horizontal: 40, vertical: 25),
+      contentPadding: EdgeInsets.symmetric(horizontal: 40.w, vertical: 23.h),
       floatingLabelBehavior: FloatingLabelBehavior.always,
       hintText: "Search",
       hintStyle: AppTextTheme.bodyMedium.copyWith(color: Colors.white),
       focusedErrorBorder: OutlineInputBorder(
           borderSide: BorderSide(color: Colors.red.shade900),
-          borderRadius: BorderRadius.circular(25),
+          borderRadius: BorderRadius.circular(15),
           gapPadding: 10),
       errorBorder: OutlineInputBorder(
           borderSide: BorderSide(color: Colors.red.shade900),
-          borderRadius: BorderRadius.circular(25),
+          borderRadius: BorderRadius.circular(15),
           gapPadding: 10),
       focusedBorder: OutlineInputBorder(
           borderSide: const BorderSide(color: AppColors.primaryColor),
-          borderRadius: BorderRadius.circular(25),
+          borderRadius: BorderRadius.circular(15),
           gapPadding: 10),
       enabledBorder: OutlineInputBorder(
           borderSide: const BorderSide(color: AppColors.primaryColor),
-          borderRadius: BorderRadius.circular(25),
+          borderRadius: BorderRadius.circular(15),
           gapPadding: 10));
 
   static final emailInputDecoration = InputDecoration(
@@ -60,26 +60,28 @@ class AppTextFieldDecorations {
           color: AppColors.primaryColor,
         ),
       ),
-      contentPadding: const EdgeInsets.symmetric(horizontal: 40, vertical: 25),
+      contentPadding: EdgeInsets.symmetric(horizontal: 40.w, vertical: 23.h),
       labelText: "Email",
       labelStyle: const TextStyle(color: AppColors.primaryColor),
       floatingLabelBehavior: FloatingLabelBehavior.always,
       hintText: "Enter your email",
+      hintStyle: AppTextTheme.textTheme.labelMedium
+          ?.copyWith(color: Colors.black45, fontWeight: FontWeight.w900),
       focusedErrorBorder: OutlineInputBorder(
           borderSide: BorderSide(color: Colors.red.shade900),
-          borderRadius: BorderRadius.circular(25),
+          borderRadius: BorderRadius.circular(15),
           gapPadding: 10),
       errorBorder: OutlineInputBorder(
           borderSide: BorderSide(color: Colors.red.shade900),
-          borderRadius: BorderRadius.circular(25),
+          borderRadius: BorderRadius.circular(15),
           gapPadding: 10),
       focusedBorder: OutlineInputBorder(
           borderSide: const BorderSide(color: AppColors.primaryColor),
-          borderRadius: BorderRadius.circular(25),
+          borderRadius: BorderRadius.circular(15),
           gapPadding: 10),
       enabledBorder: OutlineInputBorder(
           borderSide: const BorderSide(color: AppColors.primaryColor),
-          borderRadius: BorderRadius.circular(25),
+          borderRadius: BorderRadius.circular(15),
           gapPadding: 10));
 
   static passwordInputDecoration(bool isObscure, Function() onPressed) {
@@ -103,27 +105,28 @@ class AppTextFieldDecorations {
             color: AppColors.primaryColor,
           ),
         ),
-        contentPadding:
-            const EdgeInsets.symmetric(horizontal: 40, vertical: 25),
+        contentPadding: EdgeInsets.symmetric(horizontal: 40.w, vertical: 23.h),
         labelText: "Password",
         labelStyle: const TextStyle(color: AppColors.primaryColor),
         floatingLabelBehavior: FloatingLabelBehavior.always,
         hintText: "Enter your password",
+        hintStyle: AppTextTheme.textTheme.labelMedium
+            ?.copyWith(color: Colors.black45, fontWeight: FontWeight.w900),
         focusedErrorBorder: OutlineInputBorder(
             borderSide: BorderSide(color: Colors.red.shade900),
-            borderRadius: BorderRadius.circular(25),
+            borderRadius: BorderRadius.circular(15),
             gapPadding: 10),
         errorBorder: OutlineInputBorder(
             borderSide: BorderSide(color: Colors.red.shade900),
-            borderRadius: BorderRadius.circular(25),
+            borderRadius: BorderRadius.circular(15),
             gapPadding: 10),
         focusedBorder: OutlineInputBorder(
             borderSide: const BorderSide(color: AppColors.primaryColor),
-            borderRadius: BorderRadius.circular(25),
+            borderRadius: BorderRadius.circular(15),
             gapPadding: 10),
         enabledBorder: OutlineInputBorder(
             borderSide: const BorderSide(color: AppColors.primaryColor),
-            borderRadius: BorderRadius.circular(25),
+            borderRadius: BorderRadius.circular(15),
             gapPadding: 10));
   }
 
@@ -133,27 +136,28 @@ class AppTextFieldDecorations {
   }) {
     return InputDecoration(
         suffixIcon: suffixIcon,
-        contentPadding:
-            const EdgeInsets.symmetric(horizontal: 40, vertical: 25),
+        contentPadding: EdgeInsets.symmetric(horizontal: 40.w, vertical: 23.h),
         labelText: label,
         labelStyle: const TextStyle(color: AppColors.primaryColor),
         floatingLabelBehavior: FloatingLabelBehavior.always,
         hintText: "Enter your ${label.toLowerCase()}",
+        hintStyle: AppTextTheme.textTheme.labelMedium
+            ?.copyWith(color: Colors.black45, fontWeight: FontWeight.w900),
         focusedErrorBorder: OutlineInputBorder(
             borderSide: const BorderSide(color: AppColors.primaryColor),
-            borderRadius: BorderRadius.circular(25),
+            borderRadius: BorderRadius.circular(15),
             gapPadding: 10),
         errorBorder: OutlineInputBorder(
             borderSide: const BorderSide(color: AppColors.primaryColor),
-            borderRadius: BorderRadius.circular(25),
+            borderRadius: BorderRadius.circular(15),
             gapPadding: 10),
         focusedBorder: OutlineInputBorder(
             borderSide: const BorderSide(color: AppColors.primaryColor),
-            borderRadius: BorderRadius.circular(25),
+            borderRadius: BorderRadius.circular(15),
             gapPadding: 10),
         enabledBorder: OutlineInputBorder(
             borderSide: const BorderSide(color: AppColors.primaryColor),
-            borderRadius: BorderRadius.circular(25),
+            borderRadius: BorderRadius.circular(15),
             gapPadding: 10));
   }
 }

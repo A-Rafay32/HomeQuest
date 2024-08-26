@@ -20,11 +20,12 @@ class OfferRepository {
     }
   }
 
-  FutureEither0 updateOffer(String offerId, Offer offer) async {
+  FutureEither0 updateOffer(
+      String offerId, Map<String, dynamic> updatedFields) async {
     try {
       await offerCollection
           .doc(offerId)
-          .update(offer.toMap())
+          .update(updatedFields)
           .catchError((error) => throw error);
       return success("Offer updated successfully");
     } on FirebaseException catch (e) {
@@ -145,6 +146,18 @@ class OfferRepository {
     } catch (e) {
       debugPrint(e.toString());
       rethrow;
+    }
+  }
+
+  FutureEither0 acceptOffer(String offerId, Offer offer) async {
+    try {
+      await offerCollection
+          .doc(offerId)
+          .update({"isAccepted": true}).catchError((error) => throw error);
+      return success("Offer updated successfully");
+    } on FirebaseException catch (e) {
+      debugPrint(e.toString());
+      return failure(e.toString());
     }
   }
 }

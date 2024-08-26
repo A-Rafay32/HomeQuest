@@ -44,7 +44,7 @@ class _HouseDetailScreenState extends State<HouseDetailScreen> {
                     h: context.h, w: context.w, house: widget.house),
               ),
               SizedBox(
-                height: context.h * 0.8,
+                height: context.h * 0.9,
                 width: context.w,
                 child: Padding(
                   padding: const EdgeInsets.symmetric(horizontal: 20),
@@ -60,9 +60,9 @@ class _HouseDetailScreenState extends State<HouseDetailScreen> {
                       AddressCard(house: widget.house),
                       AppSizes.largeY,
                       SellerCard(sellerId: widget.house.listedBy),
-                      AppSizes.smallY,
-                      const Spacer(),
-                      AppSizes.normalY
+                      AppSizes.largeY,
+                      AppSizes.largeY,
+                      AppSizes.largeY,
                     ],
                   ),
                 ),
@@ -101,10 +101,20 @@ class SellerCard extends ConsumerWidget {
             children: [
               const CircleAvatar(backgroundImage: NetworkImage(""), radius: 20),
               const SizedBox(width: 10),
-              Text(
-                data.userDetails.name,
-                style: Theme.of(context).textTheme.titleLarge,
-              )
+              Column(children: [
+                Text(
+                  data.storeName,
+                  style: Theme.of(context).textTheme.titleLarge,
+                ),
+                Text(
+                  data.userDetails.name,
+                  style: Theme.of(context).textTheme.bodyMedium,
+                ),
+                Text(
+                  data.userDetails.bio.toString(),
+                  style: Theme.of(context).textTheme.bodySmall,
+                )
+              ]),
             ],
           ),
         ],

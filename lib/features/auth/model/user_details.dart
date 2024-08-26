@@ -3,7 +3,7 @@ import 'package:real_estate_app/core/enums/gender.dart';
 class UserDetails {
   final String name;
   final String email;
-  final String password;
+  final String? password;
   final String? phoneNum;
   final String? image;
   final String? address;
@@ -14,7 +14,7 @@ class UserDetails {
   UserDetails({
     required this.name,
     required this.email,
-    required this.password,
+    this.password,
     this.phoneNum,
     this.image,
     this.address,

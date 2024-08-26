@@ -63,14 +63,20 @@ class _CreateOfferDialogState extends ConsumerState<CreateOfferScreen> {
                         AppTextFieldDecorations.genericInputDecoration(
                             label: "Name")),
                 AppSizes.normalY,
-                CustomTextField(
-                    validator: (value) {
-                      return value == null ? "Field can't be empty" : null;
-                    },
-                    controller: emailController,
-                    inputDecoration:
-                        AppTextFieldDecorations.genericInputDecoration(
-                            label: "Email")),
+                Container(
+                  width: double.infinity,
+                  decoration: BoxDecoration(
+                    borderRadius: BorderRadius.circular(10),
+                  ),
+                  child: CustomTextField(
+                      validator: (value) {
+                        return value == null ? "Field can't be empty" : null;
+                      },
+                      controller: emailController,
+                      inputDecoration:
+                          AppTextFieldDecorations.genericInputDecoration(
+                              label: "Email")),
+                ),
                 AppSizes.normalY,
                 CustomTextField(
                     validator: (value) {

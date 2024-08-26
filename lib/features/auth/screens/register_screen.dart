@@ -50,7 +50,9 @@ class RegisterScreen extends ConsumerWidget {
                     return value == null ? "Field can't be empty" : null;
                   },
                   controller: nameController,
-                  inputDecoration: AppTextFieldDecorations.genericInputDecoration(label: "Name")),
+                  inputDecoration:
+                      AppTextFieldDecorations.genericInputDecoration(
+                          label: "Name")),
               AppSizes.normalY,
               AuthFormField(
                 emailController: emailController,
@@ -124,7 +126,9 @@ class _ForgotFormFieldState extends State<ForgotFormField> {
       ),
       child: TextFormField(
           validator: (value) {
-            return value != null && !EmailValidator.validate(value) ? "Enter a valid email " : null;
+            return value != null && !EmailValidator.validate(value)
+                ? "Enter a valid email "
+                : null;
           },
           controller: emailController,
           cursorColor: Colors.black,

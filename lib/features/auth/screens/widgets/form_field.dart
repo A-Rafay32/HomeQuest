@@ -3,6 +3,7 @@ import "package:flutter/material.dart";
 import "package:flutter_svg/svg.dart";
 import "package:real_estate_app/app/themes/app_colors.dart";
 import "package:real_estate_app/app/themes/app_text_field_themes.dart";
+import "package:real_estate_app/features/auth/screens/widgets/custom_text_field.dart";
 
 class AuthFormField extends StatefulWidget {
   const AuthFormField({
@@ -32,43 +33,31 @@ class _AuthFormFieldState extends State<AuthFormField> {
   Widget build(BuildContext context) {
     return Form(
       // key: Provider.of<login>(context, listen: false).formKey,
-      child: Container(
-        // height: size.height * 0.31,
-        padding: const EdgeInsets.symmetric(
-          horizontal: 20,
-        ),
-        child: Column(
-          children: [
-            TextFormField(
-                validator: (value) {
-                  return value != null && !EmailValidator.validate(value)
-                      ? "Enter a valid email "
-                      : null;
-                },
-                controller: widget.emailController,
-                cursorColor: Colors.black,
-                style: const TextStyle(fontSize: 16, color: Colors.black),
-                autovalidateMode: AutovalidateMode.onUserInteraction,
-                decoration: AppTextFieldDecorations.emailInputDecoration),
-            const SizedBox(
-              height: 20,
-            ),
-            TextFormField(
+      child: Column(
+        children: [
+          CustomTextField(
               validator: (value) {
-                return value != null && value.length < 6
-                    ? "Enter min 6 characters "
+                return value != null && !EmailValidator.validate(value)
+                    ? "Enter a valid email "
                     : null;
               },
-              obscureText: isObscure,
-              controller: widget.passwordController,
-              cursorColor: Colors.black,
-              style: const TextStyle(fontSize: 16, color: Colors.black),
-              decoration: AppTextFieldDecorations.passwordInputDecoration(
-                  isObscure, setObscureText),
-              autovalidateMode: AutovalidateMode.onUserInteraction,
-            ),
-          ],
-        ),
+              controller: widget.emailController,
+              inputDecoration: AppTextFieldDecorations.emailInputDecoration),
+          const SizedBox(
+            height: 20,
+          ),
+          CustomTextField(
+            validator: (value) {
+              return value != null && value.length < 6
+                  ? "Enter min 6 characters "
+                  : null;
+            },
+            obscureText: isObscure,
+            controller: widget.passwordController,
+            inputDecoration: AppTextFieldDecorations.passwordInputDecoration(
+                isObscure, setObscureText),
+          ),
+        ],
       ),
     );
   }

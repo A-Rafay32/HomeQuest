@@ -4,6 +4,7 @@ import 'package:real_estate_app/core/enums/user_type.dart';
 import 'package:real_estate_app/features/auth/model/user_details.dart';
 
 class Seller {
+  final String id;
   final UserDetails userDetails;
   final String storeName;
   final String? storeImage;
@@ -23,6 +24,7 @@ class Seller {
   final UserType userType;
 
   Seller({
+    required this.id,
     required this.userDetails,
     required this.memberSince,
     required this.rating,
@@ -47,6 +49,7 @@ class Seller {
 
   Map<String, dynamic> toMap() {
     return {
+      'id': id,
       'userDetails': userDetails.toMap(),
       'storeName': storeName,
       'storeImage': storeImage,
@@ -69,6 +72,7 @@ class Seller {
 
   factory Seller.fromMap(Map<String, dynamic> map) {
     return Seller(
+      id: map["id"],
       userDetails: UserDetails.fromMap(map['userDetails']),
       storeName: map['storeName'] ?? '',
       storeImage: map['storeImage'],
