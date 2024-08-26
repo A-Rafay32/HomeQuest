@@ -2,6 +2,7 @@ import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:real_estate_app/app/constants/firebase_constants.dart';
+import 'package:real_estate_app/features/auth/model/user.dart';
 import 'package:real_estate_app/features/auth/repositories/auth_repository.dart';
 import 'package:real_estate_app/features/auth/repositories/user_repository.dart';
 import 'package:real_estate_app/features/auth/providers/auth_notifier.dart';
@@ -24,9 +25,14 @@ final currentUserProvider = Provider<User?>((ref) {
 });
 
 final currentUserDocProvider = Provider((ref) =>
-    ref.read(userServiceProvider).getUserByEmail(currentUser?.email ?? ""));
+    ref.read(userRepositoryProvider).getUserByEmail(currentUser?.email ?? ""));
 
-final userServiceProvider = Provider((ref) => UserRepository());
+final userRepositoryProvider = Provider((ref) => UserRepository());
+
+final getUserProvider =
+    FutureProvider.family<UserModel, String>((ref, String userID) async {
+  return ref.watch(userRepositoryProvider).getUser(userID);
+});
 
 // final userDocProvider = Provider<UserModel>((ref) {
 //   final authService = ref.read(userServiceProvider);

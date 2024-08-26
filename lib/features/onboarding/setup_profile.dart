@@ -11,7 +11,7 @@ import 'package:real_estate_app/features/auth/providers/user_notifier.dart';
 import 'package:real_estate_app/features/auth/screens/widgets/app_bar_white.dart';
 import 'package:real_estate_app/features/auth/screens/widgets/button.dart';
 import 'package:real_estate_app/features/auth/screens/widgets/custom_text_field.dart';
-import 'package:real_estate_app/features/auth/screens/widgets/cutom_drop_down.dart';
+import 'package:real_estate_app/features/auth/screens/widgets/gender_drop_down.dart';
 import 'package:real_estate_app/features/auth/screens/widgets/date_picker_field.dart';
 import 'package:real_estate_app/features/home/screens/home_screen.dart';
 
@@ -72,7 +72,7 @@ class SetupBuyerProfileScreen extends ConsumerWidget {
                 label: "Address"),
           ),
           AppSizes.normalY,
-          CustomFieldDropDown(onTap: () {}, focus: genderFocus, hint: 'Gender'),
+          GenderFieldDropDown(onTap: () {}, focus: genderFocus, hint: 'Gender'),
           AppSizes.normalY,
           DatePickerField(hint: 'Date of Birth', controller: dateController),
           AppSizes.normalY,
@@ -104,7 +104,7 @@ class SetupBuyerProfileScreen extends ConsumerWidget {
     final result = ref.read(userNotifier.notifier).updateUser(updatedFields: {
       "userDetails.phoneNum": phoneController.text.trim(),
       "userDetails.address": addressController.text.trim(),
-      "userDetails.gender": CustomFieldDropDown.selectedValue,
+      "userDetails.gender": GenderFieldDropDown.selectedValue,
       "userDetails.dateOfBirth": dateController.text.trim(),
     });
     result.fold((left) {

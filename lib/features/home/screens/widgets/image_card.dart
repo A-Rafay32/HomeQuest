@@ -3,8 +3,13 @@ import 'package:real_estate_app/app/themes/app_colors.dart';
 import 'package:real_estate_app/app/themes/app_paddings.dart';
 import 'package:real_estate_app/core/extensions/routes_extenstion.dart';
 import 'package:real_estate_app/core/extensions/sizes_extensions.dart';
+import 'package:real_estate_app/core/extensions/snackbar_ext.dart';
 import 'package:real_estate_app/core/extensions/text_theme_ext.dart';
+import 'package:real_estate_app/features/bill/screens/create_bill_screen.dart';
 import 'package:real_estate_app/features/home/models/house.dart';
+import 'package:real_estate_app/features/home/models/rental_house.dart';
+import 'package:real_estate_app/features/home/screens/chat_screen.dart';
+import 'package:real_estate_app/features/home/screens/widgets/custom_pop_menu_button.dart';
 
 class HouseDetailImage extends StatefulWidget {
   const HouseDetailImage(
@@ -12,7 +17,7 @@ class HouseDetailImage extends StatefulWidget {
 
   final double h;
   final double w;
-  final House house;
+  final RentalHouse house;
 
   @override
   State<HouseDetailImage> createState() => _HouseDetailImageState();
@@ -39,6 +44,32 @@ class _HouseDetailImageState extends State<HouseDetailImage> {
                     width: context.w,
                     height: context.h * 0.31,
                     fit: BoxFit.cover,
+                  )),
+              Positioned(
+                  right: 10,
+                  top: 20,
+                  child: CustomPopupMenuButton(
+                    popupMenuItemList: [
+                      PopupMenuItem(
+                          child: PopUpButton(
+                              press: () {
+                                // if (widget.house.tenantId != null) {
+                                context.push(CreateBillScreen(
+                                    tenantId: widget.house.tenantId,
+                                    sellerId: widget.house.listedBy));
+                                // } else {
+                                context.showSnackBar(
+                                    "Can't Add Rent on unsold house ");
+                                // }
+                              },
+                              title: "Add Bills")),
+                      PopupMenuItem(
+                          child: PopUpButton(
+                              press: () {}, title: "Seller Profile")),
+                      PopupMenuItem(
+                          child: PopUpButton(
+                              press: () {}, title: "Seller Profile")),
+                    ],
                   )),
               Positioned(
                 left: 10,

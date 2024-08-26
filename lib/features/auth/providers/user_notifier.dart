@@ -1,6 +1,7 @@
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:real_estate_app/app/constants/firebase_constants.dart';
 import 'package:real_estate_app/core/utils/types.dart';
+import 'package:real_estate_app/features/auth/model/user.dart';
 import 'package:real_estate_app/features/auth/repositories/user_repository.dart';
 import 'package:real_estate_app/features/auth/providers/auth_providers.dart';
 import 'package:real_estate_app/features/home/models/rental_house.dart';
@@ -32,7 +33,7 @@ class UserNotifier extends StateNotifier<AsyncValue> {
 }
 
 final userNotifier = StateNotifierProvider<UserNotifier, AsyncValue>((ref) {
-  final userService = ref.read(userServiceProvider);
+  final userService = ref.read(userRepositoryProvider);
   return UserNotifier(userService: userService);
 });
 

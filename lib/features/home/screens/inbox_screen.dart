@@ -73,7 +73,7 @@ class _InboxScreenState extends ConsumerState<InboxScreen> {
                         physics: const ClampingScrollPhysics(),
                         itemCount: data.length,
                         itemBuilder: (context, index) => InboxCard(
-                          isAccepted: data[index].isAccepted,
+                          offerStatus: data[index].offerStatus,
                           inboxType: InboxType.Unread,
                           from: data[index].title,
                           message: data[index].statement ?? "",
@@ -102,7 +102,7 @@ class _InboxScreenState extends ConsumerState<InboxScreen> {
                         physics: const ClampingScrollPhysics(),
                         itemCount: data.length,
                         itemBuilder: (context, index) => InboxCard(
-                          isAccepted: data[index].isAccepted,
+                          offerStatus: data[index].offerStatus,
                           inboxType: InboxType.Unread,
                           from: data[index].title,
                           message: data[index].statement ?? "",

@@ -34,7 +34,7 @@ class OfferNotifier extends StateNotifier<AsyncValue> {
   }
 
   void deleteOffer(String offerId, BuildContext context) async {
-    state = const AsyncValue.loading();
+    state = const AsyncValue.loading(); 
     final result = await OfferRepository()
         .deleteOffer(offerId)
         .whenComplete(() => const AsyncValue.data(null));

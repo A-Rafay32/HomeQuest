@@ -1,23 +1,24 @@
 // ignore_for_file: public_member_api_docs, sort_constructors_first
 import 'dart:convert';
 
-enum Status {
+enum BillStatus {
   due,
   paid,
   missed;
 
-  static Status toStatus(String str) {
-    return Status.values.firstWhere((element) => element.name == str);
+  static BillStatus toStatus(String str) {
+    return BillStatus.values.firstWhere((element) => element.name == str);
   }
 }
 
-enum Category {
+enum BillCategory {
   electric,
+  water,
   gas,
   rent;
 
-  static Category toCategory(String str) {
-    return Category.values.firstWhere((element) => element.name == str);
+  static BillCategory toCategory(String str) {
+    return BillCategory.values.firstWhere((element) => element.name == str);
   }
 }
 
@@ -25,21 +26,21 @@ class Bill {
   String id;
   String houseId;
   String tenantId;
-  String month;
+  double? lateFees;
   double amount;
-  Category category;
+  DateTime dateCreated;
   DateTime dueDate;
   DateTime paidDate;
-  double? lateFees;
-  Status status;
+  BillCategory category;
+  BillStatus status;
 
   Bill({
     required this.category,
     this.id = "1",
-    required this.month,
     required this.houseId,
-    required this.lateFees,
+    this.lateFees,
     required this.paidDate,
+    required this.dateCreated,
     required this.amount,
     required this.tenantId,
     required this.dueDate,
@@ -47,36 +48,36 @@ class Bill {
   });
 
   Map<String, dynamic> toMap() {
-    return <String, dynamic>{
+    return {
       'id': id,
+      'category': category.name.toString(),
+      'status': status.name.toString(),
       'houseId': houseId,
       'tenantId': tenantId,
-      'month': month,
+      'lateFees': lateFees,
       'amount': amount,
-      'category': category.toString(),
+      'dateCreated': dateCreated.millisecondsSinceEpoch,
       'dueDate': dueDate.millisecondsSinceEpoch,
       'paidDate': paidDate.millisecondsSinceEpoch,
-      'lateFees': lateFees,
-      'status': status.toString(),
     };
   }
 
   factory Bill.fromMap(Map<String, dynamic> map) {
     return Bill(
-      id: map['id'] as String,
-      houseId: map['houseId'] as String,
-      tenantId: map['tenantId'] as String,
-      month: map['month'] as String,
-      amount: map['amount'] as double,
-      category: Category.toCategory(map['category']),
-      dueDate: DateTime.fromMillisecondsSinceEpoch(map['dueDate'] as int),
-      paidDate: DateTime.fromMillisecondsSinceEpoch(map['paidDate'] as int),
-      lateFees: map['lateFees'] != null ? map['lateFees'] as double : null,
-      status: Status.toStatus(map['status']),
+      category: BillCategory.toCategory(map["category"]),
+      status: BillStatus.toStatus(map["status"]),
+      id: map['id'] ?? '',
+      houseId: map['houseId'] ?? '',
+      tenantId: map['tenantId'] ?? '',
+      lateFees: map['lateFees']?.toDouble(),
+      amount: map['amount']?.toDouble() ?? 0.0,
+      dateCreated: DateTime.fromMillisecondsSinceEpoch(map['dateCreated']),
+      dueDate: DateTime.fromMillisecondsSinceEpoch(map['dueDate']),
+      paidDate: DateTime.fromMillisecondsSinceEpoch(map['paidDate']),
     );
   }
 
   String toJson() => json.encode(toMap());
 
-  factory Bill.fromJson(String source) => Bill.fromMap(json.decode(source) as Map<String, dynamic>);
+  factory Bill.fromJson(String source) => Bill.fromMap(json.decode(source));
 }

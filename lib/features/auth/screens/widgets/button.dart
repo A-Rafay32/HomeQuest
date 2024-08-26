@@ -46,8 +46,10 @@ class FAButton extends StatelessWidget {
     super.key,
     required this.title,
     required this.onTap,
+    this.isLoading = false,
   });
 
+  final bool isLoading;
   final String title;
   Function() onTap;
 
@@ -60,11 +62,13 @@ class FAButton extends StatelessWidget {
         onPressed: onTap,
         shape:
             RoundedRectangleBorder(borderRadius: BorderRadius.circular(20.0)),
-        child: Text(title,
-            style: Theme.of(context)
-                .textTheme
-                .labelLarge
-                ?.copyWith(color: Colors.white)),
+        child: isLoading
+            ? const ButtonLoader()
+            : Text(title,
+                style: Theme.of(context)
+                    .textTheme
+                    .labelLarge
+                    ?.copyWith(color: Colors.white)),
       ),
     );
   }

@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:real_estate_app/app/themes/app_colors.dart';
+import 'package:real_estate_app/features/offer/model/offer.dart';
 
 enum InboxType { read, Unread }
 
@@ -11,12 +12,12 @@ class InboxCard extends StatelessWidget {
       required this.from,
       required this.date,
       required this.inboxType,
-      required this.isAccepted,
+      required this.offerStatus,
       required this.message});
 
   final String from;
   final String date;
-  final bool isAccepted;
+  final OfferStatus offerStatus;
   final String message;
   final InboxType inboxType;
   final Function() onTap;
@@ -46,7 +47,7 @@ class InboxCard extends StatelessWidget {
                                   fontWeight: FontWeight.w600,
                                 )),
                         const Spacer(),
-                        AcceptivityBadge(isAccepted: isAccepted)
+                        AcceptivityBadge(offerStatus: offerStatus)
                       ]),
                       RichText(
                           text: TextSpan(children: [
@@ -94,22 +95,32 @@ class InboxCard extends StatelessWidget {
 }
 
 class AcceptivityBadge extends StatelessWidget {
-  const AcceptivityBadge({super.key, required this.isAccepted});
+  const AcceptivityBadge({super.key, required this.offerStatus});
 
-  final bool isAccepted;
+  final OfferStatus offerStatus;
   @override
   Widget build(BuildContext context) {
     return Container(
       padding: EdgeInsets.symmetric(horizontal: 10.w, vertical: 5.h),
       decoration: BoxDecoration(
         borderRadius: BorderRadius.circular(8),
-        color: isAccepted
+        color: offerStatus == OfferStatus.accepted
             ? Colors.green.shade600.withOpacity(0.3)
-            : Colors.red.shade600.withOpacity(0.3),
+            : offerStatus == OfferStatus.pending
+                ? Colors.blue.shade600.withOpacity(0.3)
+                : Colors.red.shade600.withOpacity(0.3),
       ),
       child: Icon(
-        isAccepted ? Icons.check : Icons.cancel,
-        color: isAccepted ? Colors.green.shade900 : Colors.red.shade900,
+        offerStatus == OfferStatus.accepted
+            ? Icons.check
+            : offerStatus == OfferStatus.pending
+                ? Icons.pending
+                : Icons.cancel,
+        color: offerStatus == OfferStatus.accepted
+            ? Colors.green.shade900
+            : offerStatus == OfferStatus.pending
+                ? Colors.blue.shade600
+                : Colors.red.shade900,
       ),
     );
   }

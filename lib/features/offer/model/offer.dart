@@ -12,7 +12,7 @@ class Offer {
   final String senderName;
   final String senderEmail;
   final String sentTo;
-  final bool isAccepted;
+  final OfferStatus offerStatus;
   final OfferPurpose purpose;
   final DateTime createdAt;
 
@@ -27,7 +27,7 @@ class Offer {
     required this.createdBy,
     required this.createdAt,
     required this.sentTo,
-    required this.isAccepted,
+    required this.offerStatus,
     required this.purpose,
   });
 
@@ -43,7 +43,7 @@ class Offer {
       'senderName': senderName,
       'senderEmail': senderEmail,
       'sentTo': sentTo,
-      'isAccepted': isAccepted,
+      'offerStatus': offerStatus.name.toString(),
       'purpose': purpose.name.toString(),
     };
   }
@@ -59,10 +59,20 @@ class Offer {
       senderEmail: map['senderEmail'] ?? "",
       senderName: map['senderName'] ?? "",
       sentTo: map['sentTo'] ?? "",
-      isAccepted: map['isAccepted'] ?? "",
       createdAt: DateTime.parse(map['createdAt'] ?? ""),
+      offerStatus: OfferStatus.toOfferStatus(map['offerStatus']),
       purpose: OfferPurpose.toOfferPurpose(map['purpose']),
     );
+  }
+}
+
+enum OfferStatus {
+  accepted,
+  rejected,
+  pending;
+
+  static OfferStatus toOfferStatus(String str) {
+    return OfferStatus.values.firstWhere((element) => element.name == str);
   }
 }
 

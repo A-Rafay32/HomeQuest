@@ -42,19 +42,15 @@ class UserRepository {
     }
   }
 
-  FutureEither1<UserModel> getUser(String documentId) async {
+  Future<UserModel> getUser(String documentId) async {
     try {
       // get user
       DocumentSnapshot userDoc = await userCollection.doc(documentId).get();
-      if (userDoc.exists) {
-        Map<String, dynamic> userMap = userDoc.data() as Map<String, dynamic>;
-        print("userMap : $userMap");
-        return Right(UserModel.fromMap(userMap));
-      } else {
-        throw "User Doesn't exist";
-      }
+      Map<String, dynamic> userMap = userDoc.data() as Map<String, dynamic>;
+      print("userMap : $userMap");
+      return UserModel.fromMap(userMap);
     } on FirebaseException catch (e) {
-      return failure(e.message.toString());
+      throw (e.message.toString());
     }
   }
 

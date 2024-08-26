@@ -132,6 +132,7 @@ class AppTextFieldDecorations {
 
   static genericInputDecoration({
     Widget? suffixIcon,
+    String? hint,
     required String label,
   }) {
     return InputDecoration(
@@ -140,7 +141,7 @@ class AppTextFieldDecorations {
         labelText: label,
         labelStyle: const TextStyle(color: AppColors.primaryColor),
         floatingLabelBehavior: FloatingLabelBehavior.always,
-        hintText: "Enter your ${label.toLowerCase()}",
+        hintText: hint ?? "Enter your ${label.toLowerCase()}",
         hintStyle: AppTextTheme.textTheme.labelMedium
             ?.copyWith(color: Colors.black45, fontWeight: FontWeight.w900),
         focusedErrorBorder: OutlineInputBorder(

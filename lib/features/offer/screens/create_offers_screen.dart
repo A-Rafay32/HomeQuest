@@ -155,7 +155,7 @@ class _CreateOfferDialogState extends ConsumerState<CreateOfferScreen> {
         senderEmail: emailController.text.trim(),
         createdBy: currentUser?.uid ?? "",
         sentTo: widget.sellerId,
-        isAccepted: false,
+        offerStatus: OfferStatus.pending,
         createdAt: DateTime.now(),
         offeredMoney: offeredMoneyController.text.trim().isEmpty
             ? null

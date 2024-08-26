@@ -7,6 +7,9 @@ import 'package:real_estate_app/core/extensions/sizes_extensions.dart';
 import 'package:real_estate_app/core/utils/loader.dart';
 import 'package:real_estate_app/features/auth/screens/widgets/app_bar_white.dart';
 import 'package:real_estate_app/features/auth/screens/widgets/button.dart';
+import 'package:real_estate_app/features/home/screens/chat_screen.dart';
+import 'package:real_estate_app/features/home/screens/inbox_screen.dart';
+import 'package:real_estate_app/features/offer/model/offer.dart';
 import 'package:real_estate_app/features/offer/providers/offer_notifier.dart';
 import 'package:real_estate_app/features/offer/providers/offer_provider.dart';
 
@@ -64,7 +67,8 @@ class OfferDetailedScreen extends ConsumerWidget {
                         AppSizes.normalY,
                       ]),
                     const Spacer(),
-                    if (data.createdBy == currentUser?.uid)
+                    if (data.createdBy == currentUser?.uid &&
+                        data.offerStatus == OfferStatus.pending)
                       Align(
                         alignment: Alignment.center,
                         child: Button(
@@ -78,31 +82,45 @@ class OfferDetailedScreen extends ConsumerWidget {
                       Align(
                         alignment: Alignment.center,
                         child: Row(
+                          mainAxisAlignment: MainAxisAlignment.center,
                           children: [
-                            Button(
-                                isLoading:
-                                    ref.read(offerNotifierProvider).isLoading,
-                                press: () => ref
-                                    .read(offerNotifierProvider.notifier)
-                                    .updateOffer(
-                                        offerId, {"isAccepted": true}, context),
-                                text: "Accept "),
-                            Button(
-                                isLoading:
-                                    ref.read(offerNotifierProvider).isLoading,
-                                press: () => ref
-                                    .read(offerNotifierProvider.notifier)
-                                    .updateOffer(
-                                        offerId, {"isAccepted": true}, context),
-                                text: "Reject "),
-                            // Button(
-                            //     isLoading:
-                            //         ref.read(offerNotifierProvider).isLoading,
-                            //     press: () => ref
-                            //         .read(offerNotifierProvider.notifier)
-                            //         .updateOffer(
-                            //             offerId, {"isAccepted": true}, context),
-                            //     text: "Counter"),
+                            if (data.offerStatus == OfferStatus.accepted)
+                              Button(
+                                  isLoading:
+                                      ref.read(offerNotifierProvider).isLoading,
+                                  press: () => context
+                                      .push(ChatScreen(sentTo: data.sentTo)),
+                                  text: "Message"),
+                            if (data.offerStatus == OfferStatus.pending)
+                              Button(
+                                  isLoading:
+                                      ref.read(offerNotifierProvider).isLoading,
+                                  press: () => ref
+                                      .read(offerNotifierProvider.notifier)
+                                      .updateOffer(
+                                          offerId,
+                                          {
+                                            "offerStatus": OfferStatus
+                                                .accepted.name
+                                                .toString()
+                                          },
+                                          context),
+                                  text: "Accept "),
+                            if (data.offerStatus == OfferStatus.pending)
+                              Button(
+                                  isLoading:
+                                      ref.read(offerNotifierProvider).isLoading,
+                                  press: () => ref
+                                      .read(offerNotifierProvider.notifier)
+                                      .updateOffer(
+                                          offerId,
+                                          {
+                                            "offerStatus": OfferStatus
+                                                .rejected.name
+                                                .toString()
+                                          },
+                                          context),
+                                  text: "Reject "),
                           ],
                         ),
                       ),

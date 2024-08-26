@@ -23,6 +23,10 @@ class AppThemes {
       iconTheme: const IconThemeData(
         color: Colors.white,
       ),
+      dialogTheme: DialogTheme(
+          shape:
+              RoundedRectangleBorder(borderRadius: BorderRadius.circular(20)),
+          backgroundColor: AppColors.backgroundColor),
       iconButtonTheme: const IconButtonThemeData(
           style: ButtonStyle(
         iconColor: MaterialStatePropertyAll(Colors.white),

@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:flutter/scheduler.dart';
+import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:flutter_svg/svg.dart';
 import 'package:grouped_list/grouped_list.dart';
@@ -8,17 +9,19 @@ import 'package:real_estate_app/core/extensions/routes_extenstion.dart';
 import 'package:real_estate_app/features/auth/screens/widgets/app_bar_white.dart';
 import 'package:real_estate_app/features/home/models/message.dart';
 import 'package:real_estate_app/features/home/screens/widgets/chat_text_field.dart';
+import 'package:real_estate_app/features/home/screens/widgets/custom_pop_menu_button.dart';
+import 'package:real_estate_app/features/seller/provider/seller_provider.dart';
 
-class ChatScreen extends StatefulWidget {
-  const ChatScreen({super.key, required this.storeName});
+class ChatScreen extends ConsumerStatefulWidget {
+  const ChatScreen({super.key, required this.sentTo});
 
-  final String storeName;
+  final String sentTo;
 
   @override
-  State<ChatScreen> createState() => _ChatScreenState();
+  ConsumerState<ChatScreen> createState() => _ChatScreenState();
 }
 
-class _ChatScreenState extends State<ChatScreen> {
+class _ChatScreenState extends ConsumerState<ChatScreen> {
   ScrollController scrollController = ScrollController();
 
   void scrollDown() {
@@ -38,11 +41,14 @@ class _ChatScreenState extends State<ChatScreen> {
   Widget build(BuildContext context) {
     double h = MediaQuery.sizeOf(context).height;
     double w = MediaQuery.sizeOf(context).width;
+
+    final sellerValue = ref.watch(getSellerProvider(widget.sentTo));
+
     return Scaffold(
       appBar: PreferredSize(
           preferredSize: const Size.fromHeight(54),
           child: CustomAppBar(
-            text: widget.storeName,
+            text: sellerValue.value?.userDetails.name ?? "Hell",
             onPressed: () {
               context.pop();
             },
@@ -115,8 +121,8 @@ class _ChatScreenState extends State<ChatScreen> {
   }
 }
 
-class CustomPopupMenuButton extends StatelessWidget {
-  const CustomPopupMenuButton({
+class ChatPopupMenuButton extends StatelessWidget {
+  const ChatPopupMenuButton({
     super.key,
   });
 
@@ -126,12 +132,7 @@ class CustomPopupMenuButton extends StatelessWidget {
         constraints: const BoxConstraints(maxWidth: 130),
         shape: const RoundedRectangleBorder(
             borderRadius: BorderRadius.all(Radius.circular(30))),
-        icon: SvgPicture.asset(
-          "assets/exports/more.svg",
-          height: 30.h,
-          width: 30.w,
-          colorFilter: ColorFilter.mode(Colors.grey.shade600, BlendMode.srcIn),
-        ),
+        icon: Icon(Icons.more_vert_rounded, size: 30.h, color: Colors.black),
         color: Colors.white,
         itemBuilder: (context) => <PopupMenuEntry>[
               PopupMenuItem(
@@ -144,31 +145,5 @@ class CustomPopupMenuButton extends StatelessWidget {
               )),
               PopupMenuItem(child: PopUpButton(press: () {}, title: "Report")),
             ]);
-  }
-}
-
-class PopUpButton extends StatelessWidget {
-  PopUpButton({
-    super.key,
-    required this.press,
-    required this.title,
-  });
-
-  final String title;
-  GestureTapCallback press;
-
-  @override
-  Widget build(BuildContext context) {
-    return Padding(
-      padding: const EdgeInsets.only(left: 0.0, right: 0),
-      child: TextButton(
-        style: TextButton.styleFrom(backgroundColor: Colors.transparent),
-        onPressed: press,
-        child: Text(
-          title,
-          style: Theme.of(context).textTheme.titleSmall?.copyWith(),
-        ),
-      ),
-    );
   }
 }

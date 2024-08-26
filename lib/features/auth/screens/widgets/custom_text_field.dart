@@ -6,6 +6,7 @@ class CustomTextField extends StatelessWidget {
       this.keyBoardType,
       this.obscureText = false,
       this.onChanged,
+      this.initialValue,
       this.onTap,
       this.validator,
       this.paddingX = 20,
@@ -17,6 +18,7 @@ class CustomTextField extends StatelessWidget {
   Function(String)? onChanged;
   Function(String)? onSubmitted;
   Function()? onTap;
+  String? initialValue;
   String? Function(String?)? validator;
   final double paddingX;
   final TextEditingController controller;
@@ -32,6 +34,7 @@ class CustomTextField extends StatelessWidget {
         horizontal: paddingX,
       ),
       child: TextFormField(
+          initialValue: initialValue,
           onChanged: onChanged,
           maxLines: maxLines,
           onTap: onTap,

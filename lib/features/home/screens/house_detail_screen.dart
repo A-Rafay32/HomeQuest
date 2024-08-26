@@ -1,9 +1,11 @@
+import 'package:either_dart/either.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:real_estate_app/app/themes/app_paddings.dart';
 import 'package:real_estate_app/core/extensions/routes_extenstion.dart';
 import 'package:real_estate_app/core/extensions/sizes_extensions.dart';
 import 'package:real_estate_app/core/utils/loader.dart';
+import 'package:real_estate_app/features/auth/providers/auth_providers.dart';
 import 'package:real_estate_app/features/auth/screens/widgets/button.dart';
 import 'package:real_estate_app/features/home/models/rental_house.dart';
 import 'package:real_estate_app/features/offer/screens/create_offers_screen.dart';
@@ -14,7 +16,7 @@ import 'widgets/image_card.dart';
 import 'widgets/price_card.dart';
 import 'widgets/room_size_card.dart';
 
-class HouseDetailScreen extends StatefulWidget {
+class HouseDetailScreen extends ConsumerStatefulWidget {
   const HouseDetailScreen({
     super.key,
     required this.house,
@@ -23,10 +25,10 @@ class HouseDetailScreen extends StatefulWidget {
   final RentalHouse house;
 
   @override
-  State<HouseDetailScreen> createState() => _HouseDetailScreenState();
+  ConsumerState<HouseDetailScreen> createState() => _HouseDetailScreenState();
 }
 
-class _HouseDetailScreenState extends State<HouseDetailScreen> {
+class _HouseDetailScreenState extends ConsumerState<HouseDetailScreen> {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
@@ -101,7 +103,7 @@ class SellerCard extends ConsumerWidget {
             children: [
               const CircleAvatar(backgroundImage: NetworkImage(""), radius: 20),
               const SizedBox(width: 10),
-              Column(children: [
+              Column(crossAxisAlignment: CrossAxisAlignment.start, children: [
                 Text(
                   data.storeName,
                   style: Theme.of(context).textTheme.titleLarge,
