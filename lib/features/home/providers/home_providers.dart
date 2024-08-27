@@ -14,7 +14,7 @@ final rentalHomeRepository = Provider((ref) {
 
 final rentalHomeStreamProvider = StreamProvider((ref) {
   final repository = ref.read(rentalHomeRepository);
-  return repository.getAllRentalHouse();
+  return repository.getAllHouses();
 });
 
 final availableRentalHomeStreamProvider = StreamProvider((ref) {

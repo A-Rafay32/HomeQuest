@@ -17,12 +17,12 @@ class RentalHomeNotifier extends StateNotifier<AsyncValue> {
         .whenComplete(() => state = const AsyncValue.data(null));
   }
 
-  FutureEither0 deleteHouse() async {
-    return await repository.deleteHouse();
+  FutureEither0 deleteHouse(String houseId) async {
+    return await repository.deleteHouse(houseId);
   }
 
   Stream<List<RentalHouse>> getAllRentalHouse() {
-    return repository.getAllRentalHouse();
+    return repository.getAllHouses();
   }
 
   Stream<List<RentalHouse>> getAllAvailableRentalHouse() {

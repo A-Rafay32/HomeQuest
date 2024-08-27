@@ -13,9 +13,11 @@ import 'package:real_estate_app/features/offer/model/offer.dart';
 import 'package:real_estate_app/features/offer/providers/offer_notifier.dart';
 
 class CreateOfferScreen extends ConsumerStatefulWidget {
-  const CreateOfferScreen({super.key, required this.sellerId});
+  const CreateOfferScreen(
+      {super.key, required this.sellerId, required this.amount});
 
   final String sellerId;
+  final double amount;
 
   @override
   ConsumerState<ConsumerStatefulWidget> createState() =>
@@ -27,12 +29,17 @@ class _CreateOfferDialogState extends ConsumerState<CreateOfferScreen> {
   TextEditingController nameController = TextEditingController();
   TextEditingController emailController = TextEditingController();
   TextEditingController statementController = TextEditingController();
-  TextEditingController offeredMoneyController = TextEditingController();
+  TextEditingController amountController = TextEditingController();
   OfferPurpose offerPurpose = OfferPurpose.visit;
 
   void clear() {
     titleController.clear();
     statementController.clear();
+  }
+
+  @override
+  void initState() {
+    amountController.text = widget.amount.toString();
   }
 
   @override
@@ -96,10 +103,11 @@ class _CreateOfferDialogState extends ConsumerState<CreateOfferScreen> {
                 AppSizes.normalY,
                 if (offerPurpose == OfferPurpose.buy)
                   CustomTextField(
-                      controller: offeredMoneyController,
+                      keyBoardType: TextInputType.number,
+                      controller: amountController,
                       inputDecoration:
                           AppTextFieldDecorations.genericInputDecoration(
-                              label: "Here's what i would pay for it ......")),
+                              label: "For Amount")),
                 AppSizes.normalY,
                 Text(
                   "I want to",
@@ -157,9 +165,9 @@ class _CreateOfferDialogState extends ConsumerState<CreateOfferScreen> {
         sentTo: widget.sellerId,
         offerStatus: OfferStatus.pending,
         createdAt: DateTime.now(),
-        offeredMoney: offeredMoneyController.text.trim().isEmpty
+        offeredMoney: amountController.text.trim().isEmpty
             ? null
-            : double.parse(offeredMoneyController.text.trim()),
+            : double.parse(amountController.text.trim()),
         settledMoney: null,
         statement: statementController.text.trim(),
         purpose: offerPurpose);

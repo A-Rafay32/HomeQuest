@@ -12,17 +12,21 @@ import 'package:real_estate_app/core/extensions/snackbar_ext.dart';
 import 'package:real_estate_app/features/auth/providers/auth_providers.dart';
 import 'package:real_estate_app/features/auth/screens/widgets/app_bar_white.dart';
 import 'package:real_estate_app/features/auth/screens/widgets/button.dart';
+import 'package:real_estate_app/features/auth/screens/widgets/custom_field_drop_down.dart';
 import 'package:real_estate_app/features/auth/screens/widgets/custom_text_field.dart';
 import 'package:real_estate_app/features/home/models/house_details.dart';
 import 'package:real_estate_app/features/home/models/house_location.dart';
 import 'package:real_estate_app/features/home/models/rental_house.dart';
 import 'package:real_estate_app/features/home/providers/home_providers.dart';
 
+enum addHouseEnum { Rental, Seller }
+
 class AddRentalHomeScreen extends ConsumerStatefulWidget {
   const AddRentalHomeScreen({super.key});
 
   @override
-  ConsumerState<AddRentalHomeScreen> createState() => _AddRentalHomeScreenState();
+  ConsumerState<AddRentalHomeScreen> createState() =>
+      _AddRentalHomeScreenState();
 }
 
 class _AddRentalHomeScreenState extends ConsumerState<AddRentalHomeScreen> {
@@ -33,6 +37,8 @@ class _AddRentalHomeScreenState extends ConsumerState<AddRentalHomeScreen> {
   TextEditingController sizeController = TextEditingController();
   TextEditingController rentController = TextEditingController();
   TextEditingController descriptionController = TextEditingController();
+
+  addHouseEnum selectedValue = addHouseEnum.Rental;
 
   void clear() {
     nameController.clear();
@@ -53,67 +59,98 @@ class _AddRentalHomeScreenState extends ConsumerState<AddRentalHomeScreen> {
               onPressed: () {
                 context.pop();
               },
-              text: "Add Home")),
+              text: "Add ${selectedValue.name.toString()} Home")),
       body: SizedBox(
           height: context.h,
           width: context.w,
           child: SingleChildScrollView(
             child: Column(
               children: [
-                CustomTextField(
-                    validator: (value) {
-                      return value == null ? "Field can't be empty" : null;
-                    },
-                    controller: nameController,
-                    inputDecoration: AppTextFieldDecorations.genericInputDecoration(label: "Name")),
-                AppSizes.normalY,
-                CustomTextField(
-                    validator: (value) {
-                      return value == null ? "Field can't be empty" : null;
-                    },
-                    controller: addressController,
-                    inputDecoration:
-                        AppTextFieldDecorations.genericInputDecoration(label: "Address")),
-                AppSizes.normalY,
-                CustomTextField(
-                    validator: (value) {
-                      return value == null ? "Field can't be empty" : null;
-                    },
-                    controller: bathroomQtyController,
-                    inputDecoration:
-                        AppTextFieldDecorations.genericInputDecoration(label: "No. of Bathrooms")),
-                AppSizes.normalY,
-                CustomTextField(
-                    validator: (value) {
-                      return value == null ? "Field can't be empty" : null;
-                    },
-                    controller: sizeController,
-                    inputDecoration:
-                        AppTextFieldDecorations.genericInputDecoration(label: "Size in feet")),
-                AppSizes.normalY,
-                CustomTextField(
-                    validator: (value) {
-                      return value == null ? "Field can't be empty" : null;
-                    },
-                    controller: roomQtyController,
-                    inputDecoration:
-                        AppTextFieldDecorations.genericInputDecoration(label: "No. of Rooms")),
-                AppSizes.normalY,
-                CustomTextField(
-                    validator: (value) {
-                      return value == null ? "Field can't be empty" : null;
-                    },
-                    controller: rentController,
-                    inputDecoration: AppTextFieldDecorations.genericInputDecoration(
-                        label: "\$ Rent Per Month ")),
-                AppSizes.normalY,
-                CustomTextField(
-                    validator: (value) {
-                      return value == null ? "Field can't be empty" : null;
-                    },
-                    controller: descriptionController,
-                    inputDecoration:
-                        AppTextFieldDecorations.genericInputDecoration(label: "Description")),
+                CustomFieldDropDown(
+                    hint: "Rental",
+                    selectedValue: selectedValue.name,
+                    dropdownItems:
+                        addHouseEnum.values.map((e) => e.toString()).toList()),
+                selectedValue == addHouseEnum.Rental
+                    ? Column(
+                        children: [
+                          CustomTextField(
+                              validator: (value) {
+                                return value == null
+                                    ? "Field can't be empty"
+                                    : null;
+                              },
+                              controller: nameController,
+                              inputDecoration: AppTextFieldDecorations
+                                  .genericInputDecoration(label: "Name")),
+                          AppSizes.normalY,
+                          CustomTextField(
+                              validator: (value) {
+                                return value == null
+                                    ? "Field can't be empty"
+                                    : null;
+                              },
+                              controller: addressController,
+                              inputDecoration: AppTextFieldDecorations
+                                  .genericInputDecoration(label: "Address")),
+                          AppSizes.normalY,
+                          CustomTextField(
+                              validator: (value) {
+                                return value == null
+                                    ? "Field can't be empty"
+                                    : null;
+                              },
+                              controller: bathroomQtyController,
+                              inputDecoration: AppTextFieldDecorations
+                                  .genericInputDecoration(
+                                      label: "No. of Bathrooms")),
+                          AppSizes.normalY,
+                          CustomTextField(
+                              validator: (value) {
+                                return value == null
+                                    ? "Field can't be empty"
+                                    : null;
+                              },
+                              controller: sizeController,
+                              inputDecoration: AppTextFieldDecorations
+                                  .genericInputDecoration(
+                                      label: "Size in feet")),
+                          AppSizes.normalY,
+                          CustomTextField(
+                              validator: (value) {
+                                return value == null
+                                    ? "Field can't be empty"
+                                    : null;
+                              },
+                              controller: roomQtyController,
+                              inputDecoration: AppTextFieldDecorations
+                                  .genericInputDecoration(
+                                      label: "No. of Rooms")),
+                          AppSizes.normalY,
+                          CustomTextField(
+                              validator: (value) {
+                                return value == null
+                                    ? "Field can't be empty"
+                                    : null;
+                              },
+                              controller: rentController,
+                              inputDecoration: AppTextFieldDecorations
+                                  .genericInputDecoration(
+                                      label: "\$ Rent Per Month ")),
+                          AppSizes.normalY,
+                          CustomTextField(
+                              validator: (value) {
+                                return value == null
+                                    ? "Field can't be empty"
+                                    : null;
+                              },
+                              controller: descriptionController,
+                              inputDecoration: AppTextFieldDecorations
+                                  .genericInputDecoration(
+                                      label: "Description")),
+                        ],
+                      )
+                    : const Column(),
                 AppSizes.normalY,
                 Button(
                     isLoading: ref.watch(rentalHomeNotifierProvider).isLoading,

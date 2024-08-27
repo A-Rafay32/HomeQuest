@@ -79,17 +79,20 @@ class FeaturedHouseImages extends ConsumerWidget {
                       const IconCard(icon: Icons.bed_outlined),
                       Text(
                         "${house.houseDetails.roomQty} Bds",
-                        style: context.textTheme.bodyMedium?.copyWith(color: Colors.white),
+                        style: context.textTheme.bodyMedium
+                            ?.copyWith(color: Colors.white),
                       ),
                       const IconCard(icon: Icons.bathtub_outlined),
                       Text(
                         "${house.houseDetails.roomQty} Baths",
-                        style: context.textTheme.bodyMedium?.copyWith(color: Colors.white),
+                        style: context.textTheme.bodyMedium
+                            ?.copyWith(color: Colors.white),
                       ),
                       const IconCard(icon: Icons.star_border_rounded),
                       Text(
                         "${house.houseDetails.sizeInFeet} ft2",
-                        style: context.textTheme.bodyMedium?.copyWith(color: Colors.white),
+                        style: context.textTheme.bodyMedium
+                            ?.copyWith(color: Colors.white),
                       ),
                     ],
                   ),
@@ -112,7 +115,8 @@ class FavIcon extends ConsumerWidget {
   Widget build(BuildContext context, WidgetRef ref) {
     return GestureDetector(
       onTap: () async {
-        final result = await ref.read(userNotifier.notifier).addToFavourites(houseId);
+        final result =
+            await ref.read(userNotifier.notifier).addToFavourites(houseId);
         result.fold((left) => context.showSnackBar(left.message),
             (right) => context.showSnackBar(right.message));
       },

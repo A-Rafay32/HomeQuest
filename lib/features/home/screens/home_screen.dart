@@ -36,6 +36,7 @@ class HomeScreen extends ConsumerWidget {
   @override
   Widget build(BuildContext context, WidgetRef ref) {
     int currentScreen = ref.watch(homeStateProvider);
+    // final currentUserValue = ref.watch
 
     return Scaffold(
       extendBody: true,

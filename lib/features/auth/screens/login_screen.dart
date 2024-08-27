@@ -35,7 +35,7 @@ class LoginScreen extends ConsumerWidget {
           ),
         ),
         body: SafeArea(
-            child: SizedBox(  
+            child: SizedBox(
           height: double.infinity,
           width: double.infinity,
           child: Column(

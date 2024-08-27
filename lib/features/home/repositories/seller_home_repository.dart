@@ -1,38 +1,23 @@
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:either_dart/either.dart';
-import 'package:flutter/foundation.dart';
+import 'package:flutter/material.dart';
 import 'package:real_estate_app/core/enums/house_status.dart';
 import 'package:real_estate_app/core/exceptions/exceptions.dart';
 import 'package:real_estate_app/core/utils/types.dart';
 import 'package:real_estate_app/features/bill/model/bill.dart';
-import 'package:real_estate_app/features/home/models/rental_house.dart';
+import 'package:real_estate_app/features/home/models/seller_house.dart';
 
-class RentalHomeRepository {
-  final firestore = FirebaseFirestore.instance;
+class SellerHomeRepository {
+  final FirebaseFirestore firestore = FirebaseFirestore.instance;
   final houseCollection = FirebaseFirestore.instance.collection("houses");
 
-  FutureEither0 addRentalHouse(
-      {required RentalHouse rentalHouse, required String? ownerId}) async {
+  FutureEither0 addSellerHouse({required SellerHouse sellerHouse}) async {
     try {
-      if (ownerId != null) {
-        // final isLegit = await UserRepository().getUser(ownerId).fold(
-        //     (left) => throw left.message,
-        //     (right) =>
-        //         right.usertype == UserType.admin ||
-        //         right.usertype == UserType.seller);
+      await houseCollection
+          .add(sellerHouse.toMap())
+          .catchError((error) => throw error.toString());
 
-        // if (isLegit) {
-        await houseCollection
-            .add(rentalHouse.toMap())
-            .catchError((error) => throw error.toString());
-        // } else {
-        //   return Left(
-        //       Failure(message: "You don't have permission for this action"));
-        // }
-        return Right(Success(message: "House added successfully"));
-      } else {
-        return Left(Failure(message: "Owner Id is empty "));
-      }
+      return Right(Success(message: "Seller House added successfully"));
     } on FirebaseException catch (e) {
       return failure(e.toString());
     } catch (e, stackTrace) {
@@ -52,15 +37,15 @@ class RentalHomeRepository {
     }
   }
 
-  FutureEither1<RentalHouse> getRentalHouse(String houseId) async {
+  FutureEither1<SellerHouse> getHouse(String houseId) async {
     try {
       DocumentSnapshot docSnapshot = await houseCollection.doc(houseId).get();
       if (docSnapshot.exists) {
-        RentalHouse h =
-            RentalHouse.fromMap(docSnapshot.data() as Map<String, dynamic>);
+        SellerHouse h =
+            SellerHouse.fromMap(docSnapshot.data() as Map<String, dynamic>);
         print(h.toMap());
         return Right(
-            RentalHouse.fromMap(docSnapshot.data() as Map<String, dynamic>));
+            SellerHouse.fromMap(docSnapshot.data() as Map<String, dynamic>));
       } else {
         return Left(Failure(message: "House Doesnot exist"));
       }
@@ -88,16 +73,16 @@ class RentalHomeRepository {
     }
   }
 
-  FutureEither1<List<RentalHouse>> getUserHouses(List<dynamic> houseIds) async {
+  FutureEither1<List<SellerHouse>> getUserHouses(List<dynamic> houseIds) async {
     try {
-      List<RentalHouse> list = [];
+      List<SellerHouse> list = [];
       for (var id in houseIds) {
         DocumentSnapshot docs = await houseCollection
             .doc(id)
             .get()
             .catchError((error) => throw error.toString());
         print(docs.data() as Map<String, dynamic>);
-        list.add(RentalHouse.fromMap(docs.data() as Map<String, dynamic>));
+        list.add(SellerHouse.fromMap(docs.data() as Map<String, dynamic>));
       }
       return Right(list);
     } on FirebaseException catch (e) {
@@ -123,12 +108,12 @@ class RentalHomeRepository {
     }
   }
 
-  Stream<List<RentalHouse>> getAllHouses() {
+  Stream<List<SellerHouse>> getAllHouses() {
     try {
       return houseCollection.snapshots().map((querySnapshot) => querySnapshot
           .docs
           .map((documentSnapshot) =>
-              RentalHouse.fromMap(documentSnapshot.data()))
+              SellerHouse.fromMap(documentSnapshot.data()))
           .toList());
     } on FirebaseException catch (e) {
       throw e.message.toString();
@@ -138,14 +123,14 @@ class RentalHomeRepository {
     }
   }
 
-  Stream<List<RentalHouse>> getAllRentalHouse() {
+  Stream<List<SellerHouse>> getAllSellerHouse() {
     try {
       return houseCollection
-          .where("houseStatus", isEqualTo: HouseStatus.Rent.toString())
+          .where("houseStatus", isEqualTo: HouseStatus.Sale.toString())
           .snapshots()
           .map((querySnapshot) => querySnapshot.docs
               .map((documentSnapshot) =>
-                  RentalHouse.fromMap(documentSnapshot.data()))
+                  SellerHouse.fromMap(documentSnapshot.data()))
               .toList());
     } on FirebaseException catch (e) {
       throw e.message.toString();
@@ -155,31 +140,14 @@ class RentalHomeRepository {
     }
   }
 
-  Stream<List<RentalHouse>> getAllRentedHouses() {
-    try {
-      return houseCollection
-          .where("houseStatus", isEqualTo: HouseStatus.Rented.toString())
-          .snapshots()
-          .map((querySnapshot) => querySnapshot.docs
-              .map((documentSnapshot) =>
-                  RentalHouse.fromMap(documentSnapshot.data()))
-              .toList());
-    } on FirebaseException catch (e) {
-      throw e.message.toString();
-    } catch (e, stackTrace) {
-      debugPrint(" error : ${e.toString()} \n stackTrace : $stackTrace");
-      rethrow;
-    }
-  }
-
-  Stream<List<RentalHouse>> getAllAvailableRentalHouse() {
+  Stream<List<SellerHouse>> getAllAvailableSellerHouse() {
     try {
       return houseCollection
           .where("isAvailable", isEqualTo: true)
           .snapshots()
           .map((querySnapshot) => querySnapshot.docs
               .map((documentSnapshot) =>
-                  RentalHouse.fromMap(documentSnapshot.data()))
+                  SellerHouse.fromMap(documentSnapshot.data()))
               .toList());
     } on FirebaseException catch (e) {
       throw e.message.toString();
