@@ -102,6 +102,7 @@ class _CreateBillScreenState extends ConsumerState<CreateBillScreen> {
                             label: "Amount")),
                 AppSizes.normalY,
                 CustomFieldDropDown(
+                  onChanged: (String? value) {},
                   hint: "Bill Category",
                   dropdownItems: BillCategory.values
                       .map((e) => e.name.toString())

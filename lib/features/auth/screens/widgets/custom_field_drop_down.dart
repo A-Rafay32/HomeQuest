@@ -1,28 +1,23 @@
 import 'package:dropdown_button2/dropdown_button2.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
-import 'package:google_fonts/google_fonts.dart';
 import 'package:real_estate_app/app/themes/app_colors.dart';
 
-class CustomFieldDropDown extends StatefulWidget {
+class CustomFieldDropDown extends StatelessWidget {
   CustomFieldDropDown({
     super.key,
     required this.hint,
     this.focus,
     required this.selectedValue,
     required this.dropdownItems,
+    required this.onChanged,
   });
 
   final String hint;
   final FocusNode? focus;
   final List<String> dropdownItems;
   String? selectedValue;
-
-  @override
-  State<CustomFieldDropDown> createState() => _CustomFieldDropDownState();
-}
-
-class _CustomFieldDropDownState extends State<CustomFieldDropDown> {
+  void Function(String?) onChanged;
   @override
   Widget build(BuildContext context) {
     return Container(
@@ -36,43 +31,37 @@ class _CustomFieldDropDownState extends State<CustomFieldDropDown> {
       margin: const EdgeInsets.only(left: 20, right: 20),
       child: DropdownButtonHideUnderline(
         child: DropdownButton2<String>(
-          focusNode: widget.focus,
-          buttonStyleData: ButtonStyleData(
-              decoration: BoxDecoration(
-            color: Colors.transparent,
-            borderRadius: BorderRadius.circular(10),
-          )),
-          hint: Text(widget.hint,
-              style: Theme.of(context)
-                  .textTheme
-                  .labelMedium
-                  ?.copyWith(fontWeight: FontWeight.w800)),
-          dropdownStyleData: DropdownStyleData(
-            maxHeight: 200,
-            width: 100,
-            decoration: BoxDecoration(
-              borderRadius: BorderRadius.circular(14),
+            focusNode: focus,
+            buttonStyleData: ButtonStyleData(
+                decoration: BoxDecoration(
+              color: Colors.transparent,
+              borderRadius: BorderRadius.circular(10),
+            )),
+            hint: Text(hint,
+                style: Theme.of(context)
+                    .textTheme
+                    .labelMedium
+                    ?.copyWith(fontWeight: FontWeight.w800)),
+            dropdownStyleData: DropdownStyleData(
+              maxHeight: 200,
+              width: 100,
+              decoration:
+                  BoxDecoration(borderRadius: BorderRadius.circular(14)),
+              offset: const Offset(170, 0),
+              scrollbarTheme: const ScrollbarThemeData(
+                radius: Radius.circular(40),
+                // thickness: WidgetStateProperty.all<double>(6),
+                // thumbVisibility: WidgetStateProperty.all<bool>(true),
+              ),
             ),
-            offset: const Offset(170, 0),
-            scrollbarTheme: const ScrollbarThemeData(
-              radius: Radius.circular(40),
-              // thickness: WidgetStateProperty.all<double>(6),
-              // thumbVisibility: WidgetStateProperty.all<bool>(true),
-            ),
-          ),
-          value: widget.selectedValue,
-          items: widget.dropdownItems
-              .map((String value) => DropdownMenuItem(
-                    value: value,
-                    child: Text(value),
-                  ))
-              .toList(),
-          onChanged: (String? newValue) {
-            setState(() {
-              widget.selectedValue = newValue;
-            });
-          },
-        ),
+            value: selectedValue,
+            items: dropdownItems
+                .map((String value) => DropdownMenuItem(
+                      value: value,
+                      child: Text(value),
+                    ))
+                .toList(),
+            onChanged: onChanged),
       ),
     );
   }

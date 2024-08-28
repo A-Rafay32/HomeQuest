@@ -5,11 +5,11 @@ import 'package:real_estate_app/features/home/models/house_details.dart';
 import 'package:real_estate_app/features/home/models/house_location.dart';
 
 class SellerHouse extends House {
-  final DateTime? soldOn;
-  final String boughtFrom;
   final String currentOwner;
   final double purchasePrice;
-  final double extraCost;
+  final double? extraCost;
+  final String? boughtFrom;
+  final DateTime? soldOn;
   final double monthlyMortgageCost;
   final double mortgageInterest;
 
@@ -34,10 +34,10 @@ class SellerHouse extends House {
     required HouseStatus houseStatus,
     required HouseType houseType,
     this.soldOn,
-    required this.boughtFrom,
+    this.boughtFrom,
     required this.currentOwner,
     required this.purchasePrice,
-    required this.extraCost,
+    this.extraCost,
     required this.monthlyMortgageCost,
     required this.mortgageInterest,
   }) : super(

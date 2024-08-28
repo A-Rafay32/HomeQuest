@@ -1,4 +1,6 @@
+import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
+import 'package:real_estate_app/core/extensions/snackbar_ext.dart';
 import 'package:real_estate_app/core/utils/types.dart';
 import 'package:real_estate_app/features/home/models/rental_house.dart';
 import 'package:real_estate_app/features/home/repositories/rental_home_repository.dart';
@@ -9,12 +11,19 @@ class RentalHomeNotifier extends StateNotifier<AsyncValue> {
 
   final RentalHomeRepository repository;
 
-  FutureEither0 addRentalHouse(
-      {required RentalHouse rentalHouse, required String? ownerId}) async {
+  void addRentalHouse(
+      {required RentalHouse rentalHouse,
+      required String? ownerId,
+      required BuildContext context}) async {
     state = const AsyncValue.loading();
-    return await repository
+    final result = await repository
         .addRentalHouse(ownerId: ownerId, rentalHouse: rentalHouse)
         .whenComplete(() => state = const AsyncValue.data(null));
+    result.fold((left) {
+      context.showSnackBar(left.message.toString());
+    }, (right) {
+      context.showSnackBar(right.message.toString());
+    });
   }
 
   FutureEither0 deleteHouse(String houseId) async {

@@ -3,10 +3,9 @@ import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:real_estate_app/core/extensions/snackbar_ext.dart';
 import 'package:real_estate_app/features/home/models/seller_house.dart';
 import 'package:real_estate_app/features/home/repositories/seller_home_repository.dart';
-import 'package:real_estate_app/features/seller/repository/seller_repository.dart';
 
-class SellerNotifier extends StateNotifier<AsyncValue> {
-  SellerNotifier({required this.sellerHomeRepository})
+class SellerHomeNotifier extends StateNotifier<AsyncValue> {
+  SellerHomeNotifier({required this.sellerHomeRepository})
       : super(const AsyncData(null));
 
   final SellerHomeRepository sellerHomeRepository;
@@ -43,3 +42,13 @@ class SellerNotifier extends StateNotifier<AsyncValue> {
 
   // get
 }
+
+final sellerHomeProvider = Provider((ref) {
+  return SellerHomeRepository();
+});
+
+final sellerHomeNotifierProvider =
+    StateNotifierProvider<SellerHomeNotifier, AsyncValue>((ref) {
+  final sellerHomeRepository = ref.watch(sellerHomeProvider);
+  return SellerHomeNotifier(sellerHomeRepository: sellerHomeRepository);
+});
